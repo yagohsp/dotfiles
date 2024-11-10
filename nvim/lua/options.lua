@@ -24,11 +24,11 @@ local opts = function (desc)
   return { noremap = true, silent = true, desc = desc }
 end
 
-keymap('n', '<leader>n', ':bnext<CR>', opts("Next buffer"))
-keymap('n', '<leader>p', ':bprevious<CR>', opts("Previous buffer"))
-keymap('n', '<leader>d', ':bdelete<CR>', opts("Delete buffer"))
-keymap('n', '<leader>l', ':ls<CR>', opts("List buffer"))
-keymap('n', '<leader>t', ':enew<CR>', opts("New buffer"))
+keymap('n', '<leader>bn', ':bnext<CR>', opts("Next buffer"))
+keymap('n', '<leader>bp', ':bprevious<CR>', opts("Previous buffer"))
+keymap('n', '<leader>bd', ':bdelete<CR>', opts("Delete buffer"))
+keymap('n', '<leader>bl', ':ls<CR>', opts("List buffer"))
+keymap('n', '<leader>bt', ':enew<CR>', opts("New buffer"))
 keymap('n', '<Enter>', 'o<Esc>', opts("Insert spaceline"))
 keymap('n', '<C-s>', ':w<CR>', opts("Save file"))
 keymap('n', '<leader>q', ':q<CR>', opts("Quit"))
