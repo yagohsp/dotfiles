@@ -17,7 +17,7 @@ return {
       vim.keymap.set("n", "<leader>fm", builtin.commands, { desc = "Commands available" })
       vim.keymap.set("n", "<leader>fh", builtin.command_history, { desc = "Commands history" })
       vim.keymap.set("n", "<leader>ff", builtin.live_grep, { desc = "Find text" })
-      vim.keymap.set("n", "<leader>fc", ":Telescope find_files search_dirs=/home/yago/.config/nvim<CR>", { desc = "Config files" })
+      vim.keymap.set("n", "<leader>fc", ":Telescope find_files search_dirs=~\\.dotfiles\\nvim<CR>", { desc = "Config files" })
     end,
   },
  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
