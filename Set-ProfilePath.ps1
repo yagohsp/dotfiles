@@ -1,28 +1,30 @@
-# Script to change the PowerShell profile path
+# Define the global profile path
+$GlobalProfilePath = "C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1"
 
-# Step 1: Define the new profile path
-$NewProfilePath = "$HOME\dotfiles\Microsoft.PowerShell_profile.ps1"
+# Define the new $PROFILE override line
+$NewProfileSetting = '$PROFILE = "C:\Users\Yago\dotfiles\Microsoft.PowerShell_profile.ps1"'
 
-# Step 4: Update the global PowerShell profile to use the new path
-$GlobalProfilePath = $PROFILE.AllUsersAllHosts
-Write-Host "Updating global PowerShell profile: $GlobalProfilePath" -ForegroundColor Cyan
+# Check if the directory exists
+$GlobalProfileDir = Split-Path -Parent $GlobalProfilePath
+if (-not (Test-Path $GlobalProfileDir)) {
+    Write-Host "Creating directory: $GlobalProfileDir" -ForegroundColor Yellow
+    New-Item -ItemType Directory -Path $GlobalProfileDir -Force
+}
 
-# Add code to set $PROFILE in the global profile
-if (-not (Test-Path -Path $GlobalProfilePath)) {
+# Check if the global profile file exists, and create it if necessary
+if (-not (Test-Path $GlobalProfilePath)) {
     Write-Host "Creating global profile file: $GlobalProfilePath" -ForegroundColor Yellow
     New-Item -ItemType File -Path $GlobalProfilePath -Force
 }
 
-# Ensure the $PROFILE variable is overridden in the global profile
-$ProfileUpdate = "`$PROFILE = `"$NewProfilePath`""
-if (-not (Get-Content $GlobalProfilePath | Select-String -Pattern "\`$PROFILE =")) {
-    Add-Content -Path $GlobalProfilePath -Value $ProfileUpdate
-    Write-Host "Added new profile path to global profile." -ForegroundColor Green
+# Add the new $PROFILE setting if it doesn't already exist in the file
+if (-not (Get-Content $GlobalProfilePath | Select-String -Pattern '\$PROFILE =')) {
+    Write-Host "Adding new $PROFILE setting to the global profile." -ForegroundColor Green
+    Add-Content -Path $GlobalProfilePath -Value $NewProfileSetting
 } else {
-    Write-Host "Global profile already contains a profile override." -ForegroundColor Green
+    Write-Host "The $PROFILE setting already exists in the global profile." -ForegroundColor Cyan
 }
 
-# Step 5: Reload PowerShell profile
-. $NewProfilePath
-Write-Host "Profile path updated and reloaded: $NewProfilePath" -ForegroundColor Green
+# Display success message
+Write-Host "Global profile updated: $GlobalProfilePath" -ForegroundColor Green
 
