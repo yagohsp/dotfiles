@@ -2,7 +2,7 @@
 $GlobalProfilePath = "C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1"
 
 # Define the new $PROFILE override line
-$NewProfileSetting = '$PROFILE = "C:\Users\Yago\dotfiles\Microsoft.PowerShell_profile.ps1"'
+$NewProfileSetting = '$PROFILE = "~\.dotfiles\Microsoft.PowerShell_profile.ps1"'
 
 # Check if the directory exists
 $GlobalProfileDir = Split-Path -Parent $GlobalProfilePath
