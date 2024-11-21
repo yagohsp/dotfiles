@@ -27,6 +27,3 @@ if (-not (Get-Content $GlobalProfilePath | Select-String -Pattern '\$PROFILE =')
 
 # Display success message
 Write-Host "Global profile updated: $GlobalProfilePath" -ForegroundColor Green
-
-tmux source-file ~/.dotfiles/tmux/.tmux.conf
-

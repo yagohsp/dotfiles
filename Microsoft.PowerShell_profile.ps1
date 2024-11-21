@@ -6,3 +6,4 @@ Set-PSReadlineKeyHandler -Key ctrl+d -Function ViExit
 $dotfiles = "~\.dotfiles"
 $nvim = "~\.dotfiles\nvim"
 $tmux = "~\.dotfiles\tmux"
+$hp = "D:\HappyPlace"
