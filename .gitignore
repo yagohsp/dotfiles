@@ -9,7 +9,6 @@
 !.config/
 !.config/tmux
 !.config/tmux/**/*
-.config/tmux/plugins/catppuccin/tmux
 
 !.tmux.conf
 !README.md
