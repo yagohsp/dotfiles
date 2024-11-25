@@ -1,7 +1,15 @@
 *
 
 !.gitignore
-!nvim/**/*
-!tmux/**/*
-!*.ps1
-!*/
+
+!.config/
+!.config/nvim
+!.config/nvim/**/*
+
+!.config/
+!.config/tmux
+!.config/tmux/**/*
+.config/tmux/plugins/catppuccin/tmux
+
+!.tmux.conf
+!README.md
