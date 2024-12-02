@@ -6,24 +6,24 @@ return {
                 "neovim/nvim-lspconfig",
                 lazy = false,
                 config = function()
+                    local opts = function(desc)
+                        return { noremap = true, silent = true, desc = desc or "" }
+                    end
                     vim.keymap.set(
                         "n",
-                        "<leader>gd",
-                        vim.lsp.buf.definition,
-                        { desc = "Go to definition", noremap = true, silent = true }
+                        "<leader>ld",
+                        vim.lsp.buf.definition, opts("Go to definition")
                     )
                     vim.keymap.set(
                         "n",
-                        "<leader>gr",
-                        vim.lsp.buf.references,
-                        { desc = "Go to references", noremap = true, silent = true }
-                    )
-                    vim.keymap.set(
-                        "n",
-                        "<leader>ca",
+                        "<leader>la",
                         vim.lsp.buf.code_action,
-                        { desc = "Execute code action", noremap = true, silent = true }
+                        opts("Execute code actions")
                     )
+                    vim.keymap.set('n', 'lt', vim.lsp.buf.type_definition, opts("Go to type definition"))
+                    vim.keymap.set('n', 'li', vim.lsp.buf.implementation, opts("Go to type implementation"))
+                    vim.keymap.set('n', 'K', vim.lsp.buf.hover)
+                    vim.keymap.set('n', 'le', vim.diagnostic.open_float, opts("Show errors"))
                 end,
             },
             { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
@@ -40,7 +40,6 @@ return {
                     preserve_mappings = false,
                 })
             end)
-
             require("lazy-lsp").setup({})
         end,
     },

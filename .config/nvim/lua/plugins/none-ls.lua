@@ -16,6 +16,8 @@ return {
         -- 	},
         -- })
 
-        vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { desc = "Format file" })
+        vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { noremap = true, silent = true, desc = "Format file" })
+        vim.keymap.set("n", "<C-s>", ":w<CR>:lua vim.lsp.buf.format()<CR>",
+            { noremap = true, silent = true, desc = "Save file" })
     end,
 }
