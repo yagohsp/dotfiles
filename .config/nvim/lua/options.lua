@@ -1,6 +1,3 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 vim.opt.backspace = "2"
 vim.opt.showcmd = true
 vim.opt.laststatus = 2
@@ -49,20 +46,14 @@ vim.o.foldlevel = 99
 set("n", "<leader>r", vim.lsp.buf.rename, opts("Replace selection"))
 set(
     "n",
-    "<leader>ld",
-    vim.lsp.buf.definition, opts("Go to definition"),
-    opts("Execute code actions")
-)
-set(
-    "n",
     "<leader>la",
     vim.lsp.buf.code_action,
     opts("Execute code actions")
 )
-set('n', 'lt', vim.lsp.buf.type_definition, opts("Go to type definition"))
-set('n', 'li', vim.lsp.buf.implementation, opts("Go to type implementation"))
-set('n', 'K', vim.lsp.buf.hover)
-set('n', 'le', vim.diagnostic.open_float, opts("Show errors"))
+set('n', '<C-CR>', vim.lsp.buf.type_definition, opts("Go to type definition"))
+set('n', '<leader>ld', vim.lsp.buf.type_definition, opts("Go to type definition"))
+set('n', '<leader>li', vim.lsp.buf.implementation, opts("Go to type implementation"))
+set('n', '<leader>le', vim.diagnostic.open_float, opts("Show errors"))
 
 --gitsigns
 vim.opt.signcolumn = "yes"
@@ -82,21 +73,37 @@ set("n", ";", function()
     vim.fn.cursor(0, col)
 end, opts())
 
+
 --telescope
-local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find files" })
-vim.keymap.set("n", "<leader><leader>", builtin.oldfiles, { desc = "Recent files" })
-vim.keymap.set("n", "<leader>fm", builtin.commands, { desc = "Commands available" })
-vim.keymap.set("n", "<leader>fh", builtin.command_history, { desc = "Commands history" })
-vim.keymap.set("n", "<leader>ft", builtin.live_grep, { desc = "Find text" })
+local builtin = require("telescope")
 
-vim.keymap.set("n", "<leader>fc", ":Telescope find_files search_dirs=~/.config/nvim<CR>",
-    { desc = "Config files" })
+set("n", "<C-p>", function()
+    builtin.find_files()
+end, opts("Find files"))
 
-vim.keymap.set('n', '<leader>ff', function()
+set("n", "<leader><leader>", function()
+    builtin.oldfiles()
+end, opts("Recent files"))
+
+set("n", "<leader>fm", function()
+    builtin.commands()
+end, opts("Commands available"))
+
+set("n", "<leader>fh", function()
+    builtin.command_history()
+end, opts("Commands history"))
+
+set("n", "<leader>ft", function()
+    builtin.live_grep()
+end, opts("Find text"))
+
+set("n", "<leader>fc", ":Telescope find_files search_dirs=~/.config/nvim<CR>",
+    opts("Config files"))
+
+set('n', '<leader>ff', function()
     builtin.lsp_document_symbols({ symbols = { "function" } });
-end, { desc = "Functions" });
+end, opts("Functions"));
 
-vim.keymap.set('n', '<leader>fr', function()
-    builtin.lsp_references();
-end, { desc = "References" })
+set('n', '<leader>fr', function()
+    builtin.lsp_references()
+end, opts("References"));
