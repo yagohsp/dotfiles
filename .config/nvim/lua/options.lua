@@ -50,9 +50,6 @@ set(
     vim.lsp.buf.code_action,
     opts("Execute code actions")
 )
-set('n', '<leader>ld', vim.lsp.buf.type_definition, opts("Go to type definition"));
-set('n', '<leader>li', vim.lsp.buf.implementation, opts("Go to type implementation"))
-set('n', '<leader>le', vim.diagnostic.open_float, opts("Show errors"))
 
 --gitsigns
 vim.opt.signcolumn = "yes"
