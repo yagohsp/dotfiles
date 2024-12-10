@@ -69,6 +69,12 @@ set("n", ";", function()
     vim.fn.cursor(0, col)
 end, opts())
 
+vim.api.nvim_set_keymap('n', '<Leader>R', ':lua RunRustFile()<CR>', opts("Run rust file"))
+
+function RunRustFile()
+    local filename = vim.fn.expand('%:p')
+    vim.cmd('term cargo run --bin ' .. vim.fn.fnamemodify("../" .. filename, ':t:r'))
+end
 
 --telescope
 local builtin = require("telescope.builtin")
