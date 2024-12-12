@@ -51,7 +51,7 @@ return {
             capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
             mason_lspconfig.setup({
-                ensure_installed = { "omnisharp", "vtsls", "rust_analyzer" }, -- Auto-install these
+                ensure_installed = { "omnisharp", "rust_analyzer", "ts_ls", "eslint", "html", "cssls" },
             })
 
             mason_lspconfig.setup_handlers({

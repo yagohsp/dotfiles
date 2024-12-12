@@ -73,7 +73,7 @@ vim.api.nvim_set_keymap('n', '<Leader>R', ':lua RunRustFile()<CR>', opts("Run ru
 
 function RunRustFile()
     local filename = vim.fn.expand('%:p')
-    vim.cmd('term cargo run --bin ' .. vim.fn.fnamemodify("../" .. filename, ':t:r'))
+    vim.cmd('term RUSTFLAGS="-Awarnings" cargo run --bin ' .. vim.fn.fnamemodify("../" .. filename, ':t:r'))
 end
 
 --telescope
