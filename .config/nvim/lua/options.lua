@@ -7,6 +7,8 @@ vim.opt.autowrite = true
 vim.opt.cursorline = true
 vim.opt.autoread = true
 vim.opt.fileformats = { "unix", "dos" }
+vim.opt.swapfile = false
+vim.bo.modifiable = true
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -41,12 +43,18 @@ vim.api.nvim_create_autocmd("BufLeave", {
 keymap('v', 'Y', '"+y', opts())
 keymap("n", "<Esc>", "<cmd>noh<CR>", opts("noh"))
 keymap('n', ':', '<cmd>FineCmdline<CR>', opts())
+vim.keymap.set("n", "<leader>:", function()
+    vim.api.nvim_feedkeys(":", "n", false)
+end, opts("Open Neovim cmd"))
 keymap('n', '0', '^', opts())
 keymap('n', '`', '$', opts())
 keymap('n', '<C-a>', "gg<S-v>G", opts())
 set('n', '<leader>[', '?{<CR><cmd>noh<CR>', opts("Move to previous opening bracket"))
 set('n', '<leader>]', '/}<CR><cmd>noh<CR>', opts("Move to next closing bracket"))
 keymap('n', '<Leader>R', '<cmd>lua RunRustFile()<CR>', opts("Run rust file"))
+keymap('v', 'r',
+    '"hy:.,$s/<C-r>h//gc<left><left><left>',
+    opts("Rename selection"))
 
 set('n', '<C-w>', function()
     vim.fn.search('[A-Z]', 'W')
@@ -62,7 +70,7 @@ keymap("n", "<leader>q", "<cmd>bprevious<CR>", opts("Previous buffer"))
 keymap("n", "<leader>D", "<cmd>bdelete!<CR>", opts("Delete buffer"))
 
 --file
-keymap("n", "<Enter>", "o<Esc>", opts("Insert spaceline"))
+keymap("n", "<leader><Enter>", "o<Esc>", opts("Insert spaceline"))
 keymap("n", "<leader>Q", "<cmd>w!<CR><cmd>q!<CR>", opts("Quit"))
 keymap("n", "<leader>e", "<cmd>Oil<CR>", opts("File explorer"))
 keymap("n", "<leader>d", "<cmd>bdelete!<CR><cmd>Oil<CR>", opts("File explorer"))
