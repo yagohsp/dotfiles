@@ -56,6 +56,17 @@ keymap('v', 'r',
     '"hy:.,$s/<C-r>h//gc<left><left><left>',
     opts("Rename selection"))
 
+-- keymap('n', '[', '<Cmd>call search("[([{<]")<CR>', opts())
+-- keymap('n', ']', '<Cmd>call search("[([{<]")<CR>', opts())
+set('n', '[', function()
+    local char = vim.fn.nr2char(vim.fn.getchar())
+    vim.fn.search(char, 'b')
+end, opts())
+set('n', ']', function()
+    local char = vim.fn.nr2char(vim.fn.getchar())
+    vim.fn.search(char)
+end, opts())
+
 set('n', '<C-w>', function()
     vim.fn.search('[A-Z]', 'W')
 end, opts("Move to next uppercase character"))
@@ -94,21 +105,11 @@ set("n", "<C-k>", "<Cmd>NvimTmuxNavigateUp<CR>", opts())
 set("n", "<C-l>", "<Cmd>NvimTmuxNavigateRight<CR>", opts())
 
 --functions
-vim.keymap.set('v', '<leader>T', function()
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('y', true, false, true), 'v', false)
-    local value = vim.fn.getreg('"')
-    local input2 = vim.fn.input("")
-    local v = ".,$s/%s/" .. value .. "/" .. input2 .. "/gc";
-    print(v)
-    -- vim.cmd(".,$s/%s/" .. value .. "/" .. input2 .. "/gc")
-end, { desc = "Replace" })
-
 set("n", ";", function()
     local col = vim.fn.col(".")
     vim.cmd("normal! A;")
     vim.fn.cursor(0, col)
 end, opts())
-
 
 function RunRustFile()
     local filename = vim.fn.expand('%<cmd>p')
