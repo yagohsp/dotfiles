@@ -56,13 +56,19 @@ keymap('v', 'r',
     '"hy:.,$s/<C-r>h//gc<left><left><left>',
     opts("Rename selection"))
 
--- keymap('n', '[', '<Cmd>call search("[([{<]")<CR>', opts())
--- keymap('n', ']', '<Cmd>call search("[([{<]")<CR>', opts())
 set('n', '[', function()
     local char = vim.fn.nr2char(vim.fn.getchar())
     vim.fn.search(char, 'b')
 end, opts())
 set('n', ']', function()
+    local char = vim.fn.nr2char(vim.fn.getchar())
+    vim.fn.search(char)
+end, opts())
+set('v', '[', function()
+    local char = vim.fn.nr2char(vim.fn.getchar())
+    vim.fn.search(char, 'b')
+end, opts())
+set('v', ']', function()
     local char = vim.fn.nr2char(vim.fn.getchar())
     vim.fn.search(char)
 end, opts())
@@ -82,7 +88,7 @@ keymap("n", "<leader>D", "<cmd>bdelete!<CR>", opts("Delete buffer"))
 
 --file
 keymap("n", "<leader><Enter>", "o<Esc>", opts("Insert spaceline"))
-keymap("n", "<leader>Q", "<cmd>w!<CR><cmd>q!<CR>", opts("Quit"))
+keymap("n", "<leader>Q", "<cmd>silent! w!<CR><cmd>q!<CR>", opts("Quit"))
 keymap("n", "<leader>e", "<cmd>Oil<CR>", opts("File explorer"))
 keymap("n", "<leader>d", "<cmd>bdelete!<CR><cmd>Oil<CR>", opts("File explorer"))
 
