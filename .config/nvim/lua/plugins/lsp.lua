@@ -22,7 +22,7 @@ return {
             capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
             mason_lspconfig.setup({
-                ensure_installed = { "omnisharp", "rust_analyzer", "ts_ls", "eslint", "html", "cssls" },
+                ensure_installed = { "omnisharp", "rust_analyzer", "ts_ls", "html", "cssls" },
             })
 
             mason_lspconfig.setup_handlers({
@@ -34,4 +34,8 @@ return {
             })
         end,
     },
+    {
+        "j-hui/fidget.nvim",
+        opts = {}
+    }
 }
