@@ -24,6 +24,8 @@ vim.opt.scrolloff = 10
 vim.opt.cmdheight = 0
 vim.opt.showmatch = true
 
+vim.opt.swapfile = false
+
 local keymap = vim.api.nvim_set_keymap
 local set = vim.keymap.set
 local opts = function(desc)
@@ -39,13 +41,19 @@ vim.api.nvim_create_autocmd("BufLeave", {
     end,
 })
 
+vim.api.nvim_create_augroup("eslint_fix_on_save", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx" },
+  command = "silent! !eslint --fix %",
+})
+
 --nvim
 keymap('v', 'Y', '"+y', opts())
 keymap("n", "<Esc>", "<cmd>noh<CR>", opts("noh"))
 keymap('n', ':', '<cmd>FineCmdline<CR>', opts())
-vim.keymap.set("n", "<leader>:", function()
+set('n', '<leader>:', function()
     vim.api.nvim_feedkeys(":", "n", false)
-end, opts("Open Neovim cmd"))
+end, opts())
 keymap('n', '0', '^', opts())
 keymap('n', '`', '$', opts())
 keymap('n', '<C-a>', "gg<S-v>G", opts())
@@ -110,12 +118,16 @@ set("n", "<C-j>", "<Cmd>NvimTmuxNavigateDown<CR>", opts())
 set("n", "<C-k>", "<Cmd>NvimTmuxNavigateUp<CR>", opts())
 set("n", "<C-l>", "<Cmd>NvimTmuxNavigateRight<CR>", opts())
 
---functions
-set("n", ";", function()
-    local col = vim.fn.col(".")
-    vim.cmd("normal! A;")
-    vim.fn.cursor(0, col)
-end, opts())
+function Replace()
+    local old_reg = vim.fn.getreg('"')
+    vim.cmd('normal! gv"xy')
+    local pattern = vim.fn.getreg('"')
+    vim.fn.setreg('"', old_reg)
+    local replacement = vim.fn.input('Substitute with: ', pattern)
+    vim.cmd('.,$s/' .. pattern .. '/' .. replacement .. '/gc')
+end
+
+keymap('v', '<leader>r', ':lua Replace()<CR>', opts())
 
 function RunRustFile()
     local filename = vim.fn.expand('%<cmd>p')
