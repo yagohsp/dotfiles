@@ -8,7 +8,7 @@ if not vim.loop.fs_stat(lazypath) then
         "clone",
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
+        "--branch=stable",
         lazypath,
     })
 end
@@ -20,6 +20,8 @@ vim.cmd [[
     au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=150})
     augroup END
 ]]
+
+vim.opt.shortmess:append("I")
 
 require("lazy").setup("plugins")
 require("options")

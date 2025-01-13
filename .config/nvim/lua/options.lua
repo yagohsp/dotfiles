@@ -1,5 +1,3 @@
-local functions = require("functions")
-
 vim.opt.backspace = "2"
 vim.opt.showcmd = true
 vim.opt.laststatus = 2
@@ -56,31 +54,6 @@ keymap('v', 'r',
     '"hy:.,$s/<C-r>h//gc<left><left><left>',
     opts("Rename selection"))
 
-set('n', '[', function()
-    local char = vim.fn.nr2char(vim.fn.getchar())
-    vim.fn.search(char, 'b')
-end, opts())
-set('n', ']', function()
-    local char = vim.fn.nr2char(vim.fn.getchar())
-    vim.fn.search(char)
-end, opts())
-set('v', '[', function()
-    local char = vim.fn.nr2char(vim.fn.getchar())
-    vim.fn.search(char, 'b')
-end, opts())
-set('v', ']', function()
-    local char = vim.fn.nr2char(vim.fn.getchar())
-    vim.fn.search(char)
-end, opts())
-
-set('n', '<C-w>', function()
-    vim.fn.search('[A-Z]', 'W')
-end, opts("Move to next uppercase character"))
-
-set('n', '<C-b>', function()
-    vim.fn.search('[A-Z]', 'bW')
-end, opts("Move to previous uppercase character"))
-
 --buffer
 keymap("n", "<leader>w", "<cmd>bnext<CR>", opts("Next buffer"))
 keymap("n", "<leader>q", "<cmd>bprevious<CR>", opts("Previous buffer"))
@@ -117,20 +90,6 @@ set("n", ";", function()
     vim.fn.cursor(0, col)
 end, opts())
 
-function RunRustFile()
-    local filename = vim.fn.expand('%<cmd>p')
-    vim.cmd('term RUSTFLAGS="-Awarnings" cargo run --bin ' .. vim.fn.fnamemodify("../" .. filename, '<cmd>t<cmd>r'))
-end
-
-set('n', '-', function() functions.jump_to_method("next") end,
-    { desc = 'Jump to the next method at the same level' })
-set('n', '_', function() functions.jump_to_method("previous") end,
-    { desc = 'Jump to the previous method at the same level' })
-set('v', '-', function() functions.jump_to_method("next") end,
-    { desc = 'Jump to the next method at the same level' })
-set('v', '_', function() functions.jump_to_method("previous") end,
-    { desc = 'Jump to the previous method at the same level' })
-
 --telescope
 local builtin = require("telescope.builtin")
 
@@ -145,5 +104,5 @@ set('n', '<leader>ff', function() builtin.lsp_document_symbols({ symbols = { "fu
 set('n', '<leader>fr', function() builtin.lsp_references() end, opts("References"));
 
 --None-ls
-set("n", "<leader>F", vim.lsp.buf.format, opts("Format file"))
-set("n", "<C-s>", "<cmd>w<CR><cmd>lua vim.lsp.buf.format()<CR>", opts("Save file"))
+set("n", "<leader>F", vim.cmd("silent! vim.lsp.buf.format"), opts("Format file"));
+set("n", "<C-s>", "<cmd>w<CR><cmd>:silent lua vim.lsp.buf.format()<CR>", opts("Save file"))
