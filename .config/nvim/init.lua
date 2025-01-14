@@ -14,15 +14,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.cmd [[
+vim.cmd([[
     augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=150})
     augroup END
-]]
-
-vim.opt.shortmess:append("I")
+]])
 
 require("lazy").setup("plugins")
 require("options")
-require("dapui").setup()
