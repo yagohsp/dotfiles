@@ -36,16 +36,16 @@ local keymap = vim.api.nvim_set_keymap
 local set = vim.keymap.set
 
 local opts = function(desc)
-    return { noremap = true, silent = true, desc = desc or "" }
+	return { noremap = true, silent = true, desc = desc or "" }
 end
 
 vim.api.nvim_create_autocmd("BufLeave", {
-    pattern = "*",
-    callback = function()
-        if vim.bo.filetype ~= "oil" and vim.bo.modified then
-            vim.cmd("silent! write")
-        end
-    end,
+	pattern = "*",
+	callback = function()
+		if vim.bo.filetype ~= "oil" and vim.bo.modified then
+			vim.cmd("silent! write")
+		end
+	end,
 })
 
 --nvim
@@ -53,7 +53,7 @@ keymap("v", "Y", '"+y', opts())
 keymap("n", "<Esc>", "<cmd>noh<CR>", opts("noh"))
 keymap("n", ":", "<cmd>FineCmdline<CR>", opts())
 vim.keymap.set("n", "<leader>:", function()
-    vim.api.nvim_feedkeys(":", "n", false)
+	vim.api.nvim_feedkeys(":", "n", false)
 end, opts("Open Neovim cmd"))
 keymap("n", "0", "^", opts())
 keymap("n", "`", "$", opts())
@@ -94,13 +94,13 @@ set("n", "<C-l>", "<Cmd>NvimTmuxNavigateRight<CR>", opts())
 
 --functions
 set("n", ";", function()
-    local col = vim.fn.col(".")
-    vim.cmd("normal! A;")
-    vim.fn.cursor(0, col)
+	local col = vim.fn.col(".")
+	vim.cmd("normal! A;")
+	vim.fn.cursor(0, col)
 end, opts())
 
 function fold(n)
-    vim.opt.foldlevel = n
+	vim.opt.foldlevel = n
 end
 
 --fold
@@ -109,50 +109,50 @@ keymap("n", "z2", "<cmd>lua fold(1)<CR>", opts("Fold at 2"))
 keymap("n", "z3", "<cmd>lua fold(2)<CR>", opts("Fold at 3"))
 keymap("n", "z0", "<cmd>lua fold(99)<CR>", opts("Unfold all"))
 set("n", "zo", function()
-    if vim.fn.foldclosed(".") == -1 then
-        vim.cmd("normal! zC")
-    else
-        vim.cmd("normal! zO")
-    end
+	if vim.fn.foldclosed(".") == -1 then
+		vim.cmd("normal! zC")
+	else
+		vim.cmd("normal! zO")
+	end
 end, opts("Unfold current"))
 
 --telescope
 local builtin = require("telescope.builtin")
 
 set("n", "<leader>p", function()
-    require("telescope.builtin").registers()
+	require("telescope.builtin").registers()
 end, opts("Copy history"))
 
 set("n", "<C-p>", function()
-    builtin.find_files()
+	builtin.find_files()
 end, opts("Find files"))
 
 set("n", "<leader><leader>", function()
-    builtin.oldfiles()
+	builtin.oldfiles()
 end, opts("Recent files"))
 
 set("n", "<leader>fm", function()
-    builtin.commands()
+	builtin.commands()
 end, opts("Commands available"))
 
 set("n", "<leader>fh", function()
-    builtin.command_history()
+	builtin.command_history()
 end, opts("Commands history"))
 
 set("n", "<leader>ft", function()
-    builtin.live_grep()
+	builtin.live_grep()
 end, opts("Find text"))
 
 set("n", "<leader>fc", "<cmd>Telescope find_files search_dirs=~/.config/nvim<CR>", opts("Config files"))
 
 set("n", "<leader>ff", function()
-    builtin.lsp_document_symbols({ symbols = { "function" } })
+	builtin.lsp_document_symbols({ symbols = { "function" } })
 end, opts("Functions"))
 
 set("n", "<leader>fr", function()
-    builtin.lsp_references()
+	builtin.lsp_references()
 end, opts("References"))
 
 --None-ls
 set("n", "<leader>F", vim.cmd("silent! vim.lsp.buf.format"), opts("Format file"))
-set("n", "<C-s>", "<cmd><cmd>:silent! lua vim.lsp.buf.format()<CR>w<CR>", opts("Save file"))
+set("n", "<C-s>", "<cmd>:silent! lua lint.try_lint()<CR><cmd>w<CR>", opts("Save file"))
