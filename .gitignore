@@ -2,13 +2,10 @@
 
 !.gitignore
 
-!.config/
-!.config/nvim
-!.config/nvim/**/*
+!nvim
+!nvim/**/*
 
-!.config/
-!.config/tmux
-!.config/tmux/**/*
+!tmux
+!tmux/**/*
 
-!.tmux.conf
 !README.md
