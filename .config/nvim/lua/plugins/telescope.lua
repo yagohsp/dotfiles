@@ -4,14 +4,25 @@ return {
         tag = "0.1.5",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
+            local actions = require("telescope.actions")
             require("telescope").setup({
+                defaults = {
+                    mappings = {
+                        i = {
+                            ["<S-Tab>"] = actions.move_selection_next,
+                            ["<Tab>"] = actions.move_selection_previous,
+                        },
+                    },
+                },
                 file_ignore_patterns = { "node_modules/.*" },
                 dependencies = {
-                    'nvim-lua/plenary.nvim',
-                    'BurntSushi/ripgrep'
-                }
+                    "BurntSushi/ripgrep",
+                },
             })
         end,
     },
-    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
+    {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
+    },
 }
