@@ -108,11 +108,11 @@ keymap("n", "z1", "<cmd>lua fold(0)<CR>", opts("Fold at 1"))
 keymap("n", "z2", "<cmd>lua fold(1)<CR>", opts("Fold at 2"))
 keymap("n", "z3", "<cmd>lua fold(2)<CR>", opts("Fold at 3"))
 keymap("n", "z0", "<cmd>lua fold(99)<CR>", opts("Unfold all"))
-set("n", "zo", function ()
-    if vim.fn.foldclosed('.') == -1 then
-        vim.cmd('normal! zC')
+set("n", "zo", function()
+    if vim.fn.foldclosed(".") == -1 then
+        vim.cmd("normal! zC")
     else
-        vim.cmd('normal! zO')
+        vim.cmd("normal! zO")
     end
 end, opts("Unfold current"))
 
@@ -155,4 +155,4 @@ end, opts("References"))
 
 --None-ls
 set("n", "<leader>F", vim.cmd("silent! vim.lsp.buf.format"), opts("Format file"))
-set("n", "<C-s>", "<cmd>w<CR><cmd>:silent! lua vim.lsp.buf.format()<CR>", opts("Save file"))
+set("n", "<C-s>", "<cmd><cmd>:silent! lua vim.lsp.buf.format()<CR>w<CR>", opts("Save file"))

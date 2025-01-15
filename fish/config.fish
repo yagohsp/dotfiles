@@ -6,5 +6,3 @@ set -g PATH ~/.dotnet $PATH
 set -g PATH ~/.dotnet/tools $PATH
 
 set -g PATH ~/.local/share/nvim/mason/bin $PATH
-
-
