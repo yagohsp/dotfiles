@@ -8,4 +8,7 @@
 !tmux
 !tmux/**/*
 
+!fish
+!fish/**/*
+
 !README.md
