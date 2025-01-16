@@ -9,15 +9,10 @@ return {
             local lint = require("lint")
 
             lint.linters_by_ft = {
-                css = { "eslint_d" },
-                html = { "eslint_d" },
-                json = { "eslint_d" },
+                html = { "htmlhint" },
                 jsx = { "eslint_d" },
-                javascript = { "eslint_d" },
-                markdown = { "eslint_d" },
-                scss = { "eslint_d" },
+                javascript = { "eslint" },
                 typescript = { "eslint_d" },
-                yalm = { "eslint_d" },
             }
 
             local lint_group = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -32,19 +27,19 @@ return {
     },
     {
         "stevearc/conform.nvim",
-        event = { "BufReadPre", "BufNewFile" },
+        -- event = { "BufReadPre", "BufNewFile" },
         config = function()
             local conform = require("conform")
 
             conform.setup({
                 formatters_by_ft = {
-                    javascript = { "prettier_d" },
-                    typescript = { "prettier_d" },
-                    javascriptreact = { "prettier_d" },
-                    typescriptreact = { "prettier_d" },
-                    html = { "prettier_d" },
-                    css = { "prettier_d" },
-                    json = { "prettier_d" },
+                    javascript = { "prettierd" },
+                    typescript = { "prettierd" },
+                    javascriptreact = { "prettierd" },
+                    typescriptreact = { "prettierd" },
+                    html = { "prettierd" },
+                    css = { "prettierd" },
+                    json = { "prettierd" },
                 },
                 format_on_save = {
                     timeout_ms = 500,
