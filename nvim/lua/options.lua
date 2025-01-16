@@ -63,7 +63,7 @@ keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection
 --buffer
 keymap("n", "<leader>w", "<cmd>bnext<CR>", opts("Next buffer"))
 keymap("n", "<leader>q", "<cmd>bprevious<CR>", opts("Previous buffer"))
-keymap("n", "<leader>", "<cmd>bdelete!<CR>", opts("Delete buffer"))
+keymap("n", "<leader>d", "<cmd>bdelete!<CR><cmd>Oil<CR>", opts("Delete buffer"))
 
 --file
 keymap("n", "<leader>Q", "<cmd>silent! w!<CR><cmd>q!<CR>", opts("Quit"))
