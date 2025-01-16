@@ -12,3 +12,5 @@
 !fish/**/*
 
 !README.md
+
+fish/fish_variables
