@@ -113,6 +113,24 @@ set("n", "zo", function()
     end
 end, opts("Unfold current"))
 
+function JumpOverFold(direction)
+    if direction == 'up' then
+        if vim.fn.foldclosed('.') ~= -1 then
+            vim.cmd('normal! [z')
+        end
+        vim.cmd('normal! {')
+    else
+        if vim.fn.foldclosed('.') ~= -1 then
+            vim.cmd('normal! ]z')
+        end
+        vim.cmd('normal! }')
+    end
+end
+
+-- Remap { and } to use the custom function
+vim.api.nvim_set_keymap('n', '{', ':lua JumpOverFold("up")<CR>', opts())
+vim.api.nvim_set_keymap('n', '}', ':lua JumpOverFold("down")<CR>', opts())
+
 --telescope
 local builtin = require("telescope.builtin")
 
