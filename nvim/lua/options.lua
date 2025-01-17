@@ -59,11 +59,16 @@ keymap("n", "0", "^", opts())
 keymap("n", "`", "$", opts())
 keymap("n", "<C-a>", "gg<S-v>G", opts())
 keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection"))
+keymap("n", "<A-j>", '8j', opts())
+keymap("n", "<A-k>", '8k', opts())
+keymap("v", "<A-j>", '8j', opts())
+keymap("v", "<A-k>", '8k', opts())
 
 --buffer
 keymap("n", "<leader>w", "<cmd>bnext<CR>", opts("Next buffer"))
 keymap("n", "<leader>q", "<cmd>bprevious<CR>", opts("Previous buffer"))
 keymap("n", "<leader>d", "<cmd>bdelete!<CR><cmd>Oil<CR>", opts("Delete buffer"))
+keymap("n", "<leader>D", "<cmd>bdelete!<CR>", opts("Delete buffer"))
 
 --file
 keymap("n", "<leader>Q", "<cmd>silent! w!<CR><cmd>q!<CR>", opts("Quit"))
@@ -74,6 +79,10 @@ vim.api.nvim_set_keymap('n', 'd', '"_d', opts())
 vim.api.nvim_set_keymap('n', 'yd', 'd', opts("Yank and delete"))
 vim.api.nvim_set_keymap('n', 'c', '"_c', opts())
 vim.api.nvim_set_keymap('n', 'yc', 'c', opts("Yank and change"))
+vim.api.nvim_set_keymap('v', 'd', '"_d', opts())
+vim.api.nvim_set_keymap('v', 'yd', 'd', opts("Yank and delete"))
+vim.api.nvim_set_keymap('v', 'c', '"_c', opts())
+vim.api.nvim_set_keymap('v', 'yc', 'c', opts("Yank and change"))
 
 --lsp
 set("n", "<leader>r", vim.lsp.buf.rename, opts("Replace variable"))

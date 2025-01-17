@@ -6,6 +6,11 @@ return {
         config = function()
             local actions = require("telescope.actions")
             require("telescope").setup({
+                pickers = {
+                    find_files = {
+                        hidden = true
+                    }
+                },
                 defaults = {
                     mappings = {
                         i = {
