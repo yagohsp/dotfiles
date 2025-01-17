@@ -74,15 +74,15 @@ keymap("n", "<leader>D", "<cmd>bdelete!<CR>", opts("Delete buffer"))
 keymap("n", "<leader>Q", "<cmd>silent! w!<CR><cmd>q!<CR>", opts("Quit"))
 keymap("n", "<leader>e", "<cmd>Oil<CR>", opts("File explorer"))
 
---change and delete with yank
-vim.api.nvim_set_keymap('n', 'd', '"_d', opts())
-vim.api.nvim_set_keymap('n', 'yd', 'd', opts("Yank and delete"))
-vim.api.nvim_set_keymap('n', 'c', '"_c', opts())
-vim.api.nvim_set_keymap('n', 'yc', 'c', opts("Yank and change"))
-vim.api.nvim_set_keymap('v', 'd', '"_d', opts())
-vim.api.nvim_set_keymap('v', 'yd', 'd', opts("Yank and delete"))
-vim.api.nvim_set_keymap('v', 'c', '"_c', opts())
-vim.api.nvim_set_keymap('v', 'yc', 'c', opts("Yank and change"))
+--change and delete without yank
+vim.api.nvim_set_keymap('n', '.d', '"_d', opts())
+vim.api.nvim_set_keymap('v', '.d', '"_d', opts())
+vim.api.nvim_set_keymap('n', '.D', '"_D', opts())
+vim.api.nvim_set_keymap('v', '.D', '"_D', opts())
+vim.api.nvim_set_keymap('n', '.c', '"_c', opts())
+vim.api.nvim_set_keymap('v', '.c', '"_c', opts())
+vim.api.nvim_set_keymap('n', '.C', '"_C', opts())
+vim.api.nvim_set_keymap('v', '.C', '"_C', opts())
 
 --lsp
 set("n", "<leader>r", vim.lsp.buf.rename, opts("Replace variable"))
