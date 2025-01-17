@@ -18,8 +18,8 @@ return {
                             ["<Tab>"] = actions.move_selection_previous,
                         },
                     },
+                    file_ignore_patterns = { ".git/" },
                 },
-                file_ignore_patterns = { "node_modules/.*" },
                 dependencies = {
                     "BurntSushi/ripgrep",
                 },
