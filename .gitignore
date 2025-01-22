@@ -8,10 +8,20 @@
 !tmux
 !tmux/**/*
 
+!kitty
+!kitty/**/*
+
 !fish
 !fish/**/*
 fish/fish_variables
 
-!README.md
+!waybar
+!waybar/**/*
 
-fish/fish_variables
+!wofi
+!wofi/**/*
+
+!symlink
+!symlink/**/*
+
+!README.md
