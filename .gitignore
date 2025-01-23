@@ -15,6 +15,9 @@
 !fish/**/*
 fish/fish_variables
 
+!hypr
+!hypr/**/*
+
 !waybar
 !waybar/**/*
 

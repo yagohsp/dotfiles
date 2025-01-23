@@ -8,6 +8,7 @@ vim.opt.fileformats = { "unix", "dos" }
 vim.opt.swapfile = false
 vim.opt.modifiable = true
 
+
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -17,11 +18,13 @@ vim.opt.expandtab = true
 vim.opt.number = true
 vim.opt.relativenumber = false
 vim.opt.hidden = true
-vim.opt.wrap = false
+-- vim.opt.wrap = false
+vim.opt.linebreak = true
+vim.opt.textwidth = 80
 vim.opt.scrolloff = 10
 vim.opt.signcolumn = "no"
 
-vim.opt.cmdheight = 0
+vim.opt.cmdheight = 1
 vim.opt.showmatch = true
 
 vim.opt.foldmethod = "expr"
