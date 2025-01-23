@@ -2,8 +2,8 @@
 	"layer": "bottom",
 	"modules-left": ["custom/launcher","cpu","memory","custom/media","tray"],
 	"modules-center": ["river/tags"],
-	"modules-right": ["custom/updates","custom/wallpaper","backlight","pulseaudio","clock", "battery","custom/power"],
-	
+	"modules-right":
+    ["custom/updates","custom/wallpaper","backlight","pulseaudio","custom/clock", "battery","custom/power"],
 	"pulseaudio": {
 		"tooltip": false,
 		"scroll-step": 5,
@@ -46,8 +46,10 @@
 		"icon-size":18,
 		"spacing": 10
 	},
-    "clock": {
-        "format": "{: %I:%M %p   %d/%m/%Y}"
+    "custom/clock": {
+        "exec": "echo ${(C)$(date +'%A')}",
+        "format": "{}",
+        "max-length": 25
     },
     "cpu": {
         "interval": 15,

@@ -2,6 +2,9 @@
 
 !.gitignore
 
+!initial
+!initial/**/*
+
 !nvim
 !nvim/**/*
 
