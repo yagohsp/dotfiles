@@ -1,9 +1,9 @@
 {
 	"layer": "bottom",
-	"modules-left": ["custom/launcher","cpu","memory","custom/media","tray"],
-	"modules-center": ["river/tags"],
+	"modules-left": ["cpu","memory"],
+	"modules-center": ["custom/media"],
 	"modules-right":
-    ["custom/updates","custom/wallpaper","backlight","pulseaudio","custom/clock", "battery","custom/power"],
+    ["pulseaudio", "battery", "custom/clock"],
 	"pulseaudio": {
 		"tooltip": false,
 		"scroll-step": 5,
@@ -14,21 +14,10 @@
 			"default": ["", "", ""]
 		}
 	},
-
-    "river/tags": {
-		"num-tags": 6
-    },
 	"network": {
 		"tooltip": false,
 		"format-wifi": "  {essid}",
 		"format-ethernet": ""
-	},
-	"backlight": {
-		"tooltip": false,
-		"format": " {}%",
-		"interval":1,
-        "on-scroll-up": "light -A 5",
-		"on-scroll-down": "light -U 5"
 	},
     "battery": {
         "states": {
@@ -42,12 +31,8 @@
         "format-alt": "{time} {icon}",
         "format-icons": ["", "", "", "", ""]
     },
-	"tray":{
-		"icon-size":18,
-		"spacing": 10
-	},
     "custom/clock": {
-        "exec": "echo ${(C)$(date +'%A')}",
+        "exec": "echo \"$(echo $(date +%A) | awk '{ $1 = toupper(substr($1,1,1)) substr($1,2); print }') $(echo $(date +%R))\"",
         "format": "{}",
         "max-length": 25
     },
@@ -74,24 +59,4 @@
         "exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
         "on-click": "playerctl play-pause"
     },
-    "custom/launcher":{
-        "format": " ",
-        "on-click": "rofi -show drun",
-        "on-click-right": "killall rofi"
-    },
-    "custom/power":{
-        "format": " ",
-        "on-click": "bash ~/.config/rofi/leave/leave.sh",
-    },
-    "custom/updates":{
-        "format": "{} Update(s)",
-        "exec": "checkupdates | wc -l",
-        "exec-if": "[[ $(checkupdates | wc -l) != 0 ]]",
-        "interval": 15,
-        "on-click": "alacritty -e paru -Syu && notify-send 'The system has been updated' "
-    },
-    "custom/wallpaper":{
-        "format":" ",
-        "on-click": "bash ~/.config/system_scripts/pkill_bc"
-    }
 }

@@ -1,2 +1,4 @@
-cliphist 
-wtype
+cliphist -- clipboard manager to use with wofi
+wtype -- key presser for paste when selecting wofi
+zsh-syntax-highlighting -- with catppuccin
+

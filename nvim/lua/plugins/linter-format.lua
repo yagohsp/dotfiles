@@ -41,7 +41,8 @@ return {
                     css = { "prettierd" },
                     json = { "prettierd" },
                     lua = { "stylua " },
-                    cs = { "csharpier" }
+                    cs = { "csharpier" },
+                    sh = { "beautysh" }
                 },
                 format_on_save = {
                     timeout_ms = 500,

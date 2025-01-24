@@ -18,7 +18,7 @@ vim.opt.expandtab = true
 vim.opt.number = true
 vim.opt.relativenumber = false
 vim.opt.hidden = true
--- vim.opt.wrap = false
+vim.opt.wrap = false
 vim.opt.linebreak = true
 vim.opt.textwidth = 80
 vim.opt.scrolloff = 10
@@ -52,7 +52,7 @@ vim.api.nvim_create_autocmd("BufLeave", {
 })
 
 --nvim
-keymap("v", "Y", '"+y', opts())
+keymap("v", "<A-y>", '"+y', opts())
 keymap("n", "<Esc>", "<cmd>noh<CR>", opts("noh"))
 keymap("n", ":", "<cmd>FineCmdline<CR>", opts())
 vim.keymap.set("n", "<leader>:", function()
@@ -77,15 +77,14 @@ keymap("n", "<leader>D", "<cmd>bdelete!<CR>", opts("Delete buffer"))
 keymap("n", "<leader>Q", "<cmd>silent! w!<CR><cmd>q!<CR>", opts("Quit"))
 keymap("n", "<leader>e", "<cmd>Oil<CR>", opts("File explorer"))
 
---change and delete without yank
-vim.api.nvim_set_keymap('n', '.d', '"_d', opts())
-vim.api.nvim_set_keymap('v', '.d', '"_d', opts())
-vim.api.nvim_set_keymap('n', '.D', '"_D', opts())
-vim.api.nvim_set_keymap('v', '.D', '"_D', opts())
-vim.api.nvim_set_keymap('n', '.c', '"_c', opts())
-vim.api.nvim_set_keymap('v', '.c', '"_c', opts())
-vim.api.nvim_set_keymap('n', '.C', '"_C', opts())
-vim.api.nvim_set_keymap('v', '.C', '"_C', opts())
+vim.api.nvim_set_keymap('n', '<A-d>', '"_d', opts())
+vim.api.nvim_set_keymap('v', '<A-d>', '"_d', opts())
+vim.api.nvim_set_keymap('n', '<A-D>', '"_D', opts())
+vim.api.nvim_set_keymap('v', '<A-D>', '"_D', opts())
+vim.api.nvim_set_keymap('n', '<A-c>', '"_c', opts())
+vim.api.nvim_set_keymap('v', '<A-c>', '"_c', opts())
+vim.api.nvim_set_keymap('n', '<A-C>', '"_C', opts())
+vim.api.nvim_set_keymap('v', '<A-C>', '"_C', opts())
 
 --lsp
 set("n", "<leader>r", vim.lsp.buf.rename, opts("Replace variable"))
