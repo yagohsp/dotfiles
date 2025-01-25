@@ -1,4 +1,7 @@
---pacman--
+# install yay
+sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+
+# pacman
 cliphist                # clipboard manager to use with wofi
 wtype                   # key presser for paste when selecting wofi
 zsh-syntax-highlighting # with catppuccin
@@ -9,4 +12,3 @@ kitty                   # terminal
 xclip
 zsh                     # bash
 neovim                  # text editor
-yay                     # package manager
