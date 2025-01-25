@@ -1,4 +1,12 @@
-cliphist -- clipboard manager to use with wofi
-wtype -- key presser for paste when selecting wofi
-zsh-syntax-highlighting -- with catppuccin
-
+--pacman--
+cliphist                # clipboard manager to use with wofi
+wtype                   # key presser for paste when selecting wofi
+zsh-syntax-highlighting # with catppuccin
+hyprlock                # lock screen
+waybar                  # topbar
+wofi                    # app search
+kitty                   # terminal
+xclip
+zsh                     # bash
+neovim                  # text editor
+yay                     # package manager
