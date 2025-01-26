@@ -1,6 +1,9 @@
 # install yay
 sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
+# oh my zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 # pacman
 cliphist                # clipboard manager to use with wofi
 wtype                   # key presser for paste when selecting wofi
