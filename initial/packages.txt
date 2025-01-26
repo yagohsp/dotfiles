@@ -12,6 +12,8 @@ hyprlock                # lock screen
 waybar                  # topbar
 wofi                    # app search
 kitty                   # terminal
-xclip
+xclip                   # copy paste
 zsh                     # bash
 neovim                  # text editor
+
+sudo pacman -S cliphist wtype zsh-syntax-highlighting hyprlock waybar wofi kitty xclip zsh neovim
