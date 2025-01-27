@@ -13,7 +13,8 @@ bindkey '^P' vf
 source $ZSH/oh-my-zsh.sh
 
 source ~/.config/symlink/zsh/themes/catppuccin.zsh
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 
 export nvim="/usr/bin/nvim"
 export PATH="$PATH:/opt/mssql-tools/bin"

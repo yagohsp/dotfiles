@@ -2,8 +2,8 @@
 
 !.gitignore
 
-!initial
-!initial/**/*
+!install
+!install/**/*
 
 !nvim
 !nvim/**/*
