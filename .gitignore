@@ -30,4 +30,13 @@ fish/fish_variables
 !symlink
 !symlink/**/*
 
+!gtk-3.0
+!gtk-3.0/**/*
+
+!xsettingsd
+!xsettingsd/**/*
+
+!neofetch
+!neofetch/**/*
+
 !README.md
