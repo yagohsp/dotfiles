@@ -8,6 +8,9 @@ vim.opt.fileformats = { "unix", "dos" }
 vim.opt.swapfile = false
 vim.opt.modifiable = true
 
+vim.opt.wrap = false
+vim.opt.linebreak = true
+vim.opt.breakindent = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -18,8 +21,6 @@ vim.opt.expandtab = true
 vim.opt.number = true
 vim.opt.relativenumber = false
 vim.opt.hidden = true
-vim.opt.wrap = false
-vim.opt.linebreak = true
 vim.opt.textwidth = 80
 vim.opt.scrolloff = 10
 vim.opt.signcolumn = "no"
@@ -52,6 +53,7 @@ vim.api.nvim_create_autocmd("BufLeave", {
 })
 
 --nvim
+keymap("n", "<A-y>", '"+y', opts())
 keymap("v", "<A-y>", '"+y', opts())
 keymap("n", "<Esc>", "<cmd>noh<CR>", opts("noh"))
 keymap("n", ":", "<cmd>FineCmdline<CR>", opts())
@@ -66,6 +68,7 @@ keymap("n", "<A-j>", '8j', opts())
 keymap("n", "<A-k>", '8k', opts())
 keymap("v", "<A-j>", '8j', opts())
 keymap("v", "<A-k>", '8k', opts())
+keymap("n", "zH", '10zH', opts())
 
 --buffer
 keymap("n", "<leader>w", "<cmd>bnext<CR>", opts("Next buffer"))
