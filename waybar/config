@@ -3,7 +3,15 @@
 	"modules-left": ["cpu","memory"],
 	"modules-center": ["custom/media"],
 	"modules-right":
-    ["pulseaudio", "battery", "custom/clock"],
+    ["network","pulseaudio", "battery", "custom/clock"],
+    network: {
+        "interface": "auto",
+        "format": "{essid} ({ipaddr})",
+        "format-alt": "{ifname}: {ipaddr}",
+        "format-disconnected": "Disconnected",
+        "format-alt-disconnected": "{ifname}: Disconnected",
+        "tooltip": true
+    },
 	"pulseaudio": {
 		"tooltip": false,
 		"scroll-step": 5,
