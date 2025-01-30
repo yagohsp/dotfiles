@@ -8,7 +8,7 @@ vim.opt.fileformats = { "unix", "dos" }
 vim.opt.swapfile = false
 vim.opt.modifiable = true
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.breakindent = true
 

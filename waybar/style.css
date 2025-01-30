@@ -1,95 +1,41 @@
 * {
-  border: none;
-  font-family: "JetBrains Mono Nerd Font";
-  font-size: 18px;
-  font-weight: 600;
-  min-height: 35px;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: "Noto Sans CJK JP";
 }
 
 window#waybar {
   background: transparent;
+  margin-top: 10px;
+  padding: 0;
+  margin-bottom: 0;
 }
 
-window#waybar.hidden {
-  opacity: 0.2;
+#workspaces {
+  padding: 0 30px;
+  margin: 0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 50px;
+  border-top-left-radius: 50px;
+  background-color: #1e1e2e;
+  border: 2px solid #cba6f7;
 }
 
-/* ------- LEFT ------- */
-#cpu {
-  margin: 10px 7px 0 12px;
-  padding: 0 10px;
-  border-radius: 10px;
-  transition: none;
-  color: #161320;
-  background: #96cdfb;
+#workspaces button {
+  padding: 5px 16px;
+  border-radius: 0;
 }
 
-#memory {
-  margin: 10px 7px 0;
-  padding: 0 10px;
-  border-radius: 10px;
-  transition: none;
-  color: #161320;
-  background: #ddb6f2;
+#workspaces button.active {
+  background-color: #cba6f7;
+  color: #1e1e2e;
+  border-radius: 0;
+  margin: 0;
 }
 
-/* ------- CENTER ------- */
-#media {
-  margin: 10px 12px 0 7px;
-  padding: 0 10px;
-  border-radius: 10px;
-  transition: none;
-  color: #161320;
-  background: #abe9b3;
+#workspaces button:first-child {
 }
 
-/* ------- RIGHT ------- */
-#pulseaudio {
-  padding: 0 10px;
-  margin: 10px 7px 0;
-  border-radius: 10px;
-  transition: none;
-  color: #1a1826;
-  background: #fae3b0;
-}
-
-#battery {
-  padding: 0 10px;
-  margin: 10px 10px 0 7px;
-  border-radius: 10px;
-  transition: none;
-  color: #161320;
-  background: #b5e8e0;
-}
-
-#battery.charging,
-#battery.plugged {
-  color: #161320;
-  background-color: #b5e8e0;
-}
-
-#battery.critical:not(.charging) {
-  background-color: #b5e8e0;
-  color: #161320;
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes blink {
-  to {
-    background-color: #bf616a;
-    color: #b5e8e0;
-  }
-}
-
-#custom-clock {
-  margin: 10px 12px 0 7px;
-  padding: 0 10px;
-  border-radius: 10px;
-  transition: none;
-  color: #161320;
-  background: #abe9b3;
+#workspaces button:last-child {
 }
