@@ -39,4 +39,7 @@ fish/fish_variables
 !neofetch
 !neofetch/**/*
 
+!zsh
+!zsh/**/*
+
 !README.md
