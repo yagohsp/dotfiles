@@ -18,3 +18,5 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 chmod +x ~/.config/install/*
 ~/.config/install/auto-start.sh
 ~/.config/install/fix-cedilha.sh
+
+ln -s ~/.config/tmux/.tmux.conf ~/
