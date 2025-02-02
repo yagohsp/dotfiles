@@ -2,13 +2,26 @@
   font-size: 22px;
   font-weight: 700;
   font-family: "Noto Sans CJK JP";
+  padding: 0;
+  border-radius: 0;
+  min-height: 0;
+  margin: 0;
+  border: none;
+  text-shadow: none;
+  transition: none;
+  box-shadow: none;
 }
 
 window#waybar {
   background: transparent;
-  margin-top: 10px;
+  margin: 0;
   padding: 0;
-  margin-bottom: 0;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+window#waybar > box {
+  margin-top: 5px;
 }
 
 #workspaces {
@@ -34,8 +47,42 @@ window#waybar {
   margin: 0;
 }
 
-#workspaces button:first-child {
+#tray {
+  padding: 5px 30px;
+  margin-left: 300px;
+  border: 2px solid #cba6f7;
+  background-color: #1e1e2e;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 50px;
 }
 
-#workspaces button:last-child {
+#tray * {
+  margin: 0 10px;
+  opacity: 0;
+}
+
+#clock.date {
+  padding: 5px 50px 5px 30px;
+  border: 2px solid #cba6f7;
+  background-color: #1e1e2e;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 50px;
+  margin-left: 10px;
+  margin-right: 200px;
+  font-size: 18px;
+}
+
+#clock.time {
+  padding: 5px 30px 5px 50px;
+  border: 2px solid #cba6f7;
+  background-color: #1e1e2e;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 8px;
+  font-size: 18px;
+}
+
+#clock.span {
+  margin-right: 10px;
 }

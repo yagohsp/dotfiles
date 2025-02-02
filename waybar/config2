@@ -1,5 +1,6 @@
 {
-  "exclusive": false,
+    "exclusive": false,
+    "margin": "20",
 	"layer": "top",
 	"modules-left": ["cpu","memory"],
 	"modules-center": ["custom/media"],

@@ -8,9 +8,12 @@ vim.opt.fileformats = { "unix", "dos" }
 vim.opt.swapfile = false
 vim.opt.modifiable = true
 
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.linebreak = true
-vim.opt.breakindent = true
+
+-- vim.opt.wrap = true
+-- vim.opt.linebreak = true
+-- vim.opt.breakindent = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -62,13 +65,22 @@ vim.keymap.set("n", "<leader>:", function()
 end, opts("Open Neovim cmd"))
 keymap("n", "0", "^", opts())
 keymap("n", "`", "$", opts())
-keymap("n", "<C-a>", "gg<S-v>G", opts())
+keymap("n", "<A-a>", "gg<S-v>G", opts())
 keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection"))
 keymap("n", "<A-j>", '8j', opts())
 keymap("n", "<A-k>", '8k', opts())
 keymap("v", "<A-j>", '8j', opts())
 keymap("v", "<A-k>", '8k', opts())
 keymap("n", "zH", '10zH', opts())
+
+local function jump_to_tab(tab_number)
+    vim.cmd('tabn ' .. tab_number)
+end
+
+for i = 1, 9 do
+    vim.api.nvim_set_keymap('n', '<leader>' .. i, ':lua jump_to_tab(' .. i .. ')<CR>', opts("Jump to tab" .. i))
+end
+
 
 --buffer
 keymap("n", "<leader>w", "<cmd>bnext<CR>", opts("Next buffer"))
