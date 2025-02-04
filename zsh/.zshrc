@@ -29,4 +29,6 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 export zsh=~/.config/zsh/.zshrc
 export hypr=~/.config/hypr/hyprland.conf
 
+
+
 neofetch
