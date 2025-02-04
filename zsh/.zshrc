@@ -17,9 +17,10 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source ~/.config/zsh/functions.zsh
 source ~/.config/zsh/alias.zsh
 
-# export nvim="/usr/bin/nvim"
-# export PATH="$PATH:/opt/mssql-tools/bin"
-# export PATH="$PATH:/home/yago/.dotnet/tools"
+export PATH="$PATH:/opt/mssql-tools/bin"
+export DOTNET_ROOT=/home/yago/.dotnet
+export PATH="$PATH:$DOTNET_ROOT"
+export PATH="$PATH:$DOTNET_ROOT/tools"
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --bind=shift-tab:down
@@ -27,7 +28,5 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 '
 export zsh=~/.config/zsh/.zshrc
 export hypr=~/.config/hypr/hyprland.conf
-
-source /usr/share/nvm/init-nvm.sh
 
 neofetch

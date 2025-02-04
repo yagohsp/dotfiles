@@ -8,7 +8,7 @@ gs() {
 
 # find config file
 zle -N _vc
-bindkey '^L' _vc
+bindkey '\eo' _vc
 _vc() {
     vc_file=$(find ~/.config \( -name node_modules -o -name .git \) -prune -o -type f -print | fzf --preview 'bat --style=numbers --color=always {} || cat {}') 
     if [ ! -z "$vc_file" ]; then
@@ -21,7 +21,7 @@ _vc() {
 
 # find folders
 zle -N _vf
-bindkey '^O' _vf
+bindkey '\ep' _vf
 _vf() {
      vf_folder=$(find ~ -type d -name '.*' -prune -o -type d -print | fzf)
      if [ ! -z "$vf_folder" ]; then
