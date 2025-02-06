@@ -2,6 +2,7 @@
     // "exclusive": false,
     "layer": "top",
     "modules-left": [
+        "custom/spotify",
         "tray"
     ],
     "modules-center": [
@@ -9,8 +10,15 @@
     ],
     "modules-right": [
         "clock#time",
-        "clock#date",
+        "clock#date"
     ],
+    "custom/spotify": {
+        "interval": 1,
+        "return-type": "json",
+        "exec": "~/.config/waybar/modules/spotify.sh",
+        "exec-if": "pgrep spotify",
+        "escape": true
+    },
     "hyprland/workspaces": {
         "format": "{icon}",
         "format-icons": {
@@ -19,16 +27,10 @@
             "3": "三",
             "4": "四",
             "5": "五",
-            "6": "六"
-        },
-        "persistent-workspaces": {
-            "*": [
-                1,
-                2,
-                3,
-                4,
-                5
-            ]
+            "6": "六",
+            "7": "七",
+            "8": "八",
+            "9": "九"
         }
     },
     "bluetooth": {
@@ -39,7 +41,7 @@
         "tooltip": false
     },
     "clock#date": {
-        "format": "<span color='#cba6f7' >󰃭   </span>{:%a %d %b}",
+        "format": "<span color='#C3415D' >󰃭   </span>{:%a %d %b}",
         "tooltip-format": "<tt>{calendar}</tt>",
         "calendar": {
             "mode": "month",
@@ -59,7 +61,7 @@
         "max-length": 20
     },
     "clock#time": {
-        "format": "<span color='#cba6f7' >󱑂   </span>{:%I:%M %p}",
+        "format": "<span color='#C3415D' >󱑂   </span>{:%I:%M %p}",
         "tooltip": false,
         // "tooltip-format": "Standard Time: {:%I:%M %p}",
         "min-length": 8,
