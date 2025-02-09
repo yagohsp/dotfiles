@@ -33,4 +33,5 @@ export hypr=~/.config/hypr/hyprland.conf
 export EDITOR=nvim
 export SHELL=/bin/zsh
 
-fastfetch
+# fastfetch
+ eval "$(zoxide init bash)"

@@ -1,7 +1,5 @@
 * {
-  font-size: 22px;
-  font-weight: 700;
-  font-family: "Noto Sans CJK JP";
+  /* `otf-font-awesome` is required to be installed for icons */
   padding: 0;
   border-radius: 0;
   min-height: 0;
@@ -12,84 +10,259 @@
   box-shadow: none;
 }
 
+/* the whole window */
 window#waybar {
-  background: transparent;
+  background: #1e1e2e;
+  color: #fff4d2;
+  padding-right: 9px;
+  padding-left: 5px;
   margin: 0;
-  padding: 0;
-  padding-top: 20px;
-  margin-top: 20px;
+  border-radius: 19px;
 }
 
-window#waybar > box {
-  margin-top: 5px;
+tooltip {
+  background: rgba(255, 244, 210, 0.8);
+  color: #1e1e2e;
+  border: 2px solid #1e1e2e;
+  border-radius: 5px;
 }
 
+.modules-left {
+  padding-left: 5px;
+}
+
+.modules-right {
+  padding-right: 5px;
+}
+
+#custom-rofi,
+#workspaces button,
+#workspaces button:hover,
+#workspaces button.visible,
+#workspaces button.visible:hover,
+#workspaces button.active,
+#workspaces button.active:hover,
+#workspaces button.urgent,
+#window,
+#tray,
+#disk,
+#cpu,
+#temperature,
+#temperature.critical,
+#backlight,
+#custom-memory,
+#pulseaudio,
+#pulseaudio.muted,
+#battery,
+#battery.critical,
+#battery.warning,
+#clock {
+  font-family: FiraCode Nerd Font Mono;
+  font-size: 14px;
+  font-weight: 400;
+  color: #202020;
+  background: #202020;
+  border-radius: 2px;
+}
+
+#window,
+#tray,
+#disk,
+#cpu,
+#temperature,
+#temperature.critical,
+#backlight,
+#custom-memory,
+#pulseaudio,
+#pulseaudio.muted,
+#battery,
+#battery.critical,
+#battery.warning,
+#clock {
+  padding-right: 4px;
+  margin: 5px 0px;
+}
+
+#custom-rofi {
+  /* border: 2px solid #458588; */
+  /* border-radius: 5px; */
+  background: #1e1e2e;
+  padding: 0 6px;
+  margin: 5px 0px;
+}
+
+/* ================================ */
+/*       workspaces module          */
+/* ================================ */
 #workspaces {
-  padding: 0 30px;
-  margin: 0;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  border-top-right-radius: 50px;
-  border-top-left-radius: 50px;
-  background-color: #1e1e2e;
-  border: 2px solid #c3415d;
+  margin: 0px;
 }
 
 #workspaces button {
-  padding: 2px 16px 5px;
-  border-radius: 0;
+  color: #fff4d2;
+  background: #1e1e2e;
+  /* border: 2px solid #fff4d2; */
+  min-width: 25px;
+  padding: 0 4px;
+  margin: 5px 3px;
+}
+
+#workspaces button:hover {
+  background: #1e1e2e;
+  border: 2px solid #b16286;
+  border-radius: 12px;
+}
+
+#workspaces button.visible {
+  border: 2px solid #689d6a;
+  border-radius: 12px;
+  background: #1e1e2e;
+}
+
+#workspaces button.visible:hover {
+  border: 2px solid #689d6a;
+  border-radius: 12px;
+  background: #1e1e2e;
 }
 
 #workspaces button.active {
-  background-color: #c3415d;
-  color: #1e1e2e;
-  border-radius: 0;
-  margin: 0;
+  border: 2px solid #689d6a;
+  border-radius: 12px;
+  background: #1e1e2e;
 }
 
-#custom-spotify {
-  padding: 5px 50px 5px 30px;
-  border: 2px solid #c3415d;
-  background-color: #1e1e2e;
-  border-bottom-left-radius: 8px;
-  border-top-left-radius: 50px;
-  margin-left: 50px;
-  font-size: 18px;
+#workspaces button.active:hover {
+  border: 2px solid #689d6a;
+  border-radius: 12px;
+  background: #1e1e2e;
 }
+
+#workspaces button.urgent {
+  border: 2px solid #cc241d;
+  border-radius: 12px;
+  background: #1e1e2e;
+}
+
+/* ================================ */
+/*            window                 */
+/* ================================ */
+
+#window {
+  color: #a89884;
+  background: #1e1e2e;
+  /* border: 2px solid #d3869b; */
+}
+
+/* ================================ */
+/*            tray                 */
+/* ================================ */
 
 #tray {
-  padding: 5px 30px;
-  margin-left: 10px;
-  border: 2px solid #c3415d;
-  background-color: #1e1e2e;
-  border-bottom-right-radius: 50px;
-  border-top-right-radius: 8px;
+  /* padding: 0 6px; */
+  background: #1e1e2e;
 }
 
-#tray * {
-  margin: 0 10px;
+/* ================================ */
+/*            disk                 */
+/* ================================ */
+
+#disk {
+  color: #ea6962;
+  border: 2px solid #ea6962;
+}
+
+/* ================================ */
+/*            cpu                  */
+/* ================================ */
+#cpu {
+  color: #e78a4e;
+  border: 2px solid #e78a4e;
+}
+
+/* ================================ */
+/*            temp                  */
+/* ================================ */
+#temperature {
+  color: #d8a657;
+  border: 2px solid #d8a657;
+}
+
+#temperature.critical {
+  color: #cc241d;
+  border: 2px solid #cc241d;
+}
+
+/* ================================ */
+/*            backlight             */
+/* ================================ */
+#custom-backlight {
+  color: #f6c657;
+  background: #1e1e2e;
+}
+
+/* ================================ */
+/*            memory                */
+/* ================================ */
+#custom-memory {
+  color: #458588;
+  border: 2px solid #458588;
+}
+
+/* ================================ */
+/*         pulseaudio               */
+/* ================================ */
+#pulseaudio {
+  color: #fbf1c7;
+  background: #1e1e2e;
+}
+
+#pulseaudio.muted {
+  color: #ea6962;
+  background: #1e1e2e;
+}
+
+/* ================================ */
+/*            battery               */
+/* ================================ */
+#battery {
+  color: #fbf1c7;
+  background: #1e1e2e;
+}
+
+#battery.critical {
+  color: #cc241d;
+  background: #1e1e2e;
+}
+
+#battery.warning {
+  color: #e78a4e;
+  background: #1e1e2e;
+}
+/* ================================ */
+/*            clock                 */
+/* ================================ */
+#clock.time {
+  color: #fbf1c7;
+  background: #1e1e2e;
 }
 
 #clock.date {
-  padding: 5px 50px 5px 30px;
-  border: 2px solid #c3415d;
-  background-color: #1e1e2e;
-  border-bottom-right-radius: 8px;
-  border-top-right-radius: 50px;
-  margin-left: 10px;
-  margin-right: 200px;
-  font-size: 18px;
+  color: #fbf1c7;
+  background: #1e1e2e;
 }
 
-#clock.time {
-  padding: 5px 30px 5px 50px;
-  border: 2px solid #c3415d;
-  background-color: #1e1e2e;
-  border-bottom-left-radius: 50px;
-  border-top-left-radius: 8px;
-  font-size: 18px;
+#custom-notification {
+  color: #fbf1c7;
+  font-size: 14px;
+  background: #1e1e2e;
+  padding: 2px 2px;
 }
 
-#clock.span {
-  margin-right: 10px;
+#custom-player {
+  color: #282828;
+  border: 2px solid #1e1e2e;
+  border-radius: 21px;
+  background: #fbf1c7;
+  padding-left: 9px;
+  padding-right: 9px;
 }
