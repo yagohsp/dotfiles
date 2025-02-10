@@ -1,5 +1,12 @@
+@define-color base #1e1e2e;
+@define-color mauve #cba6f7;
+@define-color surface #313244;
+@define-color overlay #7f849c;
+@define-color text #cdd6f4;
+@define-color mantle #181825;
+@define-color crust #11111b;
+
 * {
-  /* `otf-font-awesome` is required to be installed for icons */
   padding: 0;
   border-radius: 0;
   min-height: 0;
@@ -10,46 +17,29 @@
   box-shadow: none;
 }
 
+.modules-left,
+.modules-right {
+  background-color: @base;
+  border-radius: 8px;
+  padding: 0 12px;
+}
+
 /* the whole window */
 window#waybar {
-  background: #1e1e2e;
-  color: #fff4d2;
-  padding-right: 9px;
-  padding-left: 5px;
-  margin: 0;
-  border-radius: 19px;
+  background: transparent;
 }
 
 tooltip {
-  background: rgba(255, 244, 210, 0.8);
-  color: #1e1e2e;
-  border: 2px solid #1e1e2e;
-  border-radius: 5px;
+  background-color: @mantle;
+  color: @text;
+  border-radius: 8px;
 }
 
-.modules-left {
-  padding-left: 5px;
-}
-
-.modules-right {
-  padding-right: 5px;
-}
-
-#custom-rofi,
-#workspaces button,
-#workspaces button:hover,
-#workspaces button.visible,
-#workspaces button.visible:hover,
-#workspaces button.active,
-#workspaces button.active:hover,
-#workspaces button.urgent,
 #window,
 #tray,
-#disk,
-#cpu,
+#workspaces,
 #temperature,
 #temperature.critical,
-#backlight,
 #custom-memory,
 #pulseaudio,
 #pulseaudio.muted,
@@ -57,90 +47,55 @@ tooltip {
 #battery.critical,
 #battery.warning,
 #clock {
-  font-family: FiraCode Nerd Font Mono;
+  font-family: "FiraCode Nerd Font Mono";
   font-size: 14px;
-  font-weight: 400;
-  color: #202020;
-  background: #202020;
-  border-radius: 2px;
+  font-weight: 500;
+  margin-top: 5px;
 }
 
-#window,
-#tray,
-#disk,
-#cpu,
-#temperature,
-#temperature.critical,
-#backlight,
-#custom-memory,
-#pulseaudio,
-#pulseaudio.muted,
-#battery,
-#battery.critical,
-#battery.warning,
-#clock {
-  padding-right: 4px;
-  margin: 5px 0px;
-}
-
-#custom-rofi {
-  /* border: 2px solid #458588; */
-  /* border-radius: 5px; */
-  background: #1e1e2e;
+/* ================================ */
+/*              Player              */
+/* ================================ */
+#custom-player-previous,
+#custom-player-play-pause,
+#custom-player-next {
+  font-size: 20px;
   padding: 0 6px;
-  margin: 5px 0px;
+}
+
+#custom-player-previous:hover,
+#custom-player-play-pause:hover,
+#custom-player-next:hover {
+  color: @mauve;
 }
 
 /* ================================ */
 /*       workspaces module          */
 /* ================================ */
 #workspaces {
-  margin: 0px;
+  font-family: "Noto Sans CJK JP";
+  font-weight: 800;
+  font-size: 18px;
+  background-color: @base;
+  border-radius: 8px;
 }
 
 #workspaces button {
-  color: #fff4d2;
-  background: #1e1e2e;
-  /* border: 2px solid #fff4d2; */
   min-width: 25px;
-  padding: 0 4px;
-  margin: 5px 3px;
+  padding: 4px 8px;
 }
 
-#workspaces button:hover {
-  background: #1e1e2e;
-  border: 2px solid #b16286;
-  border-radius: 12px;
+#workspaces button:last-child {
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
 }
-
-#workspaces button.visible {
-  border: 2px solid #689d6a;
-  border-radius: 12px;
-  background: #1e1e2e;
+#workspaces button:first-child {
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
 }
-
-#workspaces button.visible:hover {
-  border: 2px solid #689d6a;
-  border-radius: 12px;
-  background: #1e1e2e;
-}
-
 #workspaces button.active {
-  border: 2px solid #689d6a;
-  border-radius: 12px;
-  background: #1e1e2e;
-}
-
-#workspaces button.active:hover {
-  border: 2px solid #689d6a;
-  border-radius: 12px;
-  background: #1e1e2e;
-}
-
-#workspaces button.urgent {
-  border: 2px solid #cc241d;
-  border-radius: 12px;
-  background: #1e1e2e;
+  background-color: @surface;
+  color: @mauve;
 }
 
 /* ================================ */
@@ -148,9 +103,6 @@ tooltip {
 /* ================================ */
 
 #window {
-  color: #a89884;
-  background: #1e1e2e;
-  /* border: 2px solid #d3869b; */
 }
 
 /* ================================ */
@@ -158,111 +110,54 @@ tooltip {
 /* ================================ */
 
 #tray {
-  /* padding: 0 6px; */
-  background: #1e1e2e;
-}
-
-/* ================================ */
-/*            disk                 */
-/* ================================ */
-
-#disk {
-  color: #ea6962;
-  border: 2px solid #ea6962;
-}
-
-/* ================================ */
-/*            cpu                  */
-/* ================================ */
-#cpu {
-  color: #e78a4e;
-  border: 2px solid #e78a4e;
-}
-
-/* ================================ */
-/*            temp                  */
-/* ================================ */
-#temperature {
-  color: #d8a657;
-  border: 2px solid #d8a657;
-}
-
-#temperature.critical {
-  color: #cc241d;
-  border: 2px solid #cc241d;
-}
-
-/* ================================ */
-/*            backlight             */
-/* ================================ */
-#custom-backlight {
-  color: #f6c657;
-  background: #1e1e2e;
-}
-
-/* ================================ */
-/*            memory                */
-/* ================================ */
-#custom-memory {
-  color: #458588;
-  border: 2px solid #458588;
 }
 
 /* ================================ */
 /*         pulseaudio               */
 /* ================================ */
 #pulseaudio {
-  color: #fbf1c7;
-  background: #1e1e2e;
+  color: @text;
+  background: @base;
 }
 
 #pulseaudio.muted {
   color: #ea6962;
-  background: #1e1e2e;
+  background: @base;
 }
 
 /* ================================ */
 /*            battery               */
 /* ================================ */
 #battery {
-  color: #fbf1c7;
-  background: #1e1e2e;
+  color: @text;
+  background: @base;
 }
 
 #battery.critical {
   color: #cc241d;
-  background: #1e1e2e;
+  background: @base;
 }
 
 #battery.warning {
   color: #e78a4e;
-  background: #1e1e2e;
+  background: @base;
 }
 /* ================================ */
 /*            clock                 */
 /* ================================ */
 #clock.time {
-  color: #fbf1c7;
-  background: #1e1e2e;
+  color: @text;
+  background: @base;
 }
 
 #clock.date {
-  color: #fbf1c7;
-  background: #1e1e2e;
+  color: @text;
+  background: @base;
 }
 
 #custom-notification {
-  color: #fbf1c7;
+  color: @text;
   font-size: 14px;
-  background: #1e1e2e;
+  background: @base;
   padding: 2px 2px;
-}
-
-#custom-player {
-  color: #282828;
-  border: 2px solid #1e1e2e;
-  border-radius: 21px;
-  background: #fbf1c7;
-  padding-left: 9px;
-  padding-right: 9px;
 }

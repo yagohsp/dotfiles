@@ -8,17 +8,16 @@
     "margin-left": 10,
     "modules-left": [
         "custom/player",
-        "custom/prefix",
-        "hyprland/window",
-        "custom/paddc",
-        "tray"
+        "custom/player-previous",
+        "custom/player-play-pause",
+        "custom/player-next"
     ],
     "modules-center": [
+        // "hyprland/window",
         "hyprland/workspaces"
     ],
     "modules-right": [
         "pulseaudio",
-        "custom/backlight",
         "hyprland/language",
         "custom/paddc",
         "custom/paddc",
@@ -31,8 +30,7 @@
         "custom/paddc",
         "clock#date",
         "custom/paddc",
-        "clock#time",
-        "custom/paddc",
+        "clock#time"
     ],
     "hyprland/workspaces": {
         "disable-scroll": true,
@@ -56,9 +54,9 @@
         "format": "{class}",
         "max-length": 20,
         "rewrite": {
-            "": "<span foreground= '#458588'></span> hyprland",
+            "": " hyprland",
             "~": " terminal",
-            "com.mitchellh.ghostty": "ghostty",
+            "com.mitchellh.ghostty": "ghostty"
         }
     },
     "tray": {
@@ -67,10 +65,10 @@
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "<span color='#fbf1c7' >  </span>{volume}%",
-        "format-muted": "<span color='#fbf1c7' >  </span>{volume}%",
-        "format-bluetooth": "<span color='#fbf1c7' > 󰂰 </span>{volume}%",
-        "format-bluetooth-muted": "<span color='#fbf1c7' > 󰂲 </span>{volume}%",
+        "format": "<span  >  </span>{volume}%",
+        "format-muted": "<span  >  </span>{volume}%",
+        "format-bluetooth": "<span  > 󰂰 </span>{volume}%",
+        "format-bluetooth-muted": "<span  > 󰂲 </span>{volume}%",
         "format-source": "{volume}% ",
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "tooltip": false,
@@ -93,27 +91,27 @@
             " ",
             " "
         ],
-        "format": "<span color='#8ec07c' > {icon}</span>{capacity}%",
-        "format-critical": "<span color='#cc241d' > {icon}</span>{capacity}%",
-        "format-warning": "<span color='#d8a657' > {icon}</span>{capacity}%",
-        "format-full": "<span color='#8ec07c' > {icon}</span>{capacity}%",
-        "format-charging": "<span color='#8ec07c' >  </span>{capacity}%",
-        "format-charging-warning": "<span color='#d8a657' >  </span>{capacity}%",
-        "format-charging-critical": "<span color='#cc241d' >  </span>{capacity}%",
-        "format-plugged": "<span color='#8ec07c' >  </span>{capacity}%",
+        "format": "<span > {icon}</span>{capacity}%",
+        "format-critical": "<span > {icon}</span>{capacity}%",
+        "format-warning": "<span > {icon}</span>{capacity}%",
+        "format-full": "<span > {icon}</span>{capacity}%",
+        "format-charging": "<span >  </span>{capacity}%",
+        "format-charging-warning": "<span >  </span>{capacity}%",
+        "format-charging-critical": "<span >  </span>{capacity}%",
+        "format-plugged": "<span >  </span>{capacity}%",
         "tooltip": false
     },
     "clock#date": {
-        "format": "<span color='#8ec07c' >󰃭 </span>{:%a %d %b}",
+        "format": "<span  >󰃭 </span>{:%a %d %b}",
         "tooltip-format": "<tt>{calendar}</tt>",
         "calendar": {
             "mode": "month",
             "mode-mon-col": 6,
             "on-click-right": "mode",
             "format": {
-                "months": "<span color='#3c3835'><b>{}</b></span>",
-                "weekdays": "<span color='#fe8019' font='7'>{}</span>",
-                "today": "<span color='#cc241d'><b>{}</b></span>"
+                "months": "<span ><b>{}</b></span>",
+                "weekdays": "<span  font='7'>{}</span>",
+                "today": "<span ><b>{}</b></span>"
             }
         },
         "actions": {
@@ -124,29 +122,14 @@
         "max-length": 20
     },
     "clock#time": {
-        "format": "<span color='#cc241d' >󱑂 </span>{:%I:%M %p}",
+        "format": "󱑂{:%I:%M %p}",
         "tooltip": false,
         // "tooltip-format": "Standard Time: {:%I:%M %p}",
         "min-length": 8,
         "max-length": 12
     },
-    "custom/backlight": {
-        "exec": "~/.config/waybar/scripts/brightness-control.sh",
-        "return-type": "json",
-        "format": "{}",
-        "tooltip": true,
-        "on-scroll-up": "~/.config/waybar/scripts/brightness-control.sh -o i",
-        "on-scroll-down": "~/.config/waybar/scripts/brightness-control.sh -o d",
-        "interval": 1,
-        "min-length": 6,
-        "max-length": 6
-    },
     "custom/paddc": {
         "format": " ",
-        "tooltip": false
-    },
-    "custom/prefix": {
-        "format": "<span color='#a89884' > >></span>",
         "tooltip": false
     },
     "hyprland/language": {
@@ -164,10 +147,10 @@
         "max-length": 12
     },
     "bluetooth": {
-        "format": "<span color='#458588'>󰂰 </span>",
-        "format-disabled": "<span color='#458588'>󰂲 </span>",
-        "format-connected": "<span color='#458588'>󰂱 </span>",
-        "format-connected-battery": "<span color='#458588'>󰂱 </span>",
+        "format": "󰂰",
+        "format-disabled": "󰂲",
+        "format-connected": "󰂱",
+        "format-connected-battery": "󰂱",
         "tooltip-format": "{num_connections} connected",
         "tooltip-format-disabled": "Bluetooth Disabled",
         "tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
@@ -190,7 +173,7 @@
             "inhibited-notification": " ",
             "inhibited-none": " ",
             "dnd-inhibited-notification": "󰂛 ",
-            "dnd-inhibited-none": "󰂛 ",
+            "dnd-inhibited-none": "󰂛 "
         },
         "return-type": "json",
         "exec-if": "which swaync-client",
@@ -203,10 +186,28 @@
         "exec": "~/.config/waybar/scripts/player.sh",
         "format": "{}",
         "interval": 1,
-        "max-length": 35,
+        "max-length": 25,
+        "tooltip": false
+    },
+    "custom/player-previous": {
+        "exec": "~/.config/waybar/scripts/player-control.sh 󰒮 󰒮",
+        "format": "{}",
+        "interval": 1,
         "tooltip": false,
-        "on-click-right": "playerctl next",
-        "on-click-left": "playerctl previous",
-        "on-click": "playerctl play-pause",
+        "on-click": "playerctl previous"
+    },
+    "custom/player-play-pause": {
+        "exec": "~/.config/waybar/scripts/player-play-pause.sh",
+        "format": "{}",
+        "interval": 1,
+        "tooltip": false,
+        "on-click": "playerctl play-pause"
+    },
+    "custom/player-next": {
+        "exec": "~/.config/waybar/scripts/player-control.sh 󰒭 󰒭",
+        "format": "{}",
+        "interval": 1,
+        "tooltip": false,
+        "on-click": "playerctl previous"
     }
 }
