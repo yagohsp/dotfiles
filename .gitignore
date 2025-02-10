@@ -42,4 +42,7 @@ fish/fish_variables
 !zsh
 !zsh/**/*
 
+!rofi
+!rofi/**/*
+
 !README.md
