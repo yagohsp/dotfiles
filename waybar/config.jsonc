@@ -35,7 +35,7 @@
     "hyprland/workspaces": {
         "disable-scroll": true,
         "active-only": false,
-        "all-outputs": true,
+        "all-outputs": false,
         "warp-on-scroll": false,
         "format": "{icon}",
         "format-icons": {
@@ -186,7 +186,7 @@
         "exec": "~/.config/waybar/scripts/player.sh",
         "format": "{}",
         "interval": 1,
-        "max-length": 25,
+        "max-length": 35,
         "tooltip": false
     },
     "custom/player-previous": {

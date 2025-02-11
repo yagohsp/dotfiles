@@ -47,15 +47,17 @@ tooltip {
 #battery.critical,
 #battery.warning,
 #clock {
-  font-family: "FiraCode Nerd Font Mono";
-  font-size: 14px;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 16px;
   font-weight: 500;
-  margin-top: 5px;
 }
 
 /* ================================ */
 /*              Player              */
 /* ================================ */
+#custom-player {
+  color: @mauve;
+}
 #custom-player-previous,
 #custom-player-play-pause,
 #custom-player-next {
@@ -75,7 +77,7 @@ tooltip {
 #workspaces {
   font-family: "Noto Sans CJK JP";
   font-weight: 800;
-  font-size: 18px;
+  font-size: 20px;
   background-color: @base;
   border-radius: 8px;
 }

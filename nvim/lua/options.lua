@@ -8,12 +8,8 @@ vim.opt.fileformats = { "unix", "dos" }
 vim.opt.swapfile = false
 vim.opt.modifiable = true
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.linebreak = true
-
--- vim.opt.wrap = true
--- vim.opt.linebreak = true
--- vim.opt.breakindent = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -46,60 +42,65 @@ local opts = function(desc)
     return { noremap = true, silent = true, desc = desc or "" }
 end
 
-vim.api.nvim_create_autocmd("BufLeave", {
-    pattern = "*",
-    callback = function()
-        if vim.bo.filetype ~= "oil" and vim.bo.modified then
-            vim.cmd("silent! write")
-        end
-    end,
-})
+-- vim.api.nvim_create_autocmd("BufLeave", {
+--     pattern = "*",
+--     callback = function()
+--         if vim.bo.filetype ~= "oil" and vim.bo.modified then
+--             vim.cmd("silent! write")
+--         end
+--     end,
+-- })
 
 --nvim
 keymap("n", "<A-y>", '"+y', opts())
 keymap("v", "<A-y>", '"+y', opts())
 keymap("n", "<Esc>", "<cmd>noh<CR>", opts("noh"))
+keymap("n", "!", "^", opts())
+keymap("n", "0", "$", opts())
+keymap("n", "<A-a>", "gg<S-v>G", opts())
+keymap("n", "<S-r>", '<A-r>', opts())
+keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection"))
 keymap("n", ":", "<cmd>FineCmdline<CR>", opts())
 vim.keymap.set("n", "<leader>:", function()
     vim.api.nvim_feedkeys(":", "n", false)
 end, opts("Open Neovim cmd"))
-keymap("n", "0", "^", opts())
-keymap("n", "`", "$", opts())
-keymap("n", "<A-a>", "gg<S-v>G", opts())
-keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection"))
-keymap("n", "<A-j>", '8j', opts())
-keymap("n", "<A-k>", '8k', opts())
-keymap("v", "<A-j>", '8j', opts())
-keymap("v", "<A-k>", '8k', opts())
-keymap("n", "zH", '10zH', opts())
-
-local function jump_to_tab(tab_number)
-    vim.cmd('tabn ' .. tab_number)
-end
 
 for i = 1, 9 do
-    vim.api.nvim_set_keymap('n', '<leader>' .. i, ':lua jump_to_tab(' .. i .. ')<CR>', opts("Jump to tab" .. i))
+    keymap('n', '<leader>' .. i, ':buffer ' .. i .. '<CR>', opts("Jump to buffer " .. i))
 end
 
+keymap("n", "<A-j>", '7j', opts())
+keymap("n", "<A-k>", '7k', opts())
+keymap("v", "<A-j>", '7j', opts())
+keymap("v", "<A-k>", '7k', opts())
+keymap("n", "<A-S-j>", '16j', opts())
+keymap("n", "<A-S-k>", '16k', opts())
+keymap("v", "<A-S-j>", '16j', opts())
+keymap("v", "<A-S-k>", '16k', opts())
 
 --buffer
 keymap("n", "<leader>w", "<cmd>bnext<CR>", opts("Next buffer"))
 keymap("n", "<leader>q", "<cmd>bprevious<CR>", opts("Previous buffer"))
-keymap("n", "<leader>d", "<cmd>bdelete!<CR><cmd>Oil<CR>", opts("Delete buffer"))
-keymap("n", "<leader>D", "<cmd>bdelete!<CR>", opts("Delete buffer"))
+keymap("n", "<leader>d", "<cmd>bdelete!<CR>", opts("Delete buffer"))
 
 --file
 keymap("n", "<leader>Q", "<cmd>silent! w!<CR><cmd>q!<CR>", opts("Quit"))
-keymap("n", "<leader>e", "<cmd>Oil<CR>", opts("File explorer"))
+vim.keymap.set("n", "<leader>e", function()
+    local MiniFiles = require("mini.files")
+    local buf_name = vim.api.nvim_buf_get_name(0)
+    local path = vim.fn.filereadable(buf_name) == 1 and buf_name or vim.fn.getcwd()
+    MiniFiles.open(path)
+    MiniFiles.reveal_cwd()
+end, { desc = "Open Mini Files" })
 
-vim.api.nvim_set_keymap('n', '<A-d>', '"_d', opts())
-vim.api.nvim_set_keymap('v', '<A-d>', '"_d', opts())
-vim.api.nvim_set_keymap('n', '<A-D>', '"_D', opts())
-vim.api.nvim_set_keymap('v', '<A-D>', '"_D', opts())
-vim.api.nvim_set_keymap('n', '<A-c>', '"_c', opts())
-vim.api.nvim_set_keymap('v', '<A-c>', '"_c', opts())
-vim.api.nvim_set_keymap('n', '<A-C>', '"_C', opts())
-vim.api.nvim_set_keymap('v', '<A-C>', '"_C', opts())
+keymap('n', '<A-d>', '"_d', opts())
+keymap('v', '<A-d>', '"_d', opts())
+keymap('n', '<A-D>', '"_D', opts())
+keymap('v', '<A-D>', '"_D', opts())
+keymap('n', '<A-c>', '"_c', opts())
+keymap('v', '<A-c>', '"_c', opts())
+keymap('n', '<A-C>', '"_C', opts())
+keymap('v', '<A-C>', '"_C', opts())
 
 --lsp
 set("n", "<leader>r", vim.lsp.buf.rename, opts("Replace variable"))
@@ -108,12 +109,6 @@ set("n", "<leader>ld", vim.lsp.buf.definition, { desc = "Go to definition" })
 set("n", "<leader>lr", vim.lsp.buf.references, { desc = "Go to references" })
 set("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Execute code action" })
 set("n", "<leader>le", vim.diagnostic.open_float, { desc = "Show errors" })
-
---tmux
-set("n", "<C-h>", "<Cmd>NvimTmuxNavigateLeft<CR>", opts())
-set("n", "<C-j>", "<Cmd>NvimTmuxNavigateDown<CR>", opts())
-set("n", "<C-k>", "<Cmd>NvimTmuxNavigateUp<CR>", opts())
-set("n", "<C-l>", "<Cmd>NvimTmuxNavigateRight<CR>", opts())
 
 --functions
 set("n", ";", function()
@@ -154,8 +149,8 @@ function JumpOverFold(direction)
 end
 
 -- Remap { and } to use the custom function
-vim.api.nvim_set_keymap('n', '{', ':lua JumpOverFold("up")<CR>', opts())
-vim.api.nvim_set_keymap('n', '}', ':lua JumpOverFold("down")<CR>', opts())
+keymap('n', '{', ':lua JumpOverFold("up")<CR>', opts())
+keymap('n', '}', ':lua JumpOverFold("down")<CR>', opts())
 
 --telescope
 local builtin = require("telescope.builtin")
