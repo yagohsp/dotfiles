@@ -42,15 +42,6 @@ local opts = function(desc)
     return { noremap = true, silent = true, desc = desc or "" }
 end
 
--- vim.api.nvim_create_autocmd("BufLeave", {
---     pattern = "*",
---     callback = function()
---         if vim.bo.filetype ~= "oil" and vim.bo.modified then
---             vim.cmd("silent! write")
---         end
---     end,
--- })
-
 --nvim
 keymap("n", "<A-y>", '"+y', opts())
 keymap("v", "<A-y>", '"+y', opts())
@@ -149,8 +140,8 @@ function JumpOverFold(direction)
 end
 
 -- Remap { and } to use the custom function
-keymap('n', '{', ':lua JumpOverFold("up")<CR>', opts())
-keymap('n', '}', ':lua JumpOverFold("down")<CR>', opts())
+-- keymap('n', '{', ':lua JumpOverFold("up")<CR>', opts())
+-- keymap('n', '}', ':lua JumpOverFold("down")<CR>', opts())
 
 --telescope
 local builtin = require("telescope.builtin")

@@ -1,7 +1,7 @@
 #!/bin/bash
 current_variant=$(
     hyprctl devices -j \
-        | grep -A 4 '"name": "g603-keyboard"' \
+        | grep -A 4 '"name": "rdr-alice--keyboard"' \
         | grep variant | awk -F ': ' '{print $2}' \
         | tr -d '",'
 )

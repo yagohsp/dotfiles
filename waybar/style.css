@@ -24,6 +24,15 @@
   padding: 0 12px;
 }
 
+.modules-right label.module {
+  padding: 0 8px;
+  margin: 0 3px;
+}
+
+.modules-right label.module span {
+  margin-right: 15px;
+}
+
 /* the whole window */
 window#waybar {
   background: transparent;
@@ -38,14 +47,14 @@ tooltip {
 #window,
 #tray,
 #workspaces,
-#temperature,
-#temperature.critical,
-#custom-memory,
 #pulseaudio,
 #pulseaudio.muted,
 #battery,
 #battery.critical,
 #battery.warning,
+#bluetooth,
+#custom-keyboard,
+#custom-wifi,
 #clock {
   font-family: "JetBrainsMono Nerd Font";
   font-size: 16px;
@@ -117,14 +126,9 @@ tooltip {
 /* ================================ */
 /*         pulseaudio               */
 /* ================================ */
-#pulseaudio {
-  color: @text;
-  background: @base;
-}
 
 #pulseaudio.muted {
   color: #ea6962;
-  background: @base;
 }
 
 /* ================================ */
@@ -132,29 +136,22 @@ tooltip {
 /* ================================ */
 #battery {
   color: @text;
-  background: @base;
 }
 
 #battery.critical {
   color: #cc241d;
-  background: @base;
 }
 
 #battery.warning {
   color: #e78a4e;
-  background: @base;
 }
 /* ================================ */
 /*            clock                 */
 /* ================================ */
 #clock.time {
-  color: @text;
-  background: @base;
 }
 
 #clock.date {
-  color: @text;
-  background: @base;
 }
 
 #custom-notification {

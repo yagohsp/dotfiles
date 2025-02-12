@@ -18,18 +18,12 @@
     ],
     "modules-right": [
         "pulseaudio",
-        "hyprland/language",
-        "custom/paddc",
-        "custom/paddc",
+        "custom/keyboard",
         "bluetooth",
         "battery",
-        "custom/paddc",
         "custom/notification",
-        "custom/paddc",
         "custom/wifi",
-        "custom/paddc",
         "clock#date",
-        "custom/paddc",
         "clock#time"
     ],
     "hyprland/workspaces": {
@@ -65,10 +59,10 @@
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "<span  >  </span>{volume}%",
-        "format-muted": "<span  >  </span>{volume}%",
-        "format-bluetooth": "<span  > 󰂰 </span>{volume}%",
-        "format-bluetooth-muted": "<span  > 󰂲 </span>{volume}%",
+        "format": "<span>  </span>{volume}%",
+        "format-muted": "<span>  </span>{volume}%",
+        "format-bluetooth": "<span>󰂰  </span>{volume}%",
+        "format-bluetooth-muted": "<span>󰂲</span>{volume}%",
         "format-source": "{volume}% ",
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "tooltip": false,
@@ -91,27 +85,27 @@
             " ",
             " "
         ],
-        "format": "<span > {icon}</span>{capacity}%",
-        "format-critical": "<span > {icon}</span>{capacity}%",
-        "format-warning": "<span > {icon}</span>{capacity}%",
-        "format-full": "<span > {icon}</span>{capacity}%",
-        "format-charging": "<span >  </span>{capacity}%",
-        "format-charging-warning": "<span >  </span>{capacity}%",
-        "format-charging-critical": "<span >  </span>{capacity}%",
-        "format-plugged": "<span >  </span>{capacity}%",
+        "format": "<span>{icon} </span>{capacity}%",
+        "format-critical": "<span>{icon} </span>{capacity}%",
+        "format-warning": "<span>{icon} </span>{capacity}%",
+        "format-full": "<span>{icon} </span>{capacity}%",
+        "format-charging": "<span> </span>{capacity}%",
+        "format-charging-warning": "<span> </span>{capacity}%",
+        "format-charging-critical": "<span> </span>{capacity}%",
+        "format-plugged": "<span> </span>{capacity}%",
         "tooltip": false
     },
     "clock#date": {
-        "format": "<span  >󰃭 </span>{:%a %d %b}",
+        "format": "<span>󰃭 </span>{:%a %d %b}",
         "tooltip-format": "<tt>{calendar}</tt>",
         "calendar": {
             "mode": "month",
             "mode-mon-col": 6,
             "on-click-right": "mode",
             "format": {
-                "months": "<span ><b>{}</b></span>",
-                "weekdays": "<span  font='7'>{}</span>",
-                "today": "<span ><b>{}</b></span>"
+                "months": "<span><b>{}</b></span>",
+                "weekdays": "<span font='7'>{}</span>",
+                "today": "<span><b>{}</b></span>"
             }
         },
         "actions": {
@@ -122,19 +116,17 @@
         "max-length": 20
     },
     "clock#time": {
-        "format": "󱑂{:%I:%M %p}",
+        "format": "󱑂 {:%I:%M %p}",
         "tooltip": false,
         // "tooltip-format": "Standard Time: {:%I:%M %p}",
         "min-length": 8,
         "max-length": 12
     },
-    "custom/paddc": {
-        "format": " ",
-        "tooltip": false
-    },
-    "hyprland/language": {
+    "custom/keyboard": {
+        "exec": "~/.config/waybar/scripts/keyboard-language.sh",
         "format": "{}",
-        "format-en": "US"
+        "tooltip": false,
+        "interval": 1
     },
     "custom/wifi": {
         "exec": "~/.config/waybar/scripts/wifi-status.sh",
@@ -166,14 +158,14 @@
         "rotate": 0,
         "format": "{icon}",
         "format-icons": {
-            "notification": "󱅫 ",
-            "none": " ",
-            "dnd-notification": "󰂛 ",
-            "dnd-none": "󰂛 ",
-            "inhibited-notification": " ",
-            "inhibited-none": " ",
-            "dnd-inhibited-notification": "󰂛 ",
-            "dnd-inhibited-none": "󰂛 "
+            "notification": "󱅫",
+            "none": "",
+            "dnd-notification": "󰂛",
+            "dnd-none": "󰂛",
+            "inhibited-notification": "",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "󰂛",
+            "dnd-inhibited-none": "󰂛"
         },
         "return-type": "json",
         "exec-if": "which swaync-client",
