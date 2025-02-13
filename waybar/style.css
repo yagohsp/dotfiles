@@ -55,8 +55,12 @@ tooltip {
 #bluetooth,
 #custom-keyboard,
 #custom-wifi,
+#custom-player,
+#custom-player-previous,
+#custom-player-play-pause,
+#custom-player-next,
 #clock {
-  font-family: "JetBrainsMono Nerd Font";
+  font-family: "FiraCodeNerdFont";
   font-size: 16px;
   font-weight: 500;
 }
@@ -67,8 +71,11 @@ tooltip {
 #custom-player {
   color: @mauve;
 }
+#custom-player-play-pause {
+  font-size: 18px;
+  padding: 0 2px;
+}
 #custom-player-previous,
-#custom-player-play-pause,
 #custom-player-next {
   font-size: 20px;
   padding: 0 6px;
