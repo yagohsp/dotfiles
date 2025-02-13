@@ -15,6 +15,7 @@
     "modules-center": [
         // "hyprland/window",
         "hyprland/workspaces"
+        //"wlr/taskbar"
     ],
     "modules-right": [
         "pulseaudio",
@@ -26,6 +27,15 @@
         "clock#date",
         "clock#time"
     ],
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 32,
+        "icon-theme": "Numix-Circle",
+        "tooltip-format": "{title}",
+        "rewrite": {
+            "Firefox Web Browser": "Firefox"
+        }
+    },
     "hyprland/workspaces": {
         "disable-scroll": true,
         "active-only": false,
@@ -96,7 +106,7 @@
         "tooltip": false
     },
     "clock#date": {
-        "format": "<span>󰃭 </span>{:%a %d %b}",
+        "format": "<span font='14'>󰃭 </span>{:%a %d %b}",
         "tooltip-format": "<tt>{calendar}</tt>",
         "calendar": {
             "mode": "month",
@@ -116,7 +126,7 @@
         "max-length": 20
     },
     "clock#time": {
-        "format": "󱑂 {:%I:%M %p}",
+        "format": "<span font='14'> </span>{:%I:%M %p}",
         "tooltip": false,
         // "tooltip-format": "Standard Time: {:%I:%M %p}",
         "min-length": 8,
@@ -124,7 +134,7 @@
     },
     "custom/keyboard": {
         "exec": "~/.config/waybar/scripts/keyboard-language.sh",
-        "format": "{}",
+        "format": "<span font='14'> </span> {}",
         "tooltip": false,
         "interval": 1
     },
@@ -139,10 +149,10 @@
         "max-length": 12
     },
     "bluetooth": {
-        "format": "󰂰",
-        "format-disabled": "󰂲",
-        "format-connected": "󰂱",
-        "format-connected-battery": "󰂱",
+        "format": "<span font='14'>󰂰</span>",
+        "format-disabled": "<span font='14'>󰂲</span>",
+        "format-connected": "<span font='14'>󰂱</span>",
+        "format-connected-battery": "<span font='14'>󰂱</span>",
         "tooltip-format": "{num_connections} connected",
         "tooltip-format-disabled": "Bluetooth Disabled",
         "tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
