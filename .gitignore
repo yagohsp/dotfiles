@@ -45,4 +45,7 @@ fish/fish_variables
 !rofi
 !rofi/**/*
 
+!dunst
+!dunst/**/*
+
 !README.md

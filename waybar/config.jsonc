@@ -27,163 +27,7 @@
         "clock#date",
         "clock#time"
     ],
-    "wlr/taskbar": {
-        "format": "{icon}",
-        "icon-size": 32,
-        "icon-theme": "Numix-Circle",
-        "tooltip-format": "{title}",
-        "rewrite": {
-            "Firefox Web Browser": "Firefox"
-        }
-    },
-    "hyprland/workspaces": {
-        "disable-scroll": true,
-        "active-only": false,
-        "all-outputs": false,
-        "warp-on-scroll": false,
-        "format": "{icon}",
-        "format-icons": {
-            "1": "一",
-            "2": "二",
-            "3": "三",
-            "4": "四",
-            "5": "五",
-            "6": "六",
-            "7": "七",
-            "8": "八",
-            "9": "九"
-        }
-    },
-    "hyprland/window": {
-        "format": "{class}",
-        "max-length": 20,
-        "rewrite": {
-            "": " hyprland",
-            "~": " terminal",
-            "com.mitchellh.ghostty": "ghostty"
-        }
-    },
-    "tray": {
-        "icon-size": 15,
-        "spacing": 8
-    },
-    "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "<span>  </span>{volume}%",
-        "format-muted": "<span>  </span>{volume}%",
-        "format-bluetooth": "<span>󰂰  </span>{volume}%",
-        "format-bluetooth-muted": "<span>󰂲</span>{volume}%",
-        "format-source": "{volume}% ",
-        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "tooltip": false,
-        "max-volume": 130
-    },
-    "battery#bat2": {
-        "bat": "BAT2"
-    },
-    "battery": {
-        "interval": 1,
-        "states": {
-            "good": 99,
-            "warning": 30,
-            "critical": 20
-        },
-        "format-icons": [
-            " ",
-            " ",
-            " ",
-            " ",
-            " "
-        ],
-        "format": "<span>{icon} </span>{capacity}%",
-        "format-critical": "<span>{icon} </span>{capacity}%",
-        "format-warning": "<span>{icon} </span>{capacity}%",
-        "format-full": "<span>{icon} </span>{capacity}%",
-        "format-charging": "<span> </span>{capacity}%",
-        "format-charging-warning": "<span> </span>{capacity}%",
-        "format-charging-critical": "<span> </span>{capacity}%",
-        "format-plugged": "<span> </span>{capacity}%",
-        "tooltip": false
-    },
-    "clock#date": {
-        "format": "<span font='14'>󰃭 </span>{:%a %d %b}",
-        "tooltip-format": "<tt>{calendar}</tt>",
-        "calendar": {
-            "mode": "month",
-            "mode-mon-col": 6,
-            "on-click-right": "mode",
-            "format": {
-                "months": "<span><b>{}</b></span>",
-                "weekdays": "<span font='7'>{}</span>",
-                "today": "<span><b>{}</b></span>"
-            }
-        },
-        "actions": {
-            "on-click": "mode",
-            "on-click-right": "mode"
-        },
-        "min-length": 8,
-        "max-length": 20
-    },
-    "clock#time": {
-        "format": "<span font='14'> </span>{:%I:%M %p}",
-        "tooltip": false,
-        // "tooltip-format": "Standard Time: {:%I:%M %p}",
-        "min-length": 8,
-        "max-length": 12
-    },
-    "custom/keyboard": {
-        "exec": "~/.config/waybar/scripts/keyboard-language.sh",
-        "format": "<span font='14'> </span> {}",
-        "tooltip": false,
-        "interval": 1
-    },
-    "custom/wifi": {
-        "exec": "~/.config/waybar/scripts/wifi-status.sh",
-        "return-type": "json",
-        "format": "{}",
-        "tooltip": true,
-        "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
-        "interval": 1,
-        "min-length": 1,
-        "max-length": 12
-    },
-    "bluetooth": {
-        "format": "<span font='14'>󰂰</span>",
-        "format-disabled": "<span font='14'>󰂲</span>",
-        "format-connected": "<span font='14'>󰂱</span>",
-        "format-connected-battery": "<span font='14'>󰂱</span>",
-        "tooltip-format": "{num_connections} connected",
-        "tooltip-format-disabled": "Bluetooth Disabled",
-        "tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
-        "tooltip-format-enumerate-connected": "{device_alias}",
-        "tooltip-format-enumerate-connected-battery": "{device_alias}: {device_battery_percentage}%",
-        "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh",
-        "interval": 1,
-        "min-length": 1,
-        "max-length": 10
-    },
-    "custom/notification": {
-        "tooltip": false,
-        "rotate": 0,
-        "format": "{icon}",
-        "format-icons": {
-            "notification": "󱅫",
-            "none": "",
-            "dnd-notification": "󰂛",
-            "dnd-none": "󰂛",
-            "inhibited-notification": "",
-            "inhibited-none": "",
-            "dnd-inhibited-notification": "󰂛",
-            "dnd-inhibited-none": "󰂛"
-        },
-        "return-type": "json",
-        "exec-if": "which swaync-client",
-        "exec": "swaync-client -swb",
-        "on-click-right": "swaync-client -d -sw",
-        "on-click": "swaync-client -t -sw",
-        "escape": true
-    },
+    // LEFT
     "custom/player": {
         "exec": "~/.config/waybar/scripts/player.sh",
         "format": "{}",
@@ -211,5 +55,128 @@
         "interval": 1,
         "tooltip": false,
         "on-click": "playerctl previous"
+    },
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 32,
+        "icon-theme": "Numix-Circle",
+        "tooltip-format": "{title}",
+        "rewrite": {
+            "Firefox Web Browser": "Firefox"
+        }
+    },
+    // CENTER
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "active-only": false,
+        "all-outputs": false,
+        "warp-on-scroll": false,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "一",
+            "2": "二",
+            "3": "三",
+            "4": "四",
+            "5": "五",
+            "6": "六",
+            "7": "七",
+            "8": "八",
+            "9": "九"
+        }
+    },
+    "hyprland/window": {
+        "format": "{class}",
+        "max-length": 20,
+        "rewrite": {
+            "": " hyprland",
+            "~": " terminal",
+            "com.mitchellh.ghostty": "ghostty"
+        }
+    },
+    // RIGHT
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "<span>  </span>{volume}%",
+        "format-muted": "<span>  </span>{volume}%",
+        "format-bluetooth": "<span>󰂰  </span>{volume}%",
+        "format-bluetooth-muted": "<span>󰂲</span>{volume}%",
+        "format-source": "{volume}% ",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "tooltip": false,
+        "max-volume": 100
+    },
+    "custom/keyboard": {
+        "exec": "~/.config/waybar/scripts/keyboard-language.sh",
+        "format": "<span font='14'> </span> {}",
+        "tooltip": false,
+        "interval": 1
+    },
+    "bluetooth": {
+        "format": "<span font='14'>󰂰</span>",
+        "format-disabled": "<span font='14'>󰂲</span>",
+        "format-connected": "<span font='14'>󰂱</span>",
+        "format-connected-battery": "<span font='14'>󰂱</span>",
+        "tooltip-format": "{num_connections} connected",
+        "tooltip-format-disabled": "Bluetooth Disabled",
+        "tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}: {device_battery_percentage}%",
+        "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh",
+        "interval": 1
+    },
+    "battery": {
+        "interval": 1,
+        "states": {
+            "good": 99,
+            "warning": 30,
+            "critical": 20
+        },
+        "format-icons": [
+            " ",
+            " ",
+            " ",
+            " ",
+            " "
+        ],
+        "format": "<span>{icon} </span>{capacity}%",
+        "format-critical": "<span>{icon} </span>{capacity}%",
+        "format-warning": "<span>{icon} </span>{capacity}%",
+        "format-full": "<span>{icon} </span>{capacity}%",
+        "format-charging": "<span> </span>{capacity}%",
+        "format-charging-warning": "<span> </span>{capacity}%",
+        "format-charging-critical": "<span> </span>{capacity}%",
+        "format-plugged": "<span> </span>{capacity}%",
+        "tooltip": false
+    },
+    "custom/wifi": {
+        "exec": "~/.config/waybar/scripts/wifi-status.sh",
+        "return-type": "json",
+        "format": "{}",
+        "tooltip": true,
+        "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
+        "interval": 1
+    },
+    "clock#date": {
+        "format": "<span font='14'>󰃭 </span>{:%a %d %b}",
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 4,
+            "on-click-right": "mode",
+            "format": {
+                "months": "<span font='14'><b>{}</b></span>",
+                "days": "<span font='14'>{}</span>",
+                "weekdays": "<span font='14'>{}</span>",
+                "today": "<span font='14' color='#11111b' background='#cba6f7'><b>{}</b></span>"
+            }
+        },
+        "actions": {
+            "on-click": "mode",
+            "on-click-right": "mode"
+        }
+    },
+    "clock#time": {
+        "format": "<span font='14'> </span>{:%H:%M}",
+        "tooltip": false
     }
 }

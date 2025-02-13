@@ -124,7 +124,7 @@ tooltip {
 #custom-player-previous:hover,
 #custom-player-play-pause:hover,
 #custom-player-next:hover {
-  color: @mauve;
+  background-color: @mauve;
 }
 
 /* ================================ */
@@ -152,8 +152,8 @@ tooltip {
   border-top-left-radius: 4px;
 }
 #workspaces button.active {
-  background-color: @surface;
-  color: @mauve;
+  background-color: @mauve;
+  color: @crust;
 }
 
 #pulseaudio {
@@ -181,19 +181,19 @@ tooltip {
 }
 
 #bluetooth {
-  background-color: @maroon;
+  background-color: @peach;
 }
 
 #custom-wifi {
+  background-color: @maroon;
+}
+
+#clock.date {
   background-color: @sky;
 }
 
 #clock.time {
-  background-color: @flamingo;
-}
-
-#clock.date {
-  background-color: @peach;
+  background-color: @mauve;
 }
 
 #custom-notification {
