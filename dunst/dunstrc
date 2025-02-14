@@ -2,6 +2,10 @@
 frame_color = "#cba6f7"
 separator_color= frame
 highlight = "#89b4fa"
+font = FiraCode Nerd 14
+offset = (25, 30)
+min_icon_size = 80
+max_icon_size = 80
 
 [urgency_low]
 background = "#1e1e2e"

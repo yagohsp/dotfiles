@@ -5,5 +5,6 @@ return {
         config = function()
             require("hologram").setup({})
         end
-    }
+    },
+    "tpope/vim-surround"
 }
