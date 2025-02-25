@@ -1,14 +1,10 @@
 #!/bin/bash
-current_variant=$(
-    hyprctl devices -j \
-        | grep -A 4 '"name": "rdr-alice--keyboard"' \
-        | grep variant | awk -F ': ' '{print $2}' \
-        | tr -d '",'
-)
 
+hyprctl keyword input:kb_variant intl
+pkill -SIGRTMIN+12 waybar
 
-if [ "$current_variant" == "intl" ]; then
-    hyprctl keyword input:kb_variant ""
-else
-    hyprctl keyword input:kb_variant intl
-fi
+sleep 15
+
+hyprctl keyword input:kb_variant ""
+pkill -SIGRTMIN+12 waybar
+

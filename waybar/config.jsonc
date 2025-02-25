@@ -31,30 +31,28 @@
     "custom/player": {
         "exec": "~/.config/waybar/scripts/player.sh",
         "format": "{}",
-        "interval": 1,
+        "signal": 10,
         "max-length": 35,
         "tooltip": false
     },
     "custom/player-previous": {
         "exec": "~/.config/waybar/scripts/player-control.sh 󰒮 󰒮",
         "format": "{}",
-        "interval": 1,
         "tooltip": false,
-        "on-click": "playerctl previous"
+        "on-click": "playerctl previous; sleep 0.1; pkill -SIGRTMIN+10 waybar"
     },
     "custom/player-play-pause": {
         "exec": "~/.config/waybar/scripts/player-play-pause.sh",
         "format": "{}",
-        "interval": 1,
+        "signal": 11,
         "tooltip": false,
-        "on-click": "playerctl play-pause"
+        "on-click": "playerctl play-pause; pkill -SIGRTMIN+11 waybar"
     },
     "custom/player-next": {
         "exec": "~/.config/waybar/scripts/player-control.sh 󰒭 󰒭",
         "format": "{}",
-        "interval": 1,
         "tooltip": false,
-        "on-click": "playerctl previous"
+        "on-click": "playerctl next; sleep 0.1; pkill -SIGRTMIN+10 waybar"
     },
     "wlr/taskbar": {
         "format": "{icon}",
@@ -102,6 +100,7 @@
         "format-bluetooth-muted": "<span>󰂲</span>{volume}%",
         "format-source": "{volume}% ",
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol",
         "tooltip": false,
         "max-volume": 100
     },
@@ -109,7 +108,7 @@
         "exec": "~/.config/waybar/scripts/keyboard-language.sh",
         "format": "<span font='14'> </span> {}",
         "tooltip": false,
-        "interval": 1
+        "signal": 12
     },
     "bluetooth": {
         "format": "<span font='14'>󰂰</span>",
@@ -122,10 +121,10 @@
         "tooltip-format-enumerate-connected": "{device_alias}",
         "tooltip-format-enumerate-connected-battery": "{device_alias}: {device_battery_percentage}%",
         "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh",
-        "interval": 1
+        "interval": 5
     },
     "battery": {
-        "interval": 1,
+        "interval": 10,
         "states": {
             "good": 99,
             "warning": 30,
@@ -154,7 +153,7 @@
         "format": "{}",
         "tooltip": true,
         "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
-        "interval": 1
+        "interval": 5
     },
     "clock#date": {
         "format": "<span font='14'>󰃭 </span>{:%a %d %b}",

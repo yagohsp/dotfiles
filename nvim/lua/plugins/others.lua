@@ -6,5 +6,12 @@ return {
             require("hologram").setup({})
         end
     },
-    "tpope/vim-surround"
+    "tpope/vim-surround",
+    "abecodes/tabout.nvim",
+    {
+        "ten3roberts/qf.nvim",
+        config = function()
+            require("qf").setup()
+        end
+    }
 }
