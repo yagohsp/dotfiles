@@ -2,5 +2,5 @@
 @theme "~/.config/rofi/theme.rasi"
 
 * {
-    width: 650;
+    width: 850;
 }

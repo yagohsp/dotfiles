@@ -50,7 +50,7 @@ keymap("n", "!", "^", opts())
 keymap("n", "0", "$", opts())
 keymap("n", "<A-a>", "gg<S-v>G", opts())
 keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection"))
-keymap("n", ":", "<cmd>FineCmdline<CR>", opts())
+--keymap("n", ":", "<cmd>FineCmdline<CR>", opts())
 vim.keymap.set("n", "<leader>:", function()
     vim.api.nvim_feedkeys(":", "n", false)
 end, opts("Open Neovim cmd"))
@@ -69,8 +69,8 @@ keymap("v", "<A-S-j>", '16j', opts())
 keymap("v", "<A-S-k>", '16k', opts())
 
 --buffer
-keymap("n", "<leader>w", "<cmd>bnext<CR>", opts("Next buffer"))
-keymap("n", "<leader>q", "<cmd>bprevious<CR>", opts("Previous buffer"))
+keymap("n", "<leader>j", "<cmd>bnext<CR>", opts("Next buffer"))
+keymap("n", "<leader>k", "<cmd>bprevious<CR>", opts("Previous buffer"))
 keymap("n", "<leader>d", "<cmd>bdelete!<CR>", opts("Delete buffer"))
 
 --file

@@ -24,3 +24,6 @@ vim.cmd([[
 vim.opt.termguicolors = true
 require("lazy").setup("plugins")
 require("options")
+
+package.path = "/home/yago/.config/themes/dark/?.lua;" .. package.path
+require("nvim-theme")
