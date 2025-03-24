@@ -5,7 +5,7 @@ sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/ya
 yay -S uwsm httpie-desktop fzf blueman cliphist wtype zsh-syntax-highlighting hyprlock hyprpaper \
     waybar wofi kitty xclip zsh neovim cmake dotnet-sdk ttf-firacode-nerd npm pnpm nodejs \
     firefox swappy wl-clipboard imv viu  network-manager network-manager-applet fastfetch nvm \
-    galculator archlinux-xdg-menu hyprpicker wl-clipboard bluetoothctl dunst \
+    galculator archlinux-xdg-menu hyprpicker wl-clipboard bluetoothctl dunst lazygit tmux \
     --noconfirm
 # ttf-unifont
 
