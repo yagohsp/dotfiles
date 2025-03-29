@@ -74,7 +74,7 @@ keymap("n", "<leader>k", "<cmd>bprevious<CR>", opts("Previous buffer"))
 keymap("n", "<leader>d", "<cmd>bdelete!<CR>", opts("Delete buffer"))
 
 --file
-keymap("n", "<leader>Q", "<cmd>silent! w!<CR><cmd>q!<CR>", opts("Quit"))
+keymap("n", "<leader>q", "<cmd>silent! w!<CR><cmd>q!<CR>", opts("Quit"))
 vim.keymap.set("n", "<leader>e", function()
     local MiniFiles = require("mini.files")
     local buf_name = vim.api.nvim_buf_get_name(0)

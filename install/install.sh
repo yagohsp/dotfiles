@@ -23,3 +23,9 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 chmod +x ~/.config/install/*
 ~/.config/install/auto-start.sh
 ~/.config/install/fix-cedilha.sh
+
+sudo bash -c 'cat > /etc/systemd/system/getty@tty1.service.d/autologin.conf <<EOF
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty -o '\''-p -f -- \\u'\'' --noclear --autologin $WHOAMI %I \$TERM
+EOF'

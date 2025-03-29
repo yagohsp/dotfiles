@@ -22,7 +22,14 @@ vim.cmd([[
 ]])
 
 vim.opt.termguicolors = true
-require("lazy").setup("plugins")
+require("lazy").setup(
+    "plugins",
+    {
+        change_detection = {
+            notify = false
+        },
+    }
+)
 require("options")
 
 package.path = "/home/yago/.config/themes/dark/?.lua;" .. package.path
