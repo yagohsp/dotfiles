@@ -9,6 +9,55 @@ return {
         end,
     },
     {
+        'nvimdev/dashboard-nvim',
+        event = 'VimEnter',
+        config = function()
+            local logo = [[
+
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⣤⣤⣴⣶⣶⣶⣶⣶⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⡿⣟⣯⣽⣷⣶⠶⠾⢯⡻⣿⡿⠛⠉⠙⢲⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⢫⣾⣿⡿⠋⠉⢀⣀⣀⣀⠈⠘⠀⠀⠀⠀⠀⠱⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣰⡿⣽⣿⣳⣿⣿⡟⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⡀⢸⣻⡄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢀⣰⡟⣼⣿⢳⣿⣿⣿⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣣⠀⢋⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢀⣿⢱⣿⡏⣿⣿⣿⡏⣜⢫⣭⣉⠭⢭⣿⣛⣿⠿⠿⢫⣵⠎⠚⢿⡆⠸⣿⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢸⣿⣿⣿⢳⣿⣿⣿⣧⢿⡾⣿⡁⠀⠀⣾⣿⢸⣿⣿⣞⢿⣦⣤⠼⡇⢰⢹⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣾⣿⢫⣝⣾⣿⣿⣿⣿⡜⣷⣝⣛⣓⣛⣻⣯⣿⣿⣿⣿⣿⣶⣿⣿⠃⣼⣾⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢿⣿⣎⡻⢹⣿⣿⣿⣿⣷⢻⣿⣿⣿⣿⣿⣿⣿⠿⢿⣿⣿⣿⣿⠏⢠⣿⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢸⣧⢿⡟⣾⣿⣿⡏⣿⣿⣼⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⠿⣁⣠⠘⠿⠇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠘⣿⡸⡇⣿⣿⣿⠃⣿⡟⠈⠙⠛⠿⢿⣿⡿⠿⢿⣟⣻⡥⣴⣶⡾⠛⠻⢷⣄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣿⡇⣿⡜⣿⢏⣇⡿⠣⠄⡀⣀⢠⡍⣷⢸⣿⣿⣿⣿⡧⣿⣿⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣿⡇⣿⣿⡈⣾⡏⣾⣿⣿⢿⣙⣛⣯⣬⣼⣿⣿⣿⣿⣿⢿⣿⣦⣄⣠⣴⣿⡇⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣿⢿⣿⣿⣷⢹⡇⣿⣿⣿⣿⣿⣿⠿⣿⣿⣛⣿⣯⣽⣿⡿⣿⣿⣿⡋⣻⣿⡷⠁⠀⠀⠀⠀
+⠀⠀⠀⠀⣸⡿⢿⣿⡟⣿⡇⡇⠙⣿⣷⣶⣿⣿⠿⠿⠟⣛⣛⣛⡛⠉⠭⠝⠻⠿⠿⠿⠛⠈⠀⠀⠀⠀⠀
+⠀⠀⠀⢠⠋⠀⢸⣿⠇⠈⠋⡅⢸⣘⣛⣛⣛⣋⣩⣭⣭⣭⣤⣄⠀⠀⠀⠆⣶⢶⠁⠀⠀⠀⠀⠀⠀⠀⠀
+]]
+
+            require('dashboard').setup {
+                config = {
+                    header = vim.split(logo, "\n"),
+                    packages = { enable = false },
+                    shortcut = {
+                        {
+                            icon = ' ',
+                            icon_hl = '@variable',
+                            desc = 'Files',
+                            group = 'Label',
+                            action = 'Telescope find_files',
+                            key = 'f',
+                        },
+                        {
+                            desc = ' Dotfiles',
+                            group = 'Number',
+                            action = 'Telescope dotfiles',
+                            key = 'd',
+                        },
+                    }
+                }
+            }
+        end,
+        dependencies = { { 'nvim-tree/nvim-web-devicons' } }
+    },
+    {
         "nvim-lualine/lualine.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()

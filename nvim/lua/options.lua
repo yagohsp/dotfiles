@@ -182,3 +182,20 @@ end, opts("References"))
 --format
 set("n", "<leader>F", "<cmd>:silent! lua lint.try_lint()<CR>", opts("Format file"))
 set("n", "<C-s>", "<cmd>:silent! lua lint.try_lint()<CR><cmd>w<CR>", opts("Save file"))
+
+local function close_empty_unnamed_buffers()
+    local buffers = vim.api.nvim_list_bufs()
+
+    for _, bufnr in ipairs(buffers) do
+        if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_name(bufnr) == '' then
+            vim.cmd('Dashboard')
+            -- vim.api.nvim_buf_delete(bufnr, {
+            --     force = true
+            -- })
+        end
+    end
+end
+
+vim.api.nvim_create_autocmd("BufDelete", {
+    callback = close_empty_unnamed_buffers
+})
