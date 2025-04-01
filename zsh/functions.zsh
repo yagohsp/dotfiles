@@ -34,7 +34,7 @@ _vf() {
 zle -N _vv
 bindkey '^v' _vv
 _vv() {
-    nvim .
+    nvim
 }
 
 yi() {

@@ -63,10 +63,10 @@ keymap("n", "<A-j>", '7j', opts())
 keymap("n", "<A-k>", '7k', opts())
 keymap("v", "<A-j>", '7j', opts())
 keymap("v", "<A-k>", '7k', opts())
-keymap("n", "<A-S-j>", '16j', opts())
-keymap("n", "<A-S-k>", '16k', opts())
-keymap("v", "<A-S-j>", '16j', opts())
-keymap("v", "<A-S-k>", '16k', opts())
+keymap("n", "<S-A-j>", '16j', opts())
+keymap("n", "<S-A-k>", '16k', opts())
+keymap("v", "<S-A-j>", '16j', opts())
+keymap("v", "<S-A-k>", '16k', opts())
 
 --buffer
 keymap("n", "<leader>j", "<cmd>bnext<CR>", opts("Next buffer"))
@@ -183,15 +183,19 @@ end, opts("References"))
 set("n", "<leader>F", "<cmd>:silent! lua lint.try_lint()<CR>", opts("Format file"))
 set("n", "<C-s>", "<cmd>:silent! lua lint.try_lint()<CR><cmd>w<CR>", opts("Save file"))
 
-local function close_empty_unnamed_buffers()
-    local buffers = vim.api.nvim_list_bufs()
+local get_listed_bufs = function()
+    return vim.tbl_filter(function(bufnr)
+        return vim.api.nvim_buf_get_option(bufnr, "buflisted")
+    end, vim.api.nvim_list_bufs())
+end
 
-    for _, bufnr in ipairs(buffers) do
-        if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_name(bufnr) == '' then
+local function close_empty_unnamed_buffers()
+    local buffers = get_listed_bufs()
+
+    if (#buffers == 2) then
+        local buffer_name = vim.api.nvim_buf_get_name(buffers[2])
+        if (buffer_name == "") then
             vim.cmd('Dashboard')
-            -- vim.api.nvim_buf_delete(bufnr, {
-            --     force = true
-            -- })
         end
     end
 end

@@ -24,8 +24,6 @@ chmod +x ~/.config/install/*
 ~/.config/install/auto-start.sh
 ~/.config/install/fix-cedilha.sh
 
-sudo bash -c 'cat > /etc/systemd/system/getty@tty1.service.d/autologin.conf <<EOF
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty -o '\''-p -f -- \\u'\'' --noclear --autologin $WHOAMI %I \$TERM
-EOF'
+sudo mkdir /etc/systemd/system/getty@tty1.service.d
+sudo touch /etc/systemd/system/getty@tty1.service.d/autologin.conf
+sudo bash -c 'echo -e "[Service]\nExecStart=\nExecStart=-/sbin/agetty -o '\''-p -f -- \\u'\'' --noclear --autologin '$WHOAMI' %I \$TERM"' > /etc/systemd/system/getty@tty1.service.d/autologin.conf

@@ -3,10 +3,10 @@ return {
     config = function()
         require 'nvim-tmux-navigation'.setup {
             keybindings = {
-                left = "<C-A-h>",
-                down = "<C-A-j>",
-                up = "<C-A-k>",
-                right = "<C-A-l>",
+                up = "<C-k>",
+                down = "<C-j>",
+                right = "<C-l>",
+                left = "<C-h>",
             }
         }
     end

@@ -24,17 +24,17 @@ return {
                     i(1, "\tchildren: ReactNode"),
                     t({ "", "}" }),
                 }),
-                s("log", {
+                s("clog", {
                     t("console.log("),
                     i(1, "message"),
                     t(")"),
                 }),
-                s("deb", {
+                s("dlog", {
                     t("console.debug("),
                     i(1, "message"),
                     t(")"),
                 }),
-                s("use", {
+                s("stt", {
                     t("const ["),
                     i(1, "state"),
                     t(", set"),
