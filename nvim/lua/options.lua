@@ -111,6 +111,20 @@ function fold(n)
     vim.opt.foldlevel = n
 end
 
+--quickfix
+keymap("n", "<leader>co", "<cmd>copen<CR>", opts("Open quickfix"))
+keymap("n", "<leader>cc", "<cmd>cclose<CR>", opts("Close quickfix"))
+keymap("n", "<leader>cj", "<cmd>cnext<CR>", opts("Next quickfix"))
+keymap("n", "<leader>ck", "<cmd>cprevious<CR>", opts("Previous quickfix"))
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'qf' },
+    callback = function()
+        vim.defer_fn(function()
+            vim.cmd("wincmd p")
+        end, 10)
+    end,
+})
+
 --fold
 keymap("n", "z1", "<cmd>lua fold(0)<CR>", opts("Fold at 1"))
 keymap("n", "z2", "<cmd>lua fold(1)<CR>", opts("Fold at 2"))

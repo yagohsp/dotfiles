@@ -50,7 +50,8 @@
         "format": "{}",
         "signal": 11,
         "tooltip": false,
-        "on-click": "playerctl --player=spotify play-pause; pkill -SIGRTMIN+11 waybar"
+        "on-click": "playerctl --player=spotify play-pause; pkill -SIGRTMIN+11 waybar",
+        "interval": 5
     },
     "custom/player-next": {
         "exec": "~/.config/waybar/scripts/player-control.sh 󰒭 󰒭",
