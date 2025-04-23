@@ -43,7 +43,8 @@
         "format": "{}",
         "tooltip": false,
         "on-click": "playerctl --player=spotify previous; sleep 0.1; pkill -SIGRTMIN+10 waybar",
-        "signal": 11
+        "signal": 11,
+        "interval": 5
     },
     "custom/player-play-pause": {
         "exec": "~/.config/waybar/scripts/player-play-pause.sh",
@@ -58,7 +59,8 @@
         "format": "{}",
         "tooltip": false,
         "on-click": "playerctl --player=spotify next; sleep 0.1; pkill -SIGRTMIN+10 waybar",
-        "signal": 11
+        "signal": 11,
+        "interval": 5
     },
     "wlr/taskbar": {
         "format": "{icon}",

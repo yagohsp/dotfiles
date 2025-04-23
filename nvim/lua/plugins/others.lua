@@ -1,17 +1,32 @@
 return {
     "rcarriga/nvim-notify",
+    "tpope/vim-surround",
     {
         "edluffy/hologram.nvim",
         config = function()
             require("hologram").setup({})
         end
     },
-    "tpope/vim-surround",
-    "abecodes/tabout.nvim",
+    {
+        "abecodes/tabout.nvim",
+        config = function()
+            require('tabout').setup({
+                tabouts = {
+                    { open = "'", close = "'" },
+                    { open = '"', close = '"' },
+                    { open = '`', close = '`' },
+                    { open = '(', close = ')' },
+                    { open = '[', close = ']' },
+                    { open = '{', close = '}' },
+                    { open = '<', close = '>' }
+                },
+            })
+        end
+    },
     {
         "ten3roberts/qf.nvim",
         config = function()
-            require("qf").setup()
+            require("qf").setup({})
         end
     },
     {
@@ -26,6 +41,18 @@ return {
                 }
             }
             require("telescope").load_extension("ui-select")
+        end
+    },
+    {
+        'j-morano/buffer_manager.nvim',
+        dependencies = {
+            'nvim-lua/plenary.nvim'
+        },
+        config = function()
+            local buffer_manager = require("buffer_manager.ui")
+            vim.keymap.set("n", "<leader>b", function()
+                buffer_manager.toggle_quick_menu()
+            end, { noremap = true, silent = true, desc = "Open buffers manager" or "" })
         end
     }
 }

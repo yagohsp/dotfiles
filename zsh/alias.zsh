@@ -8,5 +8,8 @@ alias p-d="pnpm run dev"
 alias p-i="pnpm install"
 alias p-r="pnpm remove"
 
+alias explain="gh copilot explain"
+alias suggest="gh copilot suggest"
+
 alias audio="pavucontrol"
 alias bluetooth="blueman-manager"
