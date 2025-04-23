@@ -11,9 +11,9 @@ vim.opt.modifiable = true
 vim.opt.wrap = true
 vim.opt.linebreak = true
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.shiftround = true
 vim.opt.expandtab = true
 
@@ -39,7 +39,7 @@ local keymap = vim.api.nvim_set_keymap
 local set = vim.keymap.set
 
 local opts = function(desc)
-    return { noremap = true, silent = true, desc = desc or "" }
+  return { noremap = true, silent = true, desc = desc or "" }
 end
 
 --nvim
@@ -52,11 +52,11 @@ keymap("n", "<A-a>", "gg<S-v>G", opts())
 keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection"))
 --keymap("n", ":", "<cmd>FineCmdline<CR>", opts())
 vim.keymap.set("n", "<leader>:", function()
-    vim.api.nvim_feedkeys(":", "n", false)
+  vim.api.nvim_feedkeys(":", "n", false)
 end, opts("Open Neovim cmd"))
 
 for i = 1, 9 do
-    keymap('n', '<leader>' .. i, ':buffer ' .. i .. '<CR>', opts("Jump to buffer " .. i))
+  keymap('n', '<leader>' .. i, ':buffer ' .. i .. '<CR>', opts("Jump to buffer " .. i))
 end
 
 keymap("n", "<A-j>", '7j', opts())
@@ -76,11 +76,11 @@ keymap("n", "<leader>d", "<cmd>bdelete!<CR>", opts("Delete buffer"))
 --file
 keymap("n", "<leader>q", "<cmd>silent! w!<CR><cmd>q!<CR>", opts("Quit"))
 vim.keymap.set("n", "<leader>e", function()
-    local MiniFiles = require("mini.files")
-    local buf_name = vim.api.nvim_buf_get_name(0)
-    local path = vim.fn.filereadable(buf_name) == 1 and buf_name or vim.fn.getcwd()
-    MiniFiles.open(path)
-    MiniFiles.reveal_cwd()
+  local MiniFiles = require("mini.files")
+  local buf_name = vim.api.nvim_buf_get_name(0)
+  local path = vim.fn.filereadable(buf_name) == 1 and buf_name or vim.fn.getcwd()
+  MiniFiles.open(path)
+  MiniFiles.reveal_cwd()
 end, { desc = "Open Mini Files" })
 
 keymap('n', '<A-d>', '"_d', opts())
@@ -92,6 +92,8 @@ keymap('v', '<A-c>', '"_c', opts())
 keymap('n', '<A-C>', '"_C', opts())
 keymap('v', '<A-C>', '"_C', opts())
 
+keymap('v', '<leader>l', 'yoconsole.debug("<esc>pa: ", <esc>pa)<esc>', opts())
+
 --lsp
 set("n", "<leader>r", vim.lsp.buf.rename, opts("Replace variable"))
 set("n", "K", vim.lsp.buf.hover)
@@ -102,13 +104,13 @@ set("n", "<leader>le", vim.diagnostic.open_float, { desc = "Show errors" })
 
 --functions
 set("n", ";", function()
-    local col = vim.fn.col(".")
-    vim.cmd("normal! A;")
-    vim.fn.cursor(0, col)
+  local col = vim.fn.col(".")
+  vim.cmd("normal! A;")
+  vim.fn.cursor(0, col)
 end, opts())
 
 function fold(n)
-    vim.opt.foldlevel = n
+  vim.opt.foldlevel = n
 end
 
 --quickfix
@@ -117,12 +119,12 @@ keymap("n", "<leader>cc", "<cmd>cclose<CR>", opts("Close quickfix"))
 keymap("n", "<leader>cj", "<cmd>cnext<CR>", opts("Next quickfix"))
 keymap("n", "<leader>ck", "<cmd>cprevious<CR>", opts("Previous quickfix"))
 vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'qf' },
-    callback = function()
-        vim.defer_fn(function()
-            vim.cmd("wincmd p")
-        end, 10)
-    end,
+  pattern = { 'qf' },
+  callback = function()
+    vim.defer_fn(function()
+      vim.cmd("wincmd p")
+    end, 10)
+  end,
 })
 
 --fold
@@ -131,25 +133,25 @@ keymap("n", "z2", "<cmd>lua fold(1)<CR>", opts("Fold at 2"))
 keymap("n", "z3", "<cmd>lua fold(2)<CR>", opts("Fold at 3"))
 keymap("n", "z0", "<cmd>lua fold(99)<CR>", opts("Unfold all"))
 set("n", "zo", function()
-    if vim.fn.foldclosed(".") == -1 then
-        vim.cmd("normal! zC")
-    else
-        vim.cmd("normal! zO")
-    end
+  if vim.fn.foldclosed(".") == -1 then
+    vim.cmd("normal! zC")
+  else
+    vim.cmd("normal! zO")
+  end
 end, opts("Unfold current"))
 
 function JumpOverFold(direction)
-    if direction == 'up' then
-        if vim.fn.foldclosed('.') ~= -1 then
-            vim.cmd('normal! [z')
-        end
-        vim.cmd('normal! {')
-    else
-        if vim.fn.foldclosed('.') ~= -1 then
-            vim.cmd('normal! ]z')
-        end
-        vim.cmd('normal! }')
+  if direction == 'up' then
+    if vim.fn.foldclosed('.') ~= -1 then
+      vim.cmd('normal! [z')
     end
+    vim.cmd('normal! {')
+  else
+    if vim.fn.foldclosed('.') ~= -1 then
+      vim.cmd('normal! ]z')
+    end
+    vim.cmd('normal! }')
+  end
 end
 
 -- Remap { and } to use the custom function
@@ -160,37 +162,37 @@ end
 local builtin = require("telescope.builtin")
 
 set("n", "<leader>p", function()
-    require("telescope.builtin").registers()
+  require("telescope.builtin").registers()
 end, opts("Copy history"))
 
 set("n", "<C-p>", function()
-    builtin.find_files()
+  builtin.find_files()
 end, opts("Find files"))
 
 set("n", "<leader><leader>", function()
-    builtin.oldfiles()
+  builtin.oldfiles()
 end, opts("Recent files"))
 
 set("n", "<leader>fm", function()
-    builtin.commands()
+  builtin.commands()
 end, opts("Commands available"))
 
 set("n", "<leader>fh", function()
-    builtin.command_history()
+  builtin.command_history()
 end, opts("Commands history"))
 
 set("n", "<leader>ft", function()
-    builtin.live_grep()
+  builtin.live_grep()
 end, opts("Find text"))
 
 set("n", "<leader>fc", "<cmd>Telescope find_files search_dirs=~/.config/nvim<CR>", opts("Config files"))
 
 set("n", "<leader>ff", function()
-    builtin.lsp_document_symbols({ symbols = { "function" } })
+  builtin.lsp_document_symbols({ symbols = { "function" } })
 end, opts("Functions"))
 
 set("n", "<leader>fr", function()
-    builtin.lsp_references()
+  builtin.lsp_references()
 end, opts("References"))
 
 --format
@@ -198,22 +200,22 @@ set("n", "<leader>F", "<cmd>:silent! lua lint.try_lint()<CR>", opts("Format file
 set("n", "<C-s>", "<cmd>:silent! lua lint.try_lint()<CR><cmd>w<CR>", opts("Save file"))
 
 local get_listed_bufs = function()
-    return vim.tbl_filter(function(bufnr)
-        return vim.api.nvim_buf_get_option(bufnr, "buflisted")
-    end, vim.api.nvim_list_bufs())
+  return vim.tbl_filter(function(bufnr)
+    return vim.api.nvim_buf_get_option(bufnr, "buflisted")
+  end, vim.api.nvim_list_bufs())
 end
 
 local function close_empty_unnamed_buffers()
-    local buffers = get_listed_bufs()
+  local buffers = get_listed_bufs()
 
-    if (#buffers == 2) then
-        local buffer_name = vim.api.nvim_buf_get_name(buffers[2])
-        if (buffer_name == "") then
-            vim.cmd('Dashboard')
-        end
+  if (#buffers == 2) then
+    local buffer_name = vim.api.nvim_buf_get_name(buffers[2])
+    if (buffer_name == "") then
+      vim.cmd('Dashboard')
     end
+  end
 end
 
 vim.api.nvim_create_autocmd("BufDelete", {
-    callback = close_empty_unnamed_buffers
+  callback = close_empty_unnamed_buffers
 })
