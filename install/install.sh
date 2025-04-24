@@ -7,7 +7,8 @@ yay -S uwsm httpie-desktop fzf blueman cliphist wtype zsh-syntax-highlighting hy
     firefox swappy wl-clipboard imv viu  network-manager network-manager-applet fastfetch nvm \
     galculator archlinux-xdg-menu hyprpicker wl-clipboard bluetoothctl dunst lazygit tmux wayfreeze \
     --noconfirm
-# ttf-unifont
+
+bash <(curl -s https://raw.githubusercontent.com/quantumvoid0/better-control/refs/heads/main/betterctl.sh)
 
 sudo systemctl disable systemd-resolved
 sudo systemctl disable systemd-networkd

@@ -1,22 +1,37 @@
 return {
-    {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        config = function()
-            local config = require("nvim-treesitter.configs").setup({
-                auto_install = true,
-                highlight = { enable = true },
-                indent = { enable = true },
-            })
-        end,
-    },
-    {
-        "norcalli/nvim-colorizer.lua",
-        config = function()
-            require("colorizer").setup({
-                "*",
-                css = { rgb_fn = true },
-            })
-        end,
-    },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+      local config = require("nvim-treesitter.configs").setup({
+        auto_install = true,
+        highlight = { enable = true },
+        indent = { enable = true },
+      })
+    end,
+  },
+  {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup({
+        "*",
+        css = { rgb_fn = true },
+      })
+    end,
+  },
+  -- {
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   main = "ibl",
+  --   ---@module "ibl"
+  --   ---@type ibl.config
+  --   opts = {},
+  --   config = function()
+  --     local ibl = require("ibl")
+  --     ibl.setup({
+  --       indent = {
+  --         enabled = false
+  --       },
+  --     })
+  --   end
+  -- }
 }
