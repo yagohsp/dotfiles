@@ -18,10 +18,20 @@ ff() {
     fi
 }
 
+# find config folders
+zle -N ffc
+ffc() {
+     vf_folder=$(find ~/.config -type d -print | fzf)
+     if [ ! -z "$vf_folder" ]; then
+         cd $vf_folder
+         wtype -k "return"
+     fi
+ }
+
 # find folders
 zle -N f
 f() {
-     vf_folder=$(find ~ -type d -name '.*' -prune -o -type d -print | fzf)
+     vf_folder=$(find ~ -type d -name '.*' -prune -o -print | fzf)
      if [ ! -z "$vf_folder" ]; then
          cd $vf_folder
          wtype -k "return"

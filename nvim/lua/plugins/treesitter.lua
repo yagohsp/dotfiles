@@ -19,19 +19,18 @@ return {
       })
     end,
   },
-  -- {
-  --   "lukas-reineke/indent-blankline.nvim",
-  --   main = "ibl",
-  --   ---@module "ibl"
-  --   ---@type ibl.config
-  --   opts = {},
-  --   config = function()
-  --     local ibl = require("ibl")
-  --     ibl.setup({
-  --       indent = {
-  --         enabled = false
-  --       },
-  --     })
-  --   end
-  -- }
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function()
+      require("ibl").setup {
+        indent = {
+          char = " ",
+        },
+        scope = {
+          char = "▎",
+          highlight = "Whitespace"
+        }
+      }
+    end
+  }
 }

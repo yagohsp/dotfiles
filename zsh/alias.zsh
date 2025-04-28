@@ -7,6 +7,7 @@ alias p-s="pnpm start"
 alias p-d="pnpm run dev"
 alias p-i="pnpm install"
 alias p-r="pnpm remove"
+alias c="clear"
 
 alias explain="gh copilot explain"
 alias suggest="gh copilot suggest"
