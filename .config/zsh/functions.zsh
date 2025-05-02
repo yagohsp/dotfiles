@@ -9,7 +9,7 @@ gs() {
 # find config file
 zle -N ff
 ff() {
-    vc_file=$(find ~/.config \( -name node_modules -o -name .git \) -prune -o -type f -print | fzf --preview 'bat --style=numbers --color=always {} || cat {}') 
+    vc_file=$(find ~/dotfiles \( -name node_modules -o -name .git \) -prune -o -type f -print | fzf --preview 'bat --style=numbers --color=always {} || cat {}') 
     if [ ! -z "$vc_file" ]; then
         vc_path=$(dirname $vc_file)
         cd $vc_path
@@ -21,7 +21,7 @@ ff() {
 # find config folders
 zle -N ffc
 ffc() {
-     vf_folder=$(find ~/.config -type d -print | fzf)
+     vf_folder=$(find ~/dotfiles -type d -print | fzf)
      if [ ! -z "$vf_folder" ]; then
          cd $vf_folder
          wtype -k "return"

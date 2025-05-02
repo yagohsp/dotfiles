@@ -41,7 +41,14 @@ autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '(%b)'
 
-# Define each part of the prompt as a variable
+zc_background="{146}"
+zc_lightText='{255}'   
+zc_text='{54}'          
+zc_darkText='{17}'      
+zc_lightPurple='{133}' 
+zc_purple='{90}'      
+zc_pink='{162}'        
+
 ZSH_fg_cyan='%{$fg[cyan]%}'
 ZSH_fg_blue='%{$fg[blue]%}'
 ZSH_fg_yellow='%{$fg[yellow]%}'
@@ -51,6 +58,5 @@ ZSH_path='%~'
 ZSH_git_branch='${vcs_info_msg_0_}'
 ZSH_prompt_char='%#'
 
-# PROMPT="${fg_blue}${user}${reset_color}:${fg_blue}${path}${reset_color} ${fg_blue}${git_branch}${reset_color} "
 PROMPT="${ZSH_fg_blue}${ZSH_user}${ZSH_reset_color} ${ZSH_fg_blue}${ZSH_path}${ZSH_reset_color} ${ZSH_fg_cyan}${ZSH_git_branch} 
 ❱ ${ZSH_reset_color}"

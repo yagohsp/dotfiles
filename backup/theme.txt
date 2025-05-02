@@ -1,0 +1,10 @@
+background #a18bcd
+
+lightText #cdd6f4
+text #4d2857;
+darkText #2C1C39;
+
+lightPurple #8C6496
+purple #7F2982
+
+pink #c73484
