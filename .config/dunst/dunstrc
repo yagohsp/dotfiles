@@ -1,19 +1,21 @@
 [global]
-frame_color = "#4d2857"
+frame_color = "#7F2982"
 separator_color= frame
 highlight = "#4d2857"
 font = FiraCode Nerd 14
 offset = (25, 30)
+gaps = true
+gap_size = 10
 
 [urgency_low]
-background = "#A18BCD"
-foreground = "#4d2857"
+background = "#c9a9fc"
+foreground = "#402060"
 
 [urgency_normal]
-background = "#A18BCD"
-foreground = "#4d2857"
+background = "#c9a9fc"
+foreground = "#402060"
 
 [urgency_critical]
-background = "#A18BCD"
-foreground = "#4d2857"
-frame_color = "#fab387"
+background = "#c9a9fc"
+foreground = "#402060"
+frame_color = "#7F2982"

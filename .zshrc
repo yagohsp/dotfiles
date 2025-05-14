@@ -33,9 +33,10 @@ export hypr=~/.config/hypr/hyprland.conf
 export EDITOR=nvim
 export SHELL=/bin/zsh
 
+export MANPAGER="nvim +Man!"
+
 # fastfetch
  eval "$(zoxide init bash)"
-
  
 autoload -Uz vcs_info
 precmd() { vcs_info }

@@ -11,7 +11,7 @@
     "custom/player-previous",
     "custom/player-play-pause",
     "custom/player-next",
-    "pulseaudio",
+    "pulseaudio"
   ],
   "modules-center": [
     // "hyprland/window",

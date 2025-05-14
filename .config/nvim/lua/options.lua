@@ -22,7 +22,7 @@ vim.opt.relativenumber = false
 vim.opt.hidden = true
 vim.opt.textwidth = 80
 vim.opt.scrolloff = 10
-vim.opt.signcolumn = "no"
+vim.opt.signcolumn = "auto"
 
 vim.opt.cmdheight = 1
 vim.opt.showmatch = true
@@ -41,6 +41,10 @@ local set = vim.keymap.set
 local opts = function(desc)
   return { noremap = true, silent = true, desc = desc or "" }
 end
+
+vim.diagnostic.config({
+  signs = false
+})
 
 --nvim
 keymap("n", "<A-y>", '"+y', opts())
@@ -95,12 +99,12 @@ keymap('v', '<A-C>', '"_C', opts())
 keymap('v', '<leader>l', 'yoconsole.debug("<esc>pa: ", <esc>pa)<esc>', opts())
 
 --lsp
-set("n", "<leader>r", vim.lsp.buf.rename, opts("Replace variable"))
 set("n", "K", vim.lsp.buf.hover)
+set("n", "L", vim.diagnostic.open_float, { desc = "Show errors" })
+set("n", "<leader>r", vim.lsp.buf.rename, opts("Replace variable"))
 set("n", "<leader>ld", vim.lsp.buf.definition, { desc = "Go to definition" })
 set("n", "<leader>lr", vim.lsp.buf.references, { desc = "Go to references" })
 set("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Execute code action" })
-set("n", "<leader>le", vim.diagnostic.open_float, { desc = "Show errors" })
 
 --functions
 set("n", ";", function()

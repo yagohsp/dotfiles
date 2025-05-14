@@ -1,10 +1,9 @@
-background #a18bcd
+background   = #c9a9fc Light Amethyst
 
-lightText #cdd6f4
-text #4d2857;
-darkText #2C1C39;
+lightText    = #FFEEDD Pale Peach
+text         = #402060 Dark Orchid
 
-lightPurple #8C6496
-purple #7F2982
+lightPurple  = #805BAA Amethyst
+purple       = #7F2982
 
-pink #c73484
+pink         = #c73484
