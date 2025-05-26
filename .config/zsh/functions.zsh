@@ -31,12 +31,13 @@ ffc() {
 # find folders
 zle -N f
 f() {
-     vf_folder=$(find ~ -type d -name '.*' -prune -o -print | fzf)
-     if [ ! -z "$vf_folder" ]; then
-         cd $vf_folder
-         wtype -k "return"
-     fi
- }
+    vf_folder=$(find ~ \
+        -type d \( -name '.*' -o -name 'node_modules' \) -prune -o -print | fzf)
+    if [ ! -z "$vf_folder" ]; then
+        cd "$vf_folder"
+        wtype -k "return"
+    fi
+}
 
 
 zle -N _vv
