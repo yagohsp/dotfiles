@@ -105,7 +105,7 @@ tooltip {
 }
 
 #workspaces button.active {
-  color: @lightText;
+  color: #ff0086;
 }
 
 #pulseaudio {

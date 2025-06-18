@@ -201,7 +201,8 @@ end, opts("References"))
 
 --format
 set("n", "<leader>F", "<cmd>:silent! lua lint.try_lint()<CR>", opts("Format file"))
-set("n", "<C-s>", "<cmd>:silent! lua lint.try_lint()<CR><cmd>w<CR>", opts("Save file"))
+set("n", "<C-s>", "<cmd>:silent! lua lint.try_lint()<CR><cmd>w<CR>", opts("Save file and format"))
+set("n", "<A-s>", "<cmd>:silent! noa w<CR>", opts("Save file"))
 
 local get_listed_bufs = function()
   return vim.tbl_filter(function(bufnr)

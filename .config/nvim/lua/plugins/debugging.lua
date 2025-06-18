@@ -15,23 +15,32 @@ return {
           {
             elements = {
               {
-                id = "scopes",
-                size = 0.35
+                id = "breakpoints",
+                size = 0.1
+              },
+              -- {
+              --   id = "scopes",
+              --   size = 0.3
+              -- },
+              {
+                id = "watches",
+                size = 0.3
               },
               {
                 id = "console",
-                size = 0.45
+                size = 0.3
               },
               {
-                id = "breakpoints",
-                size = 0.2
-              },
+                id = "repl",
+                size = 0.3
+              }
             },
             position = "left",
             size = 60
           },
         },
       })
+      require("nvim-dap-virtual-text").setup({})
 
       local mason_path = os.getenv('HOME') .. '/.local/share/nvim/mason/packages'
       dap.adapters.node2 = {
@@ -94,7 +103,7 @@ return {
           type = "codelldb",
           request = "launch",
           program = function()
-            vim.fn.system("cargo build")
+            vim.fn.system("cargo build --debug")
             local cwd = vim.fn.getcwd()
             return cwd .. '/target/debug/' .. vim.fn.fnamemodify(cwd, ':t')
           end,
@@ -131,12 +140,6 @@ return {
       dap.listeners.before.launch.dapui_config = function()
         dapui.open()
       end
-      -- dap.listeners.before.event_terminated.dapui_config = function()
-      --   dapui.close()
-      -- end
-      -- dap.listeners.before.event_exited.dapui_config = function()
-      --   dapui.close()
-      -- end
     end,
   },
 }

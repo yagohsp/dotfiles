@@ -55,14 +55,4 @@ return {
       end, { noremap = true, silent = true, desc = "Open buffers manager" or "" })
     end
   },
-  {
-    "3rd/image.nvim",
-    build = false,
-    opts = {
-      processor = "magick_cli",
-    },
-    config = function()
-      require("image").setup()
-    end
-  }
 }

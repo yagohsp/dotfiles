@@ -24,6 +24,12 @@ export PATH="$PATH:$DOTNET_ROOT"
 export PATH="$PATH:$DOTNET_ROOT/tools"
 export WAYLAND_DISPLAY=wayland-1
 
+# japanese keyboard
+# export GTK_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+export QT_IM_MODULE=fcitx 
+export SDL_IM_MODULE=fcitx
+
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --bind=shift-tab:down
   --bind=tab:up
