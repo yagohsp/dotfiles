@@ -8,7 +8,8 @@ yay -S uwsm httpie-desktop cliphist wtype zsh-syntax-highlighting hyprlock hyprp
     galculator archlinux-xdg-menu hyprpicker wl-clipboard dunst lazygit tmux wayfreeze \
     yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide imagemagick stow \
     fcitx5 fcitx5-im fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-mozc \
-    --noconfirm
+    ark unrar
+--noconfirm
 
 bash <(curl -s https://raw.githubusercontent.com/quantumvoid0/better-control/refs/heads/main/betterctl.sh)
 

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-hyprctl keyword input:kb_variant intl
+fcitx5-remote -s keyboard-us-intl
 pkill -SIGRTMIN+12 waybar
 
 sleep 15
 
-hyprctl keyword input:kb_variant ""
+fcitx5-remote -s keyboard-us
 pkill -SIGRTMIN+12 waybar
 

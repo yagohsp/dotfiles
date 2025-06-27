@@ -1,15 +1,11 @@
 * {
-    bg-col:  #1e1e2e;
-    bg-col-light: #1e1e2e;
-    border-col: #1e1e2e;
-    selected-col: #1e1e2e;
+    bg-col:  #1e1e2e00;
     blue: #89b4fa;
     blue: #cba6f7;
     fg-col: #cdd6f4;
     fg-col2: #f38ba8;
     grey: #6c7086;
 
-    width: 500;
     font: "JetBrains Mono Nerd Font 14";
 }
 
@@ -18,20 +14,35 @@ element-text, element-icon , mode-switcher {
     text-color:       inherit;
 }
 
+dummy {
+  expand:true;
+  background-color: transparent;
+}
+
 window {
-    border: 3px;
-    border-color: @border-col;
-    background-color: @bg-col;
-    border-radius: 6px;
+  expand:true;
+  height:110%;
+  width:100%;
+  border: 3px;
+  border-color: @bg-col;
+  background-color: #24112eaa;
+  border-radius: 6px;
+  children:[dummy, wrap, dummy];
+}
+
+wrap {
+    orientation: horizontal;
+    children:[dummy, mainbox, dummy];
+    background-color: transparent;
 }
 
 mainbox {
-    background-color: @bg-col;
+    background-color: transparent;
 }
 
 inputbar {
-    children: [prompt,entry];
-    background-color: @bg-col;
+    children: [dummy, entry, dummy];
+    background-color: transparent;
     border-radius: 5px;
     padding: 2px;
 }
@@ -39,7 +50,7 @@ inputbar {
 prompt {
     background-color: @blue;
     padding: 6px;
-    text-color: @bg-col;
+    text-color: black;
     border-radius: 3px;
     margin: 20px 0px 0px 20px;
 }
@@ -53,7 +64,7 @@ entry {
     padding: 6px;
     margin: 20px 0px 0px 10px;
     text-color: @fg-col;
-    background-color: @bg-col;
+    background-color: transparent;
 }
 
 listview {
@@ -62,12 +73,12 @@ listview {
     margin: 10px 0px 0px 20px;
     columns: 1;
     lines: 7;
-    background-color: @bg-col;
+    background-color: transparent;
 }
 
 element {
-    padding: 5px;
-    background-color: @bg-col;
+    padding: 10px;
+    background-color: transparent;
     text-color: @fg-col;
 }
 
@@ -76,29 +87,29 @@ element-icon {
 }
 
 element selected {
-    background-color:  @selected-col;
+    background-color:  transparent;
     text-color: @fg-col2;
 }
 
 mode-switcher {
-    spacing: 0;
-  }
+  enabled:false;
+}
 
 button {
     padding: 10px;
-    background-color: @bg-col-light;
+    background-color: transparent;
     text-color: @grey;
     vertical-align: 0.5; 
     horizontal-align: 0.5;
 }
 
 button selected {
-  background-color: @bg-col;
+  background-color: transparent;
   text-color: @blue;
 }
 
 message {
-    background-color: @bg-col-light;
+    background-color: transparent;
     margin: 2px;
     padding: 2px;
     border-radius: 5px;
@@ -108,5 +119,5 @@ textbox {
     padding: 6px;
     margin: 20px 0px 0px 20px;
     text-color: @blue;
-    background-color: @bg-col-light;
+    background-color: transparent;
 }

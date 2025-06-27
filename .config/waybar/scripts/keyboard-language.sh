@@ -1,10 +1,12 @@
 #!/bin/sh
 
-keyboard_language=$(hyprctl devices -j | grep -B 5 '"main": true' | grep variant | awk -F ': ' '{print $2}')
-if [ "$keyboard_language" = '"intl",' ]; then
+keyboard_language=$(fcitx5-remote -n)
+if [ "$keyboard_language" = 'keyboard-us-intl' ]; then
     echo "BR"
-else
+elif [ "$keyboard_language" = 'keyboard-us' ]; then
     echo "EN"
+else
+    echo "JP"
 fi
 
 echo $keyboard_language
