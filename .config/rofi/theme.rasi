@@ -37,6 +37,7 @@ wrap {
 }
 
 mainbox {
+    margin: 0 100px 0 100px;
     background-color: transparent;
 }
 
@@ -61,10 +62,11 @@ textbox-prompt-colon {
 }
 
 entry {
-    padding: 6px;
-    margin: 20px 0px 0px 10px;
+    horizontal-align:0.5;
     text-color: @fg-col;
     background-color: transparent;
+    padding: 6px;
+    margin: 0px 0px 10px 0px;
 }
 
 listview {
@@ -92,7 +94,7 @@ element selected {
 }
 
 mode-switcher {
-  enabled:false;
+    enabled:false;
 }
 
 button {
@@ -116,6 +118,7 @@ message {
 }
 
 textbox {
+  enabled:false;
     padding: 6px;
     margin: 20px 0px 0px 20px;
     text-color: @blue;

@@ -1,5 +1,8 @@
+sudo pacman -S git
+git clone https://github.com/yagohsp/dotfiles.git
+
 # yay
-sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+sudo pacman -S --needed base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
 # packages
 yay -S uwsm httpie-desktop cliphist wtype zsh-syntax-highlighting hyprlock hyprpaper \

@@ -89,12 +89,30 @@ return {
           skipFiles = { '<node_internals>/**' },
           outFiles = { "${workspaceFolder}/.next/**/*.js" },
         },
+        {
+          name = "Attach to Next.js",
+          type = "node2",
+          request = "attach",
+          port = 9229,
+          protocol = "inspector",
+          restart = true,
+          sourceMaps = true,
+          skipFiles = { "<node_internals>/**" },
+          cwd = vim.fn.getcwd(),
+          outFiles = { "${workspaceFolder}/.next/**/*.js" },
+        },
       }
 
       dap.adapters.codelldb = {
         id = 'cppdbg',
         type = 'executable',
         command = mason_path .. '/cpptools/extension/debugAdapters/bin/OpenDebugAD7',
+      }
+
+      dap.adapters.node2 = {
+        type = 'executable',
+        command = 'node',
+        args = { mason_path .. '/node-debug2-adapter/out/src/nodeDebug.js' },
       }
 
       dap.configurations.rust = {
