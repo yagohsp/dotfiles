@@ -5,6 +5,7 @@
 \.gitmodules
 
 ^/backup
+^/backup/*
 
 ^/README.*
 ^/LICENSE.*
