@@ -67,3 +67,11 @@ ZSH_prompt_char='%#'
 
 PROMPT="${ZSH_fg_blue}${ZSH_user}${ZSH_reset_color} ${ZSH_fg_blue}${ZSH_path}${ZSH_reset_color} ${ZSH_fg_cyan}${ZSH_git_branch} 
 ❱ ${ZSH_reset_color}"
+
+# pnpm
+export PNPM_HOME="/home/yago/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
