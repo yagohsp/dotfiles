@@ -6,7 +6,8 @@
 ^/scripts/*
 
 ^/backup
-^/backup/*
+^/workspace
+^/theme
 
 ^/README.*
 ^/LICENSE.*

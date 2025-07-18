@@ -12,7 +12,7 @@ plugins=(git zsh-autosuggestions zsh-vi-mode)
 source $ZSH/oh-my-zsh.sh
 source /usr/share/nvm/init-nvm.sh
 
-source ~/.config/zsh/themes/catppuccin.zsh
+source ~/.config/zsh/theme.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source ~/.config/zsh/functions.zsh

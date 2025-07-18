@@ -31,5 +31,3 @@ require("lazy").setup(
   }
 )
 require("options")
-
-vim.cmd.colorscheme("catppuccin-mocha")
