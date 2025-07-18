@@ -69,9 +69,11 @@ PROMPT="${ZSH_fg_blue}${ZSH_user}${ZSH_reset_color} ${ZSH_fg_blue}${ZSH_path}${Z
 ❱ ${ZSH_reset_color}"
 
 # pnpm
-export PNPM_HOME="/home/yago/.local/share/pnpm"
+export PNPM_HOME="/$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+source $HOME/.cargo/env

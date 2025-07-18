@@ -1,21 +1,14 @@
 [global]
-frame_color = "#7F2982"
+background = "#311e46"
+foreground = "#e6e2ec"
+frame_color = "#6a416b"
 separator_color= frame
-highlight = "#4d2857"
 font = FiraCode Nerd 14
 offset = (25, 30)
-gaps = true
 gap_size = 10
+corner_radius = 10
+timeout = 3
 
-[urgency_low]
-background = "#c9a9fc"
-foreground = "#402060"
-
-[urgency_normal]
-background = "#c9a9fc"
-foreground = "#402060"
-
-[urgency_critical]
-background = "#c9a9fc"
-foreground = "#402060"
-frame_color = "#7F2982"
+[hide]
+appname = obs
+skip_display = true

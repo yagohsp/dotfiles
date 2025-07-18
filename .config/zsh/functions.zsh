@@ -1,11 +1,3 @@
-# git status
-zle -N gs
-bindkey '^G' gs
-gs() {
-    git status
-        wtype -k "return"
-}
-
 # find config file
 zle -N ff
 ff() {
@@ -21,7 +13,7 @@ ff() {
 # find config folders
 zle -N ffc
 ffc() {
-     vf_folder=$(find ~/dotfiles -type d -print | fzf)
+     vf_folder=$(find ~/dotfiles -name .git -prune -o -type d -print | fzf)
      if [ ! -z "$vf_folder" ]; then
          cd $vf_folder
          wtype -k "return"
@@ -39,12 +31,6 @@ f() {
     fi
 }
 
-
-zle -N _vv
-bindkey '^v' _vv
-_vv() {
-    nvim
-}
 
 yi() {
     for package in "$@"; 

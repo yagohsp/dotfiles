@@ -2,7 +2,8 @@
 \.gitignore
 \.gitmodules
 
-\.gitmodules
+^/scripts
+^/scripts/*
 
 ^/backup
 ^/backup/*
