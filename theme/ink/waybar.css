@@ -1,5 +1,5 @@
-@define-color background #c9a9fc;
-@define-color text #402060;
+@define-color background #222;
+@define-color text #ddd;
 @define-color lightText #FFEEDD;
 
 * {
@@ -34,7 +34,7 @@ window#waybar {
 tooltip {
   background-color: @background;
   color: @text;
-  border-radius: 8px;
+  /* border-radius: 8px; */
 }
 
 #window,
@@ -54,7 +54,7 @@ tooltip {
 #custom-player-next,
 #clock {
   background-color: @background;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   padding: 2px 12px;
   margin: 0 3px;
 }
@@ -94,18 +94,18 @@ tooltip {
   font-weight: 900;
   font-size: 20px;
   background-color: @background;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   color: @text;
 }
 
 #workspaces button {
   background-color: @background;
-  color: @text;
+  color: #888;
   padding: 0 12px;
 }
 
 #workspaces button.active {
-  color: #ff0086;
+  color: #fff;
 }
 
 #pulseaudio {
