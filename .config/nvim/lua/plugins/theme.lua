@@ -1,1 +1,1 @@
-/home/yago/dotfiles/theme/ink/nvim.lua
+/home/yago/dotfiles/theme/current/nvim.lua

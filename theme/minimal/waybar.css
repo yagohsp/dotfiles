@@ -1,5 +1,6 @@
-@define-color background #2a344d;
+@define-color background #1D1D1D;
 @define-color text #dde0e8;
+@define-color active #6C649E;
 
 * {
   font-family: "JetBrainsMono Nerd Font Mono";
@@ -51,7 +52,7 @@ tooltip {
 
 #workspaces {
     background-color: @background;
-    font-size: 10px;
+    font-size: 14px;
     padding: 2px 4px;
     border-radius: 6px;
     margin-top: 2px;
@@ -63,7 +64,7 @@ tooltip {
     color: @text;
 }
 #workspaces button.active {
-    color: #a320eb;
+    color: @active;
 }
 
 #custom-notification {

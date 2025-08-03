@@ -74,6 +74,13 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end
 
 source $HOME/.cargo/env
+
+# auto start tmux
+if command -v tmux &> /dev/null; then
+  if [ -z "$TMUX" ]; then
+    tmux attach -t main 2>/dev/null || tmux new -s main
+    exit
+  fi
+fi
