@@ -19,9 +19,7 @@ source ~/.config/zsh/functions.zsh
 source ~/.config/zsh/alias.zsh
 
 export PATH="$PATH:/opt/mssql-tools/bin"
-export DOTNET_ROOT=/home/yago/.dotnet
-export PATH="$PATH:$DOTNET_ROOT"
-export PATH="$PATH:$DOTNET_ROOT/tools"
+export PATH=$PATH:/usr/share/dotnet:~/.dotnet/tools
 export WAYLAND_DISPLAY=wayland-1
 
 # japanese keyboard

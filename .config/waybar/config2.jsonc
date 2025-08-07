@@ -35,7 +35,7 @@
     "format-bluetooth-muted": "<span>󰂲 </span>{volume}%",
     "format-source": "{volume}% ",
     "max-volume": 100,
-    "on-click": "control"
+    "on-click": "pavucontrol"
   },
   "clock#date": {
     "format": "{:%d %b}",

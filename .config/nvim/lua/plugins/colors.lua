@@ -101,13 +101,6 @@ return {
     "xiyaowong/transparent.nvim",
   },
   {
-    "max397574/colortils.nvim",
-    cmd = "Colortils",
-    config = function()
-      require("colortils").setup()
-    end,
-  },
-  {
     "eero-lehtinen/oklch-color-picker.nvim",
     event = "VeryLazy",
     version = "*",

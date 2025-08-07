@@ -27,14 +27,6 @@ vim.opt.signcolumn = "auto"
 vim.opt.cmdheight = 1
 vim.opt.showmatch = true
 
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldcolumn = "0"
-vim.opt.foldtext = ""
-vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 99
-vim.api.nvim_set_hl(0, "Folded", { bg = "#151521" })
-
 local keymap = vim.api.nvim_set_keymap
 local set = vim.keymap.set
 
@@ -50,18 +42,11 @@ vim.diagnostic.config({
 keymap("n", "<A-y>", '"+y', opts())
 keymap("v", "<A-y>", '"+y', opts())
 keymap("n", "<Esc>", "<cmd>noh<CR>", opts("noh"))
-keymap("n", "!", "^", opts())
-keymap("n", "0", "$", opts())
 keymap("n", "<A-a>", "gg<S-v>G", opts())
 keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection"))
---keymap("n", ":", "<cmd>FineCmdline<CR>", opts())
 vim.keymap.set("n", "<leader>:", function()
   vim.api.nvim_feedkeys(":", "n", false)
 end, opts("Open Neovim cmd"))
-
-for i = 1, 9 do
-  keymap('n', '<leader>' .. i, ':buffer ' .. i .. '<CR>', opts("Jump to buffer " .. i))
-end
 
 keymap("n", "<A-j>", '7j', opts())
 keymap("n", "<A-k>", '7k', opts())
@@ -113,10 +98,6 @@ set("n", ";", function()
   vim.fn.cursor(0, col)
 end, opts())
 
-function fold(n)
-  vim.opt.foldlevel = n
-end
-
 --quickfix
 keymap("n", "<leader>co", "<cmd>copen<CR>", opts("Open quickfix"))
 keymap("n", "<leader>cc", "<cmd>cclose<CR>", opts("Close quickfix"))
@@ -131,36 +112,6 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
---fold
-keymap("n", "z1", "<cmd>lua fold(0)<CR>", opts("Fold at 1"))
-keymap("n", "z2", "<cmd>lua fold(1)<CR>", opts("Fold at 2"))
-keymap("n", "z3", "<cmd>lua fold(2)<CR>", opts("Fold at 3"))
-keymap("n", "z0", "<cmd>lua fold(99)<CR>", opts("Unfold all"))
-set("n", "zo", function()
-  if vim.fn.foldclosed(".") == -1 then
-    vim.cmd("normal! zC")
-  else
-    vim.cmd("normal! zO")
-  end
-end, opts("Unfold current"))
-
-function JumpOverFold(direction)
-  if direction == 'up' then
-    if vim.fn.foldclosed('.') ~= -1 then
-      vim.cmd('normal! [z')
-    end
-    vim.cmd('normal! {')
-  else
-    if vim.fn.foldclosed('.') ~= -1 then
-      vim.cmd('normal! ]z')
-    end
-    vim.cmd('normal! }')
-  end
-end
-
--- Remap { and } to use the custom function
--- keymap('n', '{', ':lua JumpOverFold("up")<CR>', opts())
--- keymap('n', '}', ':lua JumpOverFold("down")<CR>', opts())
 
 --telescope
 local builtin = require("telescope.builtin")

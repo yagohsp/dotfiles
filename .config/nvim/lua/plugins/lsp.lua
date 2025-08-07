@@ -10,7 +10,7 @@ return {
     lazy = false,
     opts = {
       auto_install = true
-    }
+    },
   },
   {
     'neovim/nvim-lspconfig',
@@ -26,25 +26,12 @@ return {
             "html",
             "jsonls",
             "lua_ls",
-            "csharp_ls",
+            "omnisharp",
             "rust_analyzer",
             "tailwindcss",
             "ts_ls",
-            -- "eslint_d",
-            -- "prettierd",
-            -- "stylua",
-            -- "csharpier",
-            -- "htmlhint",
           },
         })
-
-      -- mason_lspconfig.setup_handlers({
-      --   function(server_name)
-      --     require("lspconfig")[server_name].setup({
-      --       capabilities = capabilities,
-      --     })
-      --   end,
-      -- })
     end
   },
   {

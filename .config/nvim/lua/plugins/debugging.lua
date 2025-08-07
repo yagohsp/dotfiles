@@ -9,39 +9,6 @@ return {
     },
     config = function()
       local dap = require "dap"
-      local dapui = require "dapui"
-      dapui.setup({
-        layouts = {
-          {
-            elements = {
-              {
-                id = "breakpoints",
-                size = 0.1
-              },
-              -- {
-              --   id = "scopes",
-              --   size = 0.3
-              -- },
-              {
-                id = "watches",
-                size = 0.3
-              },
-              {
-                id = "console",
-                size = 0.3
-              },
-              {
-                id = "repl",
-                size = 0.3
-              }
-            },
-            position = "left",
-            size = 60
-          },
-        },
-      })
-      require("nvim-dap-virtual-text").setup({})
-
       local mason_path = os.getenv('HOME') .. '/.local/share/nvim/mason/packages'
       dap.adapters.node2 = {
         type = 'executable',
@@ -130,9 +97,62 @@ return {
         },
       }
 
-      vim.keymap.set("n", "<leader>b?", function()
-        require("dapui").eval(nil, { enter = true })
-      end, { desc = "Dap - Eval" })
+      dap.adapters.coreclr = {
+        type = 'executable',
+        command = mason_path .. '/netcoredbg/netcoredbg',
+        args = { '--interpreter=vscode' }
+      }
+      dap.adapters.netcoredbg = {
+        type = 'executable',
+        command = mason_path .. '/netcoredbg/netcoredbg',
+        args = { '--interpreter=vscode' }
+      }
+
+      local dotnet = require("easy-dotnet")
+      dap.configurations.cs = {
+        {
+          type = "coreclr",
+          name = "launch - netcoredbg",
+          request = "launch",
+          program = function()
+            return dotnet.get_debug_dll()
+          end,
+        },
+      }
+
+      local dapui = require "dapui"
+      dapui.setup({
+        layouts = {
+          {
+            elements = {
+              {
+                id = "breakpoints",
+                size = 0.1
+              },
+              -- {
+              --   id = "repl",
+              --   size = 0.3
+              -- }
+              -- {
+              --   id = "scopes",
+              --   size = 0.3
+              -- },
+              {
+                id = "watches",
+                size = 0.3
+              },
+              {
+                id = "console",
+                size = 0.3
+              },
+            },
+            position = "left",
+            size = 60
+          },
+        },
+      })
+      require("nvim-dap-virtual-text").setup({})
+
 
       vim.keymap.set("n", "<F1>", dap.step_over, { desc = "Step over" })
       vim.keymap.set("n", "<F2>", dap.step_into, { desc = "Step into" })
@@ -149,6 +169,9 @@ return {
         });
       end, { desc = "Restart" })
       vim.keymap.set("n", "<F6>", dap.terminate, { desc = "Terminate" })
+      vim.keymap.set("n", "<F7>", function()
+        dapui.eval(nil, { enter = true })
+      end, { desc = "Dap - Eval" })
       vim.keymap.set("n", "<F8>", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
       vim.keymap.set("n", "<F9>", dapui.toggle, { desc = "Toggle UI" })
 
