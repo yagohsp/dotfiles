@@ -108,14 +108,33 @@ return {
         args = { '--interpreter=vscode' }
       }
 
+
       local dotnet = require("easy-dotnet")
       dap.configurations.cs = {
         {
-          type = "coreclr",
-          name = "launch - netcoredbg",
-          request = "launch",
+          type = 'coreclr',
+          name = 'Launch',
+          request = 'launch',
+          env = {
+            ASPNETCORE_ENVIRONMENT = "Development",
+            ASPNETCORE_URLS = "http://localhost:8000",
+          },
           program = function()
-            return dotnet.get_debug_dll()
+            local dll = dotnet.get_debug_dll(true)
+            dotnet.build()
+            return dll.relative_dll_path
+          end,
+          cwd = function()
+            local dll = dotnet.get_debug_dll(true)
+            return dll.relative_project_path
+          end
+        },
+        {
+          type = 'coreclr',
+          name = 'Attach',
+          request = 'attach',
+          processId = function()
+            return vim.fn.input('Enter process ID: ')
           end,
         },
       }
@@ -126,25 +145,25 @@ return {
           {
             elements = {
               {
-                id = "breakpoints",
-                size = 0.1
+                id = "repl",
+                size = 0.6
               },
+              {
+                id = "scopes",
+                size = 0.3
+              },
+              {
+                id = "breakpoints",
+                size = 0.15
+              }
               -- {
-              --   id = "repl",
-              --   size = 0.3
-              -- }
-              -- {
-              --   id = "scopes",
+              --   id = "watches",
               --   size = 0.3
               -- },
-              {
-                id = "watches",
-                size = 0.3
-              },
-              {
-                id = "console",
-                size = 0.3
-              },
+              -- {
+              --   id = "console",
+              --   size = 0.3
+              -- }
             },
             position = "left",
             size = 60
