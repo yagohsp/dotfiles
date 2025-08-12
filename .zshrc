@@ -28,6 +28,9 @@ export XMODIFIERS="@im=fcitx"
 export QT_IM_MODULE=fcitx 
 export SDL_IM_MODULE=fcitx
 
+export XCURSOR_THEME=Bibata-Modern-Classic
+export QT_QPA_PLATFORMTHEME=qt6ct
+
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --bind=shift-tab:down
   --bind=tab:up
@@ -36,6 +39,8 @@ export zsh=~/.zshrc
 export hypr=~/.config/hypr/hyprland.conf
 export EDITOR=nvim
 export SHELL=/bin/zsh
+export XDG_CONFIG_HOME=~/.config
+export QML_IMPORT_PATH=/usr/lib/qt/qml
 
 export MANPAGER="nvim +Man!"
 
@@ -79,6 +84,5 @@ source $HOME/.cargo/env
 if command -v tmux &> /dev/null; then
   if [ -z "$TMUX" ]; then
     tmux attach -t main 2>/dev/null || tmux new -s main
-    exit
   fi
 fi
