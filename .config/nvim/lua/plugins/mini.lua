@@ -65,7 +65,8 @@ return {
         mappings = {
           go_in_plus = "<Enter>",
           go_out_plus = "-",
-          close = "<Esc>"
+          close = "<Esc>",
+          synchronize = "<C-y>"
         },
       })
 

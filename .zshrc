@@ -20,16 +20,6 @@ source ~/.config/zsh/alias.zsh
 
 export PATH="$PATH:/opt/mssql-tools/bin"
 export PATH=$PATH:/usr/share/dotnet:~/.dotnet/tools
-export WAYLAND_DISPLAY=wayland-1
-
-# japanese keyboard
-# export GTK_IM_MODULE=fcitx
-export XMODIFIERS="@im=fcitx"
-export QT_IM_MODULE=fcitx 
-export SDL_IM_MODULE=fcitx
-
-export XCURSOR_THEME=Bibata-Modern-Classic
-export QT_QPA_PLATFORMTHEME=qt6ct
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --bind=shift-tab:down

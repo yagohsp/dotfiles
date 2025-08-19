@@ -81,15 +81,14 @@ fdd(){
     ss ~/dotfiles 10 dir
 }
 
-fc(){
+fdc(){
     ss ~/dotfiles/.config 10
 }
-fcc(){
-    ss .config 10
-}
+
 fy(){
     ss ~/y 1 dir
 }
+
 fw(){
     ss ~/w 2 dir
 }

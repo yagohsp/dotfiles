@@ -31,7 +31,7 @@ TogglePreedit=
 ModifierOnlyKeyTimeout=250
 
 [Hotkey/EnumerateForwardKeys]
-0=Alt+space
+0=Super+space
 
 [Behavior]
 # Active By Default
