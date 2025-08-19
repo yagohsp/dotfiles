@@ -1,70 +1,142 @@
-@define-color background #1D1D1D;
-@define-color text #dde0e8;
-@define-color active #6C649E;
+@define-color background #6C649E;
+@define-color text #222125;
+@define-color lightText #FFEEDD;
 
 * {
-  font-family: "JetBrainsMono Nerd Font Mono";
+  padding: 0;
   border-radius: 0;
   min-height: 0;
-  padding: 0;
   margin: 0;
   border: none;
+  text-shadow: none;
   transition: none;
   box-shadow: none;
 }
 
+.modules-left,
+.modules-center,
+.modules-right {
+  font-family: "FiraCodeNerdFont";
+  font-size: 16px;
+  font-weight: 500;
+  color: @text;
+  margin-top: 5px;
+}
 
+.modules-right label.module {
+}
+
+/* the whole window */
 window#waybar {
   background: transparent;
 }
 
 tooltip {
   background-color: @background;
-  color: #000;
+  color: @text;
   border-radius: 8px;
 }
 
-.modules-right{
-    font-size: 14px;
-    padding: 2px 4px;
-    margin-top: 2px;
-    margin-right: 4px;
+#window,
+#tray,
+#workspaces,
+#pulseaudio,
+#pulseaudio.muted,
+#battery,
+#battery.critical,
+#battery.warning,
+#bluetooth,
+#custom-keyboard,
+#custom-wifi,
+#custom-player,
+#custom-player-previous,
+#custom-player-play-pause,
+#custom-player-next,
+#clock {
+  background-color: @background;
+  border-radius: 6px;
+  padding: 2px 12px;
+  margin: 0 3px;
 }
 
-.module {
-    background-color: @background;
-    padding: 0 6px;
-    border-radius: 5px;
+/* ================================ */
+/*              Player              */
+/* ================================ */
+#custom-player {
+}
+#custom-player-play-pause,
+#custom-player-previous,
+#custom-player-next {
 }
 
-#clock.time{
-  margin-right: 5px;
-}
-#pulseaudio{
-  margin-right: 5px;
-}
-#tray{
-  margin-right: 5px;
-}
-#custom-netstatus{
-  margin-right: 5px;
+#custom-player-play-pause {
+  font-size: 18px;
 }
 
+#custom-player-previous,
+#custom-player-next {
+  font-size: 24px;
+}
+
+#custom-player-next {
+}
+
+#custom-player-previous:hover,
+#custom-player-play-pause:hover,
+#custom-player-next:hover {
+}
+
+/* ================================ */
+/*       workspaces module          */
+/* ================================ */
 #workspaces {
-    background-color: @background;
-    font-size: 14px;
-    padding: 2px 4px;
-    border-radius: 6px;
-    margin-top: 2px;
+  font-family: "Noto Sans CJK JP";
+  font-weight: 900;
+  font-size: 20px;
+  background-color: @background;
+  border-radius: 6px;
+  color: @text;
 }
+
 #workspaces button {
-    padding: 0px 5px;
-    transition: all .2s ease;
-    text-shadow: 0px 0px 2px #000;
-    color: @text;
+  background-color: @background;
+  color: @text;
+  padding: 0 12px;
 }
+
 #workspaces button.active {
-    color: @active;
+  color: #fff;
+}
+
+#pulseaudio {
+}
+
+#pulseaudio.muted {
+}
+
+#battery {
+}
+
+#battery.critical {
+}
+
+#battery.warning {
+}
+
+#custom-keyboard {
+}
+
+#bluetooth {
+  padding: 0 12px 0 10px;
+}
+
+#custom-wifi {
+}
+
+#clock.date {
+}
+
+#clock.time {
 }
 
 #custom-notification {
