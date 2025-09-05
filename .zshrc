@@ -70,9 +70,9 @@ esac
 
 source $HOME/.cargo/env
 
-# auto start tmux
-if command -v tmux &> /dev/null; then
-  if [ -z "$TMUX" ]; then
-    tmux attach -t main 2>/dev/null || tmux new -s main
-  fi
-fi
+# # auto start tmux
+# if command -v tmux &> /dev/null; then
+#   if [ -z "$TMUX" ]; then
+#     tmux attach -t main 2>/dev/null || tmux new -s main
+#   fi
+# fi
