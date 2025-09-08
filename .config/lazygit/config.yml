@@ -1,0 +1,4 @@
+os:
+  edit: "nvr {{filename}}"
+
+promptToReturnFromSubprocess: false

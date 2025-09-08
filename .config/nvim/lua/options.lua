@@ -27,6 +27,8 @@ vim.opt.signcolumn = "auto"
 vim.opt.cmdheight = 1
 vim.opt.showmatch = true
 
+vim.opt.lazygit_floating_window_use_plenary = 1
+
 local keymap = vim.api.nvim_set_keymap
 local set = vim.keymap.set
 
@@ -41,6 +43,8 @@ vim.diagnostic.config({
 --nvim
 keymap("n", "<A-y>", '"+y', opts())
 keymap("v", "<A-y>", '"+y', opts())
+keymap("v", "<S-y>", 'y`]', opts())
+keymap("v", "<S-p>", 'y`]p`]', opts())
 keymap("n", "<Esc>", "<cmd>noh<CR>", opts("noh"))
 keymap("n", "<A-a>", "gg<S-v>G", opts())
 keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection"))

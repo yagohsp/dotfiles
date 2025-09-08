@@ -117,7 +117,7 @@ return {
     },
     keys = {
       { "<leader>g", "<cmd>LazyGit<cr>", desc = "LazyGit" }
-    }
+    },
   },
   {
     "folke/which-key.nvim",
