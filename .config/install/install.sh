@@ -22,7 +22,9 @@ yay -S --noconfirm \
     cliphist wtype wl-clipboard xclip \
     fcitx5 fcitx5-im fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-mozc \
     zen-browser-bin google-chrome httpie-desktop ffmpeg \
-    flatpak vial rustup qt6ct unzip bat
+    flatpak vial rustup qt6ct unzip bat python-pipx
+
+pipx install neovim-remote
 
 flatpak install -y vlc
 

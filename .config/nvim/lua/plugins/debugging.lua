@@ -179,7 +179,6 @@ return {
 
       vim.keymap.set("n", "<F4>", dap.continue, { desc = "Continue" })
       vim.keymap.set("n", "<F5>", function()
-        os.execute("cargo build");
         dap.terminate({
           on_done = function()
             vim.cmd('write')

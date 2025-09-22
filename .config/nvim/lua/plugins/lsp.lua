@@ -1,18 +1,5 @@
 return {
   {
-    'williamboman/mason.nvim',
-    config = function()
-      require('mason').setup()
-    end,
-  },
-  {
-    'williamboman/mason-lspconfig.nvim',
-    lazy = false,
-    opts = {
-      auto_install = true
-    },
-  },
-  {
     'neovim/nvim-lspconfig',
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
@@ -26,16 +13,34 @@ return {
             "html",
             "jsonls",
             "lua_ls",
-            "omnisharp",
+            -- "omnisharp",
             "rust_analyzer",
             "tailwindcss",
             "ts_ls",
           },
         })
-    end
-  },
-  {
-    "j-hui/fidget.nvim",
-    opts = {},
-  },
+      require("roslyn").setup()
+    end,
+    dependencies = {
+      "seblyng/roslyn.nvim",
+      {
+        'williamboman/mason.nvim',
+        config = function()
+          require('mason').setup({
+            registries = {
+              "github:crashdummyy/mason-registry",
+              "github:mason-org/mason-registry"
+            },
+          })
+        end,
+      },
+      {
+        'williamboman/mason-lspconfig.nvim',
+        lazy = false,
+        opts = {
+          auto_install = true
+        }
+      }
+    }
+  }
 }

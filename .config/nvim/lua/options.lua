@@ -27,7 +27,30 @@ vim.opt.signcolumn = "auto"
 vim.opt.cmdheight = 1
 vim.opt.showmatch = true
 
-vim.opt.lazygit_floating_window_use_plenary = 1
+vim.opt.winborder = "rounded"
+
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = false,
+  underline = true,
+  update_in_insert = false,
+})
+
+-- vim.g.lazygit_floating_window_use_plenary = 0
+-- vim.g.lazygit_use_neovim_remote = 0
+
+-- Place this in your Neovim config (e.g., ~/.config/nvim/lua/restore_focus.lua)
+vim.api.nvim_create_autocmd("TabClosed", {
+  callback = function()
+    -- Find the lazygit terminal buffer and restore focus
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_get_name(buf):match("lazygit") then
+        vim.api.nvim_set_current_buf(buf)
+        break
+      end
+    end
+  end,
+})
 
 local keymap = vim.api.nvim_set_keymap
 local set = vim.keymap.set
@@ -35,10 +58,6 @@ local set = vim.keymap.set
 local opts = function(desc)
   return { noremap = true, silent = true, desc = desc or "" }
 end
-
-vim.diagnostic.config({
-  signs = false
-})
 
 --nvim
 keymap("n", "<A-y>", '"+y', opts())
@@ -51,6 +70,9 @@ keymap("v", "r", '"hy:.,$s/<C-r>h//gc<left><left><left>', opts("Rename selection
 vim.keymap.set("n", "<leader>:", function()
   vim.api.nvim_feedkeys(":", "n", false)
 end, opts("Open Neovim cmd"))
+
+keymap("n", "q", 'qa', opts())
+keymap("n", "@", '@a', opts())
 
 keymap("n", "<A-j>", '7j', opts())
 keymap("n", "<A-k>", '7k', opts())
@@ -157,7 +179,7 @@ end, opts("References"))
 --format
 set("n", "<leader>F", "<cmd>:silent! lua lint.try_lint()<CR>", opts("Format file"))
 set("n", "<C-s>", "<cmd>:silent! lua lint.try_lint()<CR><cmd>w<CR>", opts("Save file and format"))
-set("n", "<A-s>", "<cmd>:silent! noa w<CR>", opts("Save file"))
+set("n", "<S-s>", "<cmd>:silent! noa w<CR>", opts("Save file"))
 
 local get_listed_bufs = function()
   return vim.tbl_filter(function(bufnr)

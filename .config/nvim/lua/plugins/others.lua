@@ -73,7 +73,7 @@ return {
           viewmode = "float",
           mappings = {
             run_test_from_buffer = { lhs = "<leader>tr", desc = "Run test from buffer" },
-            debug_test_from_buffer = { lhs = "<leader>td", desc = "Debug test from buffer" },
+            debug_test_from_buffer = { lhs = "<leader>tt", desc = "Debug test from buffer" },
             filter_failed_tests = { lhs = "f", desc = "Filter failed tests" },
             debug_test = { lhs = "d", desc = "Debug test" },
             go_to_file = { lhs = "g", desc = "Go to file" },
