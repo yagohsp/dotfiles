@@ -83,6 +83,19 @@ keymap("n", "<S-A-k>", '16k', opts())
 keymap("v", "<S-A-j>", '16j', opts())
 keymap("v", "<S-A-k>", '16k', opts())
 
+vim.diagnostic.config({
+  signs = false,
+  virtual_text = true
+})
+
+vim.keymap.set('n', '[e', function()
+  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Go to previous error" })
+
+vim.keymap.set('n', ']e', function()
+  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Go to next error" })
+
 --buffer
 keymap("n", "<leader>j", "<cmd>bnext<CR>", opts("Next buffer"))
 keymap("n", "<leader>k", "<cmd>bprevious<CR>", opts("Previous buffer"))
