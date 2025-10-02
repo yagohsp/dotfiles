@@ -13,13 +13,13 @@ return {
             "html",
             "jsonls",
             "lua_ls",
-            -- "omnisharp",
+            "omnisharp",
             "rust_analyzer",
             "tailwindcss",
             "ts_ls",
           },
         })
-      require("roslyn").setup()
+      -- require("roslyn").setup()
     end,
     dependencies = {
       "seblyng/roslyn.nvim",

@@ -1,7 +1,10 @@
 #!/bin/bash
 
+hyprctl keyword cursor:inactive_timeout 0.0001
+sleep .1
 wayfreeze &
 sleep .1
+hyprctl keyword cursor:inactive_timeout 0
 
 screenshot_file=$(mktemp)
 
@@ -11,6 +14,6 @@ tee >(wl-copy < "$screenshot_file") < "$screenshot_file"
 
 pkill wayfreeze
 
-swappy -f "$screenshot_file"
+pinta "$screenshot_file"
 
 rm "$screenshot_file"
