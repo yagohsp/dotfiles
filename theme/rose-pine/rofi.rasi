@@ -1,0 +1,127 @@
+* {
+    bg-col:  #1e1e2e00;
+    background: #111111;
+    fg-col: #ccc;
+    fg-col2: #8772ea;
+    grey: #6c7086;
+    purple: #29244388;
+
+    font: "JetBrains Mono Nerd Font 14";
+}
+
+element-text, element-icon , mode-switcher {
+    background-color: inherit;
+    text-color:       inherit;
+}
+
+dummy {
+  expand:true;
+  background-color: transparent;
+}
+
+window {
+  expand:true;
+  height:110%;
+  width:100%;
+  border: 3px;
+  border-color: @bg-col;
+  background-color: #111111aa;
+  border-radius: 6px;
+  children:[dummy, wrap, dummy];
+}
+
+wrap {
+    orientation: horizontal;
+    children:[dummy, mainbox, dummy];
+    background-color: transparent;
+}
+
+mainbox {
+    padding: 20px;
+    border-radius: 18px;
+    margin: 0 100px 0 100px;
+    background-color: @purple;
+}
+
+inputbar {
+    children: [dummy, entry, dummy];
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+prompt {
+    background-color: @background;
+    padding: 6px;
+    text-color: black;
+    border-radius: 3px;
+    margin: 20px 0px 0px 20px;
+}
+
+textbox-prompt-colon {
+    expand: false;
+    str: ":";
+}
+
+entry {
+    horizontal-align:0.5;
+    text-color: @fg-col;
+    background-color: transparent;
+    padding: 6px;
+    margin: 0px 0px 10px 0px;
+}
+
+listview {
+    border: 0px 0px 0px;
+    padding: 6px 0px 10px;
+    margin: 10px 0px 0px 20px;
+    columns: 1;
+    lines: 7;
+    background-color: transparent;
+}
+
+element {
+    padding: 10px;
+    background-color: transparent;
+    text-color: @fg-col;
+}
+
+element-icon {
+    size: 25px;
+}
+
+element selected {
+    text-color: @fg-col2;
+}
+
+mode-switcher {
+    enabled:false;
+}
+
+button {
+    padding: 10px;
+    background-color: transparent;
+    text-color: @grey;
+    vertical-align: 0.5; 
+    horizontal-align: 0.5;
+}
+
+button selected {
+  background-color: transparent;
+  text-color: @background;
+}
+
+message {
+    background-color: transparent;
+    margin: 2px;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+textbox {
+  enabled:false;
+    padding: 6px;
+    margin: 20px 0px 0px 20px;
+    text-color: @background;
+    background-color: transparent;
+}

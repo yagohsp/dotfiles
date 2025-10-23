@@ -1,0 +1,145 @@
+@define-color background #6C649E;
+@define-color text #222125;
+@define-color lightText #FFEEDD;
+
+* {
+  padding: 0;
+  border-radius: 0;
+  min-height: 0;
+  margin: 0;
+  border: none;
+  text-shadow: none;
+  transition: none;
+  box-shadow: none;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+  font-family: "FiraCodeNerdFont";
+  font-size: 16px;
+  font-weight: 500;
+  color: @text;
+  margin-top: 5px;
+}
+
+.modules-right label.module {
+}
+
+/* the whole window */
+window#waybar {
+  background: transparent;
+}
+
+tooltip {
+  background-color: @background;
+  color: @text;
+  border-radius: 8px;
+}
+
+#window,
+#tray,
+#workspaces,
+#pulseaudio,
+#pulseaudio.muted,
+#battery,
+#battery.critical,
+#battery.warning,
+#bluetooth,
+#custom-keyboard,
+#custom-wifi,
+#custom-player,
+#custom-player-previous,
+#custom-player-play-pause,
+#custom-player-next,
+#clock {
+  background-color: @background;
+  border-radius: 6px;
+  padding: 2px 12px;
+  margin: 0 3px;
+}
+
+/* ================================ */
+/*              Player              */
+/* ================================ */
+#custom-player {
+}
+#custom-player-play-pause,
+#custom-player-previous,
+#custom-player-next {
+}
+
+#custom-player-play-pause {
+  font-size: 18px;
+}
+
+#custom-player-previous,
+#custom-player-next {
+  font-size: 24px;
+}
+
+#custom-player-next {
+}
+
+#custom-player-previous:hover,
+#custom-player-play-pause:hover,
+#custom-player-next:hover {
+}
+
+/* ================================ */
+/*       workspaces module          */
+/* ================================ */
+#workspaces {
+  font-family: "Noto Sans CJK JP";
+  font-weight: 900;
+  font-size: 20px;
+  background-color: @background;
+  border-radius: 6px;
+  color: @text;
+}
+
+#workspaces button {
+  background-color: @background;
+  color: @text;
+  padding: 0 12px;
+}
+
+#workspaces button.active {
+  color: #fff;
+}
+
+#pulseaudio {
+}
+
+#pulseaudio.muted {
+}
+
+#battery {
+}
+
+#battery.critical {
+}
+
+#battery.warning {
+}
+
+#custom-keyboard {
+}
+
+#bluetooth {
+  padding: 0 12px 0 10px;
+}
+
+#custom-wifi {
+}
+
+#clock.date {
+}
+
+#clock.time {
+}
+
+#custom-notification {
+  color: @text;
+  font-size: 14px;
+}

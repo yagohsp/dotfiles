@@ -82,7 +82,7 @@ fdd(){
 }
 
 fdc(){
-    ss ~/dotfiles/.config 10
+    ss ~/dotfiles/stow/.config 10
 }
 
 fy(){
