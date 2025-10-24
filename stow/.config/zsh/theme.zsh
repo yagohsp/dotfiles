@@ -1,1 +1,1 @@
-/home/yago/dotfiles/theme/current/zsh.zsh
+../../../themes/current/zsh.zsh

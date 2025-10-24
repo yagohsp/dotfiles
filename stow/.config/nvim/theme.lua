@@ -1,0 +1,1 @@
+/home/yago/dotfiles/themes/current/neovim.lua

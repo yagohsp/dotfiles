@@ -21,6 +21,7 @@ vim.cmd([[
     augroup END
 ]])
 
+
 vim.opt.termguicolors = true
 require("lazy").setup(
   "plugins",
@@ -31,3 +32,4 @@ require("lazy").setup(
   }
 )
 require("options")
+vim.cmd("colorscheme frost")

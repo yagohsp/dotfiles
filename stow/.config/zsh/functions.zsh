@@ -17,18 +17,18 @@ ys() {
 }
 
 set_theme(){
-    selected_theme=$(ls "$HOME/dotfiles/theme" | grep -v "current" | fzf)
+    selected_theme=$(ls "$HOME/dotfiles/themes" | grep -v "current" | fzf)
     if [ ! -z "$selected_theme" ]; then
-        rm "$HOME/dotfiles/theme/current"
-        ln -s "$HOME/dotfiles/theme/$selected_theme" "$HOME/dotfiles/theme/current"
+        rm "$HOME/dotfiles/themes/current"
+        ln -s "$HOME/dotfiles/themes/$selected_theme" "$HOME/dotfiles/themes/current"
     fi
 }
 
 set_workspace(){
-    selected_workspace=$(ls "$HOME/dotfiles/workspace" | grep -v "current" | fzf)
+    selected_workspace=$(ls "$HOME/dotfiles/workspaces" | grep -v "current" | fzf)
     if [ ! -z "$selected_workspace" ]; then
-        rm "$HOME/dotfiles/workspace/current"
-        ln -s "$HOME/dotfiles/workspace/$selected_workspace" "$HOME/dotfiles/workspace/current"
+        rm "$HOME/dotfiles/workspaces/current"
+        ln -s "$HOME/dotfiles/workspaces/$selected_workspace" "$HOME/dotfiles/workspaces/current"
     fi
 }
 
