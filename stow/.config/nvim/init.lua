@@ -32,4 +32,4 @@ require("lazy").setup(
   }
 )
 require("options")
-vim.cmd("colorscheme frost")
+-- vim.cmd("colorscheme frost")
