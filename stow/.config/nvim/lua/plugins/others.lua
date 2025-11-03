@@ -64,7 +64,7 @@ return {
   },
   {
     "GustavEikaas/easy-dotnet.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim', },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       vim.keymap.set("n", "<leader>T", "<cmd>:Dotnet testrunner<CR>",
         { noremap = true, silent = true, desc = "Dotnet Testrunner" })
