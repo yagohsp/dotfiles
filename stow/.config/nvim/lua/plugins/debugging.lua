@@ -9,6 +9,7 @@ return {
     },
     config = function()
       local dap = require "dap"
+      dap.set_log_level("DEBUG")
       local mason_path = os.getenv('HOME') .. '/.local/share/nvim/mason/packages'
       dap.adapters.node2 = {
         type = 'executable',
@@ -97,22 +98,37 @@ return {
         },
       }
 
-      dap.adapters.coreclr = {
-        type = 'executable',
-        command = mason_path .. '/netcoredbg/netcoredbg',
-        args = { '--interpreter=vscode' }
-      }
       dap.adapters.netcoredbg = {
         type = 'executable',
         command = mason_path .. '/netcoredbg/netcoredbg',
         args = { '--interpreter=vscode' }
       }
 
-
       local dotnet = require("easy-dotnet")
       dap.configurations.cs = {
         {
-          type = 'coreclr',
+          type = 'netcoredbg',
+          name = 'pid',
+          request = 'attach',
+          processId = function()
+            return vim.fn.input('Enter process ID: ')
+          end,
+        }, {
+        type = "netcoredbg",
+        name = "Attach to HappyPlace.API (auto)",
+        request = "attach",
+        processId = function()
+          local dll = dotnet.get_debug_dll(true)
+          local app_name = dll.project_name
+          local parent_port = vim.fn.system("ps aux | grep " .. app_name .. " | head -n1 | awk -F' ' '{print $2}'")
+          local cmd = string.format("pstree -p %d | grep -oP '%s\\(\\K\\d+' | head -n1", parent_port, app_name)
+          local port = vim.fn.system(cmd)
+
+          return tonumber(port)
+        end,
+      },
+        {
+          type = 'netcoredbg',
           name = 'Launch',
           request = 'launch',
           env = {
@@ -121,21 +137,13 @@ return {
           },
           program = function()
             local dll = dotnet.get_debug_dll(true)
-            dotnet.build()
+            -- dotnet.build()
             return dll.relative_dll_path
           end,
           cwd = function()
             local dll = dotnet.get_debug_dll(true)
             return dll.relative_project_path
           end
-        },
-        {
-          type = 'coreclr',
-          name = 'Attach',
-          request = 'attach',
-          processId = function()
-            return vim.fn.input('Enter process ID: ')
-          end,
         },
       }
 
