@@ -112,26 +112,19 @@ return {
       local dotnet = require("easy-dotnet")
       dap.configurations.cs = {
         {
-          type = 'netcoredbg',
-          name = 'pid',
-          request = 'attach',
+          type = "netcoredbg",
+          name = "Attach",
+          request = "attach",
           processId = function()
-            return vim.fn.input('Enter process ID: ')
-          end,
-        }, {
-        type = "netcoredbg",
-        name = "Attach to HappyPlace.API (auto)",
-        request = "attach",
-        processId = function()
-          local dll = dotnet.get_debug_dll(true)
-          local app_name = dll.project_name
-          local parent_port = vim.fn.system("ps aux | grep " .. app_name .. " | head -n1 | awk -F' ' '{print $2}'")
-          local cmd = string.format("pstree -p %d | grep -oP '%s\\(\\K\\d+' | head -n1", parent_port, app_name)
-          local port = vim.fn.system(cmd)
+            local dll = dotnet.get_debug_dll(true)
+            local app_name = dll.project_name
+            local parent_port = vim.fn.system("ps aux | grep " .. app_name .. " | head -n1 | awk -F' ' '{print $2}'")
+            local cmd = string.format("pstree -p %d | grep -oP '%s\\(\\K\\d+' | head -n1", parent_port, app_name)
+            local port = vim.fn.system(cmd)
 
-          return tonumber(port)
-        end,
-      },
+            return tonumber(port)
+          end,
+        },
         {
           type = 'netcoredbg',
           name = 'Launch',
