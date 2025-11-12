@@ -69,6 +69,10 @@ return {
       vim.keymap.set("n", "<leader>T", "<cmd>:Dotnet testrunner<CR>",
         { noremap = true, silent = true, desc = "Dotnet Testrunner" })
       require("easy-dotnet").setup({
+        lsp = {
+          enabled = false,
+          roslynator_enabled = true,
+        },
         test_runner = {
           viewmode = "float",
           mappings = {
@@ -100,23 +104,6 @@ return {
       library = {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
-    },
-  },
-  {
-    "kdheepak/lazygit.nvim",
-    lazy = true,
-    cmd = {
-      "LazyGit",
-      "LazyGitConfig",
-      "LazyGitCurrentFile",
-      "LazyGitFilter",
-      "LazyGitFilterCurrentFile",
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    keys = {
-      { "<leader>g", "<cmd>LazyGit<cr>", desc = "LazyGit" }
     },
   },
   {

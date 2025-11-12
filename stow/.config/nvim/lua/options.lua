@@ -36,21 +36,6 @@ vim.diagnostic.config({
   update_in_insert = false,
 })
 
--- vim.g.lazygit_floating_window_use_plenary = 0
--- vim.g.lazygit_use_neovim_remote = 0
-
--- Place this in your Neovim config (e.g., ~/.config/nvim/lua/restore_focus.lua)
-vim.api.nvim_create_autocmd("TabClosed", {
-  callback = function()
-    -- Find the lazygit terminal buffer and restore focus
-    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-      if vim.api.nvim_buf_get_name(buf):match("lazygit") then
-        vim.api.nvim_set_current_buf(buf)
-        break
-      end
-    end
-  end,
-})
 
 local keymap = vim.api.nvim_set_keymap
 local set = vim.keymap.set

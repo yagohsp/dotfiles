@@ -22,7 +22,7 @@ return {
       -- require("roslyn").setup()
     end,
     dependencies = {
-      "seblyng/roslyn.nvim",
+      -- "seblyng/roslyn.nvim",
       {
         'williamboman/mason.nvim',
         config = function()

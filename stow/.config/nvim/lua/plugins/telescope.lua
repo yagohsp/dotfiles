@@ -32,13 +32,13 @@ return {
               ["<CR>"] = select_one_or_multi
             },
           },
+          file_ignore_patterns = { ".git/" },
         },
         pickers = {
           find_files = {
             hidden = true
           }
         },
-        file_ignore_patterns = { ".git/" },
       }
     end
   },

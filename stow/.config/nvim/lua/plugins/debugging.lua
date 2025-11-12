@@ -76,7 +76,6 @@ return {
         type = 'executable',
         command = mason_path .. '/cpptools/extension/debugAdapters/bin/OpenDebugAD7',
       }
-
       dap.adapters.node2 = {
         type = 'executable',
         command = 'node',
@@ -98,6 +97,12 @@ return {
         },
       }
 
+
+      dap.adapters.coreclr = {
+        type = 'executable',
+        command = mason_path .. '/netcoredbg/netcoredbg',
+        args = { '--interpreter=vscode' }
+      }
       dap.adapters.netcoredbg = {
         type = 'executable',
         command = mason_path .. '/netcoredbg/netcoredbg',
