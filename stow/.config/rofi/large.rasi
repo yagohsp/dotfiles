@@ -1,6 +1,0 @@
-@import "~/.config/rofi/theme.rasi"
-@theme "~/.config/rofi/theme.rasi"
-
-mainbox {
-    margin: 0 0 0 0;
-}

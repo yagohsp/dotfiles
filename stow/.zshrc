@@ -33,9 +33,7 @@ export XDG_CONFIG_HOME=~/.config
 export QML_IMPORT_PATH=/usr/lib/qt/qml
 
 export MANPAGER="nvim +Man!"
-
-# fastfetch
- eval "$(zoxide init bash)"
+eval "$(zoxide init zsh)"
  
 autoload -Uz vcs_info
 precmd() { vcs_info }
@@ -76,3 +74,6 @@ source $HOME/.cargo/env
 #     tmux attach -t main 2>/dev/null || tmux new -s main
 #   fi
 # fi
+
+# opencode
+export PATH=/home/yago/.opencode/bin:$PATH
