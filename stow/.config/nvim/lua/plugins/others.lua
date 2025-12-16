@@ -29,6 +29,7 @@ return {
       require("qf").setup({})
     end
   },
+
   {
     'nvim-telescope/telescope-ui-select.nvim',
     config = function()
@@ -90,5 +91,25 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {},
+  },
+  {
+    "atiladefreitas/lazyclip",
+    config = function()
+      vim.keymap.set(
+        { "n", "v", "i" },
+        "<A-p>",
+        ":lua require('lazyclip.ui').open_window()<CR>",
+        { noremap = true, silent = true, desc = "Open Clipboard Manager" }
+      )
+
+      require("lazyclip").setup({
+        disable_default_keymap = true,
+        keymaps = {
+          close_window = "<ESC>"
+        }
+      })
+    end,
+    -- Optional: Load plugin when yanking text
+    -- event = { "TextYankPost" },
   }
 }

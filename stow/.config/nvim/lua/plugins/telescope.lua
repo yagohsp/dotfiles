@@ -22,7 +22,8 @@ return {
           require('telescope.actions').select_default(prompt_bufnr)
         end
       end
-      require('telescope').setup {
+      local telescope = require("telescope")
+      telescope.setup {
         defaults = {
           mappings = {
             n = {
@@ -40,6 +41,12 @@ return {
           }
         },
       }
+
+      vim.keymap.set('v', '<leader>f', function()
+        vim.cmd('normal! "zy')
+        local selection = vim.fn.getreg('z')
+        require('telescope.builtin').live_grep({ default_text = selection })
+      end, { noremap = true, silent = true })
     end
   },
   {
