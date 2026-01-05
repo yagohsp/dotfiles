@@ -1,5 +1,5 @@
 if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-    exec hyprland
+    exec start-hyprland
 fi
 
 # Created by `pipx` on 2025-03-25 17:02:14
