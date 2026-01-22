@@ -111,5 +111,12 @@ return {
     end,
     -- Optional: Load plugin when yanking text
     -- event = { "TextYankPost" },
+  },
+  {
+    'nvim-java/nvim-java',
+    config = function()
+      require('java').setup()
+      vim.lsp.enable('jdtls')
+    end,
   }
 }

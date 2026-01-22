@@ -43,7 +43,8 @@ return {
           json = { "prettierd" },
           lua = { "stylua " },
           cs = { "csharpier" },
-          sh = { "beautysh" }
+          sh = { "beautysh" },
+          sql = { "pg_format" }
         },
         format = {
           async = true,
