@@ -70,6 +70,23 @@ return {
         },
       })
 
+      -- copy path
+      local function get_current_minifiles_path()
+        local MiniFiles = require('mini.files')
+        local entry = MiniFiles.get_fs_entry(0, vim.api.nvim_win_get_cursor(0)[1])
+        if entry then
+          return entry.path
+        else
+          return nil
+        end
+      end
+      vim.keymap.set("n", "yp", function()
+        local path = get_current_minifiles_path()
+        if path then
+          vim.fn.setreg('+', path)
+        end
+      end)
+
       -- dotnet template
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesBufferCreate",

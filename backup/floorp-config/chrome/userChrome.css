@@ -39,8 +39,8 @@ Quote: https://userChrome.org | https://github.com/topics/userchrome
   z-index: 1000 !important;
 }
 
-#sidebar-box:hover .sidebar-browser-stack,
-.sidebar-browser-stack.dragging {
+.sidebar-browser-stack.dragging,
+.sidebar-browser-stack.open {
   transform: translateX(0);
 }
 
@@ -61,4 +61,3 @@ Quote: https://userChrome.org | https://github.com/topics/userchrome
   border-radius: 0 !important;
   outline: none !important;
 }
-

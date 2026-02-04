@@ -92,3 +92,16 @@ fy(){
 fw(){
     ss ~/w 2 dir
 }
+
+pc() {
+  local pids
+
+  pids=$(ps -eo pid,user,cmd --no-headers \
+    | fzf -m \
+    | awk '{print $1}')
+
+  [ -z "$pids" ] && return 1
+
+  "$@" $pids
+}
+

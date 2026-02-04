@@ -1,12 +1,15 @@
 const sidebar = document.getElementsByClassName("sidebar-browser-stack")[0];
 const sidebarBox = document.getElementById("sidebar-box");
+const tabBrowser = document.getElementById("tabbrowser-tabbox");
+const toolbar = document.getElementById("navigator-toolbox");
 
-sidebar.addEventListener("dragenter", function () {
-  console.log("dragenter");
-  sidebar.classList.add("dragging");
-});
-sidebar.addEventListener("dragend", function () {
-  console.log("dragend");
-  sidebar.classList.remove("dragging");
+sidebarBox.addEventListener("mouseenter", function () {
+  sidebar.classList.add("open");
 });
 
+tabBrowser.addEventListener("mouseenter", function () {
+  sidebar.classList.remove("open");
+});
+toolbar.addEventListener("mouseenter", function () {
+  sidebar.classList.remove("open");
+});
