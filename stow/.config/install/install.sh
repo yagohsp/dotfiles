@@ -1,15 +1,15 @@
-# 1. Install git and clone dotfiles
+# Install git and clone dotfiles
 sudo pacman -S git --noconfirm
 cd ~
 git clone https://github.com/yagohsp/dotfiles.git
 
-# 2. Install yay
+# Install yay
 sudo pacman -S --needed base-devel --noconfirm
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si --noconfirm
 
-# 3. Install packages
+# Install packages
 yay -S --noconfirm \
     7zip alsa-utils amd-ucode archlinux-xdg-menu aspnet-runtime-8.0 aws-cli aylurs-gtk-shell-git baobab base base-devel bc better-control-git \
     bibata-cursor-theme bluez-tools btop btrfs-progs catppuccin-cursors-mocha catppuccin-gtk-theme-mocha cliphist cmake dart-sass \
@@ -28,33 +28,30 @@ yay -S --noconfirm \
     ventoy-bin vesktop-bin vim vlc-plugin-ffmpeg walker-bin wayfreeze-git webapp-manager \
     wev wget wl-clipboard wpa_supplicant xclip xdg-desktop-portal-hyprland xdg-utils xorg-server xorg-xinit yarn yay \
     zen-browser-bin zoxide zsh zsh-syntax-highlighting
-
 pipx install neovim-remote
-
 flatpak install -y vlc
+git clone https://github.com/mwh/dragon.git && cd dragon && make install && cd .. && rm -rf dragon
 
-# 4. Install tmux plugin manager
+
+# Install tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-# 5. Install Better control
-bash <(curl -s https://raw.githubusercontent.com/quantumvoid0/better-control/refs/heads/main/betterctl.sh)
-
-# 6. Disable SDDM to skip
+# Disable SDDM to skip
 sudo systemctl disable sddm
 
-# 7. Install Oh My Zsh and plugins
+# Install Oh My Zsh and plugins
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 git clone https://github.com/jeffreytse/zsh-vi-mode $ZSH_CUSTOM/plugins/zsh-vi-mode
 
-# 8. Setup systemd autologin
+# Setup systemd autologin
 sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
 sudo bash -c 'echo -e "[Service]\nExecStart=\nExecStart=-/sbin/agetty -o '\''-p -f -- \\u'\'' --noclear --autologin '$WHOAMI' %I \$TERM"' > /etc/systemd/system/getty@tty1.service.d/autologin.conf
 
-# 9. Link dotfiles using stow
+# Link dotfiles using stow
 cd ~/dotfiles
 stow --override='.*' .
 
-# 10. Cleanup yay directory
+# Cleanup yay directory
 cd ~
 rm -rf yay
