@@ -12,7 +12,7 @@ grim -g "$(slurp -d)" "$screenshot_file"
 tee >(wl-copy < "$screenshot_file") < "$screenshot_file" > /dev/null
 
 # Run OCR with Tesseract (output to text file)
-tesseract -l jpn_vert --psm 5 "$screenshot_file" "$ocr_text_file" 
+tesseract -l jpn --psm 4 -resize 300% -colorspace Gray -contrast-stretch 5%x5% "$screenshot_file" "$ocr_text_file" 
 
 # Copy recognized text to clipboard
 cat "${ocr_text_file}.txt" | wl-copy 

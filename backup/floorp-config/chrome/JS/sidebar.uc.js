@@ -7,8 +7,11 @@ const browser = document.getElementById("browser");
 let mouse_on_left = false;
 
 browser.addEventListener("pointermove", function (e) {
-  if (e.clientX < 150) {
+  if (e.clientX <= 150) {
     mouse_on_left = true;
+    if (e.clientX <= 20) {
+      sidebar.classList.add("open");
+    }
   } else {
     mouse_on_left = false;
   }

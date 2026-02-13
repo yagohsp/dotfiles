@@ -19,53 +19,41 @@ Quote: https://userChrome.org | https://github.com/topics/userchrome
 @-moz-document url(chrome://browser/content/browser.xhtml)
 {
   /* Please write your custom CSS under this line*/
+}
+#sidebar-main,
+#sidebar-panel-header,
+#sidebar-splitter,
+#sidebar-header,
+#TabsToolbar {
+  display: none;
+}
 
-  #sidebar-main {
-    display: none !important;
-  }
-  #sidebar-panel-header {
-    display: none !important;
-  }
+#sidebar-box {
+  min-width: 1px !important;
+  width: 20px !important;
+  z-index: 1000 !important;
+  background-color: #3b4252 !important;
+}
 
-  #sidebar-splitter {
-    display: none !important;
-  }
+.sidebar-browser-stack.dragging,
+.sidebar-browser-stack.open {
+  transform: translateX(0);
+}
 
-  #sidebar-box {
-    min-width: 1px !important;
-    width: 20px !important;
-    z-index: 1000 !important;
-    background-color: #3b4252 !important;
-  }
+.sidebar-browser-stack {
+  transition: all ease-in-out 0.1s !important;
+  padding-bottom: 4px !important;
+  padding-right: 4px !important;
+  width: 280px;
+  height: 100%;
+  position: absolute;
+  padding: 0;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+}
 
-  .sidebar-browser-stack.dragging,
-  .sidebar-browser-stack.open {
-    transform: translateX(0);
-  }
-
-  .sidebar-browser-stack {
-    transition: all ease-in-out 0.1s !important;
-    padding-bottom: 4px !important;
-    padding-right: 4px !important;
-    width: 280px;
-    height: 100%;
-    position: absolute;
-    padding: 0;
-    top: 0;
-    left: 0;
-    transform: translateX(-100%);
-  }
-
-  #sidebar {
-    border-radius: 0 !important;
-    outline: none !important;
-  }
-
-  #sidebar-header {
-    display: none;
-  }
-
-  #TabsToolbar {
-    display: none;
-  }
+#sidebar {
+  border-radius: 0 !important;
+  outline: none !important;
 }
