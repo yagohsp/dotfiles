@@ -1,0 +1,42 @@
+(defwindow system-menu
+    :monitor "DP-2"
+    :windowtype "dialog"
+    :geometry (geometry 
+        :x "-8px"
+        :y "50px"
+        :width "200px"
+        :anchor "top right"
+    )
+
+    (box 
+        :class "system-menu-window"
+        :orientation "v"
+        :space-evenly false
+
+        (button 
+            :class "system-menu-item"
+            :onclick "systemctl reboot && eww close system-menu"
+
+            (label :text "Restart")
+        )
+
+        (button 
+            :class "system-menu-item"
+            :onclick "systemctl suspend && eww close system-menu"
+
+            (label :text "Suspend")
+        )
+        (button 
+            :class "system-menu-item"
+            :onclick "scripts/update-and-shutdown.sh && eww close system-menu"
+
+            (label :text "Update & Shutdown")
+        )
+        (button 
+            :class "system-menu-item"
+            :onclick "systemctl poweroff && eww close system-menu"
+
+            (label :text "Shutdown")
+        )
+    )
+)

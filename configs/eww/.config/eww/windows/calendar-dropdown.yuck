@@ -1,0 +1,15 @@
+(defwindow calendar-dropdown
+    :monitor "DP-2"
+    :windowtype "dialog"
+    :geometry (geometry 
+        :x "0px"
+        :y "36px"
+        :anchor "top center")
+
+    (box 
+        :class "calendar-window"
+        :orientation "v"
+
+        (calendar :class "calendar-widget")
+    )
+)

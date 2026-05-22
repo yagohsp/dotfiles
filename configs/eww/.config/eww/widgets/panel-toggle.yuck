@@ -1,0 +1,11 @@
+(defwidget panel-toggle []
+    (button 
+        :class "panel-toggle-button"
+        :onclick "eww update show_panel=${!show_panel}"
+
+        (label 
+            :text "⋮" 
+            :class "panel-toggle-icon"
+        )
+    )
+)

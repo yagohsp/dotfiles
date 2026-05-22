@@ -1,0 +1,34 @@
+(defwindow audio-output-selector
+    :monitor "DP-2"
+    :windowtype "dialog"
+    :geometry (geometry 
+        :x "-160px"
+        :y "60px"
+        :width "250px"
+        :anchor "top right")
+
+    (box 
+        :class "audio-output-selector-window"
+        :orientation "v"
+        :space-evenly false
+
+        (label :text "Audio Output" :class "audio-output-selector-label")
+        (scroll 
+            :height 150
+
+            (box 
+                :orientation "v"
+                :space-evenly false
+
+                (for output in available_audio_outputs
+                    (button 
+                        :class "audio-output-selector-item ${output.name == current_audio_output ? 'active' : ''}"
+                        :onclick "scripts/set-audio-output.sh '${output}' && eww close audio-output-selector"
+
+                        (label :text "${output.name}")
+                    )
+                )
+            )
+        )
+    )
+)

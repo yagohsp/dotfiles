@@ -1,0 +1,24 @@
+(defwidget tray []
+    (box 
+        :class "tray-widget"
+        :orientation "h"
+        :spacing 8
+        :space-evenly false
+
+        (systray 
+            :icon-size 16
+            :spacing 8)
+    )
+)
+
+(defwidget system []
+    (button 
+        :class "system-button"
+        :onclick "eww open system-menu"
+
+        (label 
+            :text "⏻" 
+            :class "system-icon"
+        )
+    )
+)

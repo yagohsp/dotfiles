@@ -1,0 +1,46 @@
+(defwidget workspaces [workspaces_var]
+    (box 
+        :class "workspaces"
+        :orientation "h"
+        :spacing 8
+        :space-evenly false
+        :valign "center"
+
+        (for workspace in workspaces_var
+            (button 
+                :class "workspace ${workspace.active ? 'active' : ''} ${workspace.occupied ? 'occupied' : ''}"
+                :onclick "i3-msg workspace number ${workspace.id}"
+
+                (label 
+                    :class "workspace-circle" 
+                    :text "${workspace.active ? '◉' : workspace.occupied ? '●' : '○'}"
+                )
+            )
+        )
+    )
+)
+
+(defwidget workspaces-by-monitor [workspaces_var monitor_name]
+    (box 
+        :class "workspaces"
+        :orientation "h"
+        :spacing 8
+        :space-evenly false
+        :valign "center"
+
+        (for workspace in workspaces_var
+            (box
+                :visible {workspace.monitor == monitor_name}
+                (button 
+                    :class "workspace ${workspace.active ? 'active' : ''} ${workspace.occupied ? 'occupied' : ''}"
+                    :onclick "i3-msg workspace number ${workspace.id}"
+
+                    (label 
+                        :class "workspace-circle" 
+                        :text "${workspace.active ? '◉' : workspace.occupied ? '●' : '○'}"
+                    )
+                )
+            )
+        )
+    )
+)

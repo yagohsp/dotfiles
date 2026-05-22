@@ -1,0 +1,8 @@
+# Temporary files
+*.swp
+*.swo
+*~
+
+# macOS / Windows noise
+.DS_Store
+Thumbs.db

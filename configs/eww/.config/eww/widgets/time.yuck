@@ -1,0 +1,21 @@
+(defwidget time []
+    (button 
+        :class "time"
+        :onclick "eww open calendar-dropdown"
+
+        (box 
+            :orientation "h"
+            :space-evenly false
+            :spacing 8
+
+            (label 
+                :text time 
+                :class "time-label"
+            )
+            (label 
+                :text date 
+                :class "date-label"
+            )
+        )
+    )
+)

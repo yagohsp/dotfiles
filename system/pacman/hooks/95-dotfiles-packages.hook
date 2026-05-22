@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Track dotfiles package installs and removals
+When = PostTransaction
+Exec = /home/yago/dotfiles/scripts/sync-dotfiles-packages

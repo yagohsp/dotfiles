@@ -1,0 +1,55 @@
+#!/usr/bin/env sh
+
+set -eu
+
+script_dir=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
+repo_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
+
+packages_file="$repo_dir/packages/packages-dotfiles.txt"
+state_dir="${DOTFILES_PACKAGE_STATE_DIR:-/var/lib/dotfiles-package-sync}"
+state_file="$state_dir/explicit-packages.txt"
+owner=$(stat -c '%u:%g' "$repo_dir")
+
+tmp_current=$(mktemp)
+tmp_previous=$(mktemp)
+tmp_added=$(mktemp)
+tmp_removed=$(mktemp)
+tmp_packages=$(mktemp)
+tmp_filtered=$(mktemp)
+trap 'rm -f "$tmp_current" "$tmp_previous" "$tmp_added" "$tmp_removed" "$tmp_packages" "$tmp_filtered"' EXIT INT TERM
+
+mkdir -p "$state_dir"
+pacman -Qeq | sort -u > "$tmp_current"
+
+if [ "${1:-}" = "--init" ] || [ ! -f "$state_file" ]; then
+  install -m 0644 "$tmp_current" "$state_file"
+  printf 'initialized package tracking state at %s\n' "$state_file"
+  exit 0
+fi
+
+cp "$state_file" "$tmp_previous"
+comm -13 "$tmp_previous" "$tmp_current" > "$tmp_added"
+comm -23 "$tmp_previous" "$tmp_current" > "$tmp_removed"
+
+if [ ! -f "$packages_file" ]; then
+  : > "$packages_file"
+fi
+
+cp "$packages_file" "$tmp_packages"
+
+while IFS= read -r pkg; do
+  [ -n "$pkg" ] || continue
+  printf '%s\n' "$pkg" >> "$tmp_packages"
+done < "$tmp_added"
+
+if [ -s "$tmp_removed" ]; then
+  grep -vxFf "$tmp_removed" "$tmp_packages" > "$tmp_filtered" || true
+  cp "$tmp_filtered" "$tmp_packages"
+fi
+
+sort -u "$tmp_packages" > "$tmp_filtered"
+install -m 0644 "$tmp_filtered" "$packages_file"
+chown "$owner" "$packages_file"
+install -m 0644 "$tmp_current" "$state_file"
+
+printf 'updated %s\n' "$packages_file"

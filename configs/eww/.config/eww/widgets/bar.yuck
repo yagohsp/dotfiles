@@ -1,0 +1,45 @@
+(defwidget left [workspaces_var monitor_name]
+    (box 
+        :orientation "h"
+        :space-evenly false
+        :halign "start"
+        :spacing 20
+
+        (workspaces-by-monitor :workspaces_var workspaces_var :monitor_name monitor_name)
+    )
+)
+
+(defwidget center []
+    (box 
+        :orientation "h"
+        :space-evenly false
+        :halign "center"
+
+        (time)
+    )
+)
+
+(defwidget right []
+    (box 
+        :orientation "h"
+        :space-evenly false
+        :halign "end"
+        :spacing 20
+
+        (audio)
+        (tray)
+        (system)
+        (panel-toggle)
+    )
+)
+
+(defwidget bar [workspaces_var monitor_name]
+    (centerbox 
+        :class "bar"
+        :orientation "h"
+
+        (left :workspaces_var workspaces_var :monitor_name monitor_name)
+        (center)
+        (right)
+    )
+)

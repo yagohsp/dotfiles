@@ -1,0 +1,39 @@
+(defwidget audio []
+    (box 
+        :class "audio"
+        :orientation "h"
+        :space-evenly false
+        :spacing 8
+
+        (button 
+            :class "default_audio ${default_audio == "headset" ? "active" : ""}"
+            :onclick "scripts/set-headset.sh"
+            :width 40
+
+            (label :text "󰋋")
+        )
+
+        (button 
+            :class "default_audio ${default_audio == "monitor" ? "active" : ""} monitor"
+            :onclick "scripts/set-monitor.sh"
+            :width 40
+
+            (label :text "󰓃")
+        )
+
+        (button 
+            :class "mute ${is_audio_muted == "yes" ? "is_muted" : ""}"
+            :onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+
+            (label :text "${is_audio_muted == "yes" ? "󰝟" : "󰕾"}" )
+        )
+
+        (scale 
+            :class "audio-slider ${is_audio_muted == "yes" ? "is_muted" : ""}"
+            :value "${is_audio_muted == "yes" ? 0 : default_audio_volume}"
+            :min 0
+            :max 100
+            :onchange "pactl set-sink-volume @DEFAULT_SINK@ {}%"
+        )
+    )
+)
