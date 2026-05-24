@@ -1,7 +1,7 @@
 (defwidget time []
     (button 
         :class "time"
-        :onclick "eww open calendar-dropdown"
+        :onclick "eww open calendar-backdrop; eww open calendar-dropdown"
 
         (box 
             :orientation "h"

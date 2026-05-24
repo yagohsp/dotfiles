@@ -1,0 +1,275 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+notify() {
+  notify-send "Focused app audio" "$1"
+}
+
+require() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    notify "Missing required command: $1"
+    exit 1
+  fi
+}
+
+process_binary() {
+  local pid="$1"
+  if [[ -r "/proc/$pid/comm" ]]; then
+    tr -d '\n' < "/proc/$pid/comm"
+  fi
+}
+
+is_descendant() {
+  local child="$1"
+  local ancestor="$2"
+  local current="$child"
+
+  while [[ "$current" =~ ^[0-9]+$ ]] && [[ "$current" -gt 1 ]]; do
+    if [[ "$current" == "$ancestor" ]]; then
+      return 0
+    fi
+
+    if [[ ! -r "/proc/$current/status" ]]; then
+      return 1
+    fi
+
+    current="$(awk '/^PPid:/ { print $2; exit }' "/proc/$current/status")"
+  done
+
+  return 1
+}
+
+require i3-msg
+require jq
+require pactl
+require notify-send
+require xdotool
+
+outputs_file="$HOME/dotfiles/configs/eww/.config/audio/outputs.json"
+refresh_script="$HOME/dotfiles/scripts/refresh-audio-outputs"
+
+current_output_name_from_sink() {
+  local sink_index="$1"
+  local sinks_json="$2"
+  local outputs_json="$3"
+  local current_sink_name
+  local current_sink_profile
+
+  current_sink_name="$(jq -r --argjson index "$sink_index" '
+    first(.[] | select(.index == $index) | .name) // ""
+  ' <<< "$sinks_json")"
+
+  current_sink_profile="$(jq -r --argjson index "$sink_index" '
+    first(.[] | select(.index == $index) | .properties["device.profile.name"]) // ""
+  ' <<< "$sinks_json")"
+
+  jq -r --arg sink_name "$current_sink_name" --arg sink_profile "$current_sink_profile" '
+    first(
+      .[]
+      | select(
+          (.type == "sink" and (.sink_name // "") == $sink_name)
+          or (.type == "profile" and (.sink_profile // "") == $sink_profile)
+        )
+      | .name
+    ) // ""
+  ' <<< "$outputs_json"
+}
+
+resolve_sink_name_for_output() {
+  local target_output_json="$1"
+  local output_type
+  local card_name
+  local profile
+  local sink_profile
+
+  output_type="$(jq -r '.type // ""' <<< "$target_output_json")"
+
+  case "$output_type" in
+    sink)
+      jq -r '.sink_name // ""' <<< "$target_output_json"
+      ;;
+    profile)
+      card_name="$(jq -r '.card_name // ""' <<< "$target_output_json")"
+      profile="$(jq -r '.profile // ""' <<< "$target_output_json")"
+      sink_profile="$(jq -r '.sink_profile // ""' <<< "$target_output_json")"
+
+      if [[ -z "$card_name" || -z "$profile" || -z "$sink_profile" ]]; then
+        notify "Could not resolve monitor output"
+        exit 1
+      fi
+
+      pactl set-card-profile "$card_name" "$profile"
+
+      for _ in {1..20}; do
+        target_sink_name="$(pactl -f json list sinks | jq -r --arg card "$card_name" --arg profile "$sink_profile" '
+          first(
+            .[]
+            | select(
+                (.properties["device.name"] // "") == $card
+                and (.properties["device.profile.name"] // "") == $profile
+              )
+            | .name
+          ) // ""
+        ')"
+
+        if [[ -n "$target_sink_name" ]]; then
+          printf '%s\n' "$target_sink_name"
+          return 0
+        fi
+
+        sleep 0.1
+      done
+
+      notify "Target monitor sink did not appear"
+      exit 1
+      ;;
+    *)
+      notify "Unknown output type: $output_type"
+      exit 1
+      ;;
+  esac
+}
+
+focused_json="$(i3-msg -t get_tree)"
+focused_info="$(jq -r '
+  first(
+    ..
+    | objects
+    | select(.focused? == true)
+  )
+  | [(.window_properties.class // .app_id // ""), (.name // "")]
+  | @tsv
+' <<< "$focused_json")"
+
+if [[ -z "$focused_info" ]]; then
+  notify "No focused i3 window found"
+  exit 1
+fi
+
+IFS=$'\t' read -r focused_class focused_name <<< "$focused_info"
+focused_pid="$(xdotool getwindowfocus getwindowpid 2>/dev/null || true)"
+
+if [[ -z "$focused_pid" || "$focused_pid" == "0" ]]; then
+  notify "Focused window has no process ID"
+  exit 1
+fi
+
+focused_binary="$(process_binary "$focused_pid")"
+sinks_json="$(pactl -f json list sinks)"
+inputs_json="$(pactl -f json list sink-inputs)"
+
+if [[ ! -r "$outputs_file" && -x "$refresh_script" ]]; then
+  "$refresh_script" >/dev/null
+fi
+
+if [[ ! -r "$outputs_file" ]]; then
+  notify "Missing audio outputs file"
+  exit 1
+fi
+
+outputs_json="$(jq -c '.' "$outputs_file")"
+mapfile -t output_names < <(jq -r '.[].name' <<< "$outputs_json")
+
+if (( ${#output_names[@]} < 2 )); then
+  notify "Need at least two configured outputs"
+  exit 1
+fi
+
+mapfile -t exact_matches < <(jq -r --arg pid "$focused_pid" '
+  .[]
+  | select((.properties["application.process.id"] // "") == $pid)
+  | .index
+' <<< "$inputs_json")
+
+candidate_inputs=("${exact_matches[@]}")
+
+if (( ${#candidate_inputs[@]} == 0 )); then
+  while IFS=$'\t' read -r input_index input_pid input_binary; do
+    [[ -n "$input_index" ]] || continue
+
+    if [[ -n "$input_pid" ]] && is_descendant "$input_pid" "$focused_pid"; then
+      candidate_inputs+=("$input_index")
+      continue
+    fi
+
+    if [[ -n "$focused_binary" && -n "$input_binary" && "$input_binary" == "$focused_binary" ]]; then
+      candidate_inputs+=("$input_index")
+    fi
+  done < <(jq -r '
+    .[]
+    | [
+        .index,
+        (.properties["application.process.id"] // ""),
+        (.properties["application.process.binary"] // "")
+      ]
+    | @tsv
+  ' <<< "$inputs_json")
+fi
+
+if (( ${#candidate_inputs[@]} == 0 )); then
+  while IFS= read -r input_index; do
+    [[ -n "$input_index" ]] || continue
+    candidate_inputs+=("$input_index")
+  done < <(jq -r --arg app_class "$focused_class" --arg app_name "$focused_name" '
+    .[]
+    | select(
+        ((.properties["application.name"] // "") == $app_class)
+        or ((.properties["application.name"] // "") == $app_name)
+        or ((.properties["media.name"] // "") == $app_name)
+      )
+    | .index
+  ' <<< "$inputs_json")
+fi
+
+if (( ${#candidate_inputs[@]} == 0 )); then
+  notify "No audio stream found for focused app"
+  exit 1
+fi
+
+current_sink="$(jq -r --argjson index "${candidate_inputs[0]}" '
+  .[]
+  | select(.index == $index)
+  | .sink
+' <<< "$inputs_json")"
+
+if [[ -z "$current_sink" || "$current_sink" == "null" ]]; then
+  notify "Focused app stream has no current output"
+  exit 1
+fi
+
+current_output_name="$(current_output_name_from_sink "$current_sink" "$sinks_json" "$outputs_json")"
+
+target_output_name=""
+for i in "${!output_names[@]}"; do
+  if [[ "${output_names[$i]}" == "$current_output_name" ]]; then
+    target_output_name="${output_names[$(((i + 1) % ${#output_names[@]}))]}"
+    break
+  fi
+done
+
+if [[ -z "$target_output_name" ]]; then
+  target_output_name="${output_names[0]}"
+fi
+
+target_output_json="$(jq -c --arg name "$target_output_name" '
+  first(.[] | select(.name == $name))
+' <<< "$outputs_json")"
+
+if [[ -z "$target_output_json" || "$target_output_json" == "null" ]]; then
+  notify "Could not resolve target output"
+  exit 1
+fi
+
+target_sink="$(resolve_sink_name_for_output "$target_output_json")"
+
+if [[ -z "$target_sink" || "$target_sink" == "null" ]]; then
+  notify "Could not resolve target sink"
+  exit 1
+fi
+
+for input_index in "${candidate_inputs[@]}"; do
+  pactl move-sink-input "$input_index" "$target_sink"
+done
+
+notify "${focused_name:-Focused app} -> $target_output_name"

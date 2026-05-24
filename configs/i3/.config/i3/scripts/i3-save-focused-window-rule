@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+notify() {
+  notify-send "i3 window rule" "$1"
+}
+
+require() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    notify "Missing required command: $1"
+    exit 1
+  fi
+}
+
+regex_escape() {
+  printf '%s' "$1" | sed 's/[][(){}.^$*+?|\\-]/\\&/g'
+}
+
+update_rule_file() {
+  local file="$1"
+  local comment_line="$2"
+  local rule_line="$3"
+  local tmpfile
+
+  tmpfile="$(mktemp)"
+
+  awk -v comment_line="$comment_line" -v rule_line="$rule_line" '
+    BEGIN { skip_next = 0 }
+    {
+      if (skip_next == 1) {
+        skip_next = 0
+        next
+      }
+
+      if ($0 == comment_line) {
+        skip_next = 1
+        next
+      }
+
+      print
+    }
+    END {
+      print comment_line
+      print rule_line
+    }
+  ' "$file" > "$tmpfile"
+
+  mv "$tmpfile" "$file"
+}
+
+require i3-msg
+require jq
+require notify-send
+
+live_rules_file="$HOME/.config/i3/window-rules.conf"
+dotfiles_rules_file="$HOME/dotfiles/configs/i3/.config/i3/window-rules.conf"
+
+focused_json="$(i3-msg -t get_tree)"
+focused_info="$(jq -c '
+  first(
+    ..
+    | objects
+    | select(.focused? == true and (.window? != null or .app_id? != null))
+  )
+  | {
+      class: (.window_properties.class // ""),
+      instance: (.window_properties.instance // ""),
+      title: (.name // ""),
+      floating: (.floating // "auto_off"),
+      fullscreen_mode: (.fullscreen_mode // 0),
+      width: (.rect.width // 0),
+      height: (.rect.height // 0)
+    }
+' <<< "$focused_json")"
+
+if [[ -z "$focused_info" || "$focused_info" == "null" ]]; then
+  notify "No focused window found"
+  exit 1
+fi
+
+window_class="$(jq -r '.class' <<< "$focused_info")"
+window_instance="$(jq -r '.instance' <<< "$focused_info")"
+window_title="$(jq -r '.title' <<< "$focused_info")"
+floating_state="$(jq -r '.floating' <<< "$focused_info")"
+fullscreen_mode="$(jq -r '.fullscreen_mode' <<< "$focused_info")"
+width="$(jq -r '.width' <<< "$focused_info")"
+height="$(jq -r '.height' <<< "$focused_info")"
+
+if [[ -z "$window_class" ]]; then
+  notify "Focused window has no class"
+  exit 1
+fi
+
+criterion="class=\"^$(regex_escape "$window_class")\$\""
+comment_key="class=${window_class}"
+
+if [[ -n "$window_instance" ]]; then
+  criterion+=" instance=\"^$(regex_escape "$window_instance")\$\""
+  comment_key+=" instance=${window_instance}"
+fi
+
+comment_line="# opencode-window-state ${comment_key}"
+
+commands=("fullscreen disable")
+
+if [[ "$fullscreen_mode" != "0" ]]; then
+  commands=("fullscreen enable")
+fi
+
+if [[ "$floating_state" == "user_on" || "$floating_state" == "auto_on" ]]; then
+  commands+=("floating enable")
+  commands+=("resize set ${width} px ${height} px")
+  commands+=("move position center")
+else
+  commands+=("floating disable")
+fi
+
+rule_commands="$(printf '%s, ' "${commands[@]}")"
+rule_commands="${rule_commands%, }"
+rule_line="for_window [${criterion}] ${rule_commands}"
+
+update_rule_file "$live_rules_file" "$comment_line" "$rule_line"
+
+if [[ -f "$dotfiles_rules_file" ]]; then
+  update_rule_file "$dotfiles_rules_file" "$comment_line" "$rule_line"
+fi
+
+i3-msg reload >/dev/null
+notify "Saved ${window_class}${window_instance:+ / $window_instance} (${rule_commands})"

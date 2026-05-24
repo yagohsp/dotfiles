@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+require() {
+  command -v "$1" >/dev/null 2>&1 || {
+    printf 'Missing required command: %s\n' "$1" >&2
+    exit 1
+  }
+}
+
+require jq
+require pactl
+
+outputs_file="$HOME/dotfiles/configs/eww/.config/audio/outputs.json"
+
+sinks_json="$(pactl -f json list sinks)"
+cards_json="$(pactl -f json list cards)"
+
+outputs_json="$(jq -n --argjson sinks "$sinks_json" --argjson cards "$cards_json" '
+  def hdmi_profile_number:
+    if . == "output:hdmi-stereo" then 1
+    else ((capture("^output:hdmi-stereo-extra(?<n>[0-9]+)$").n | tonumber) + 1)
+    end;
+
+  [
+    ($sinks[]
+      | select(((.properties["device.profile.name"] // "") | startswith("hdmi-")) | not)
+      | {
+          name: (
+            if ((.description // .properties["device.description"] // "") | ascii_downcase | test("hyperx|headset|headphones"))
+            then "Headset"
+            else (.description // .properties["device.description"] // .name)
+            end
+          ),
+          type: "sink",
+          sink_name: .name,
+          card_name: (.properties["device.name"] // ""),
+          description: (.description // .properties["device.description"] // .name)
+        }),
+    ($cards[]
+      | . as $card
+      | ($card.ports // {})
+      | to_entries[]
+      | select(.value.type == "HDMI" and .value.availability == "available")
+      | . as $port
+      | ($port.value.profiles // [])[]
+      | select(test("^output:hdmi-stereo($|-extra[0-9]+$)"))
+      | select($card.profiles[.]?.available == true)
+      | . as $profile
+      | ($profile | hdmi_profile_number) as $num
+      | {
+          name: "Monitor \($num) (HDMI \($num))",
+          type: "profile",
+          card_name: $card.name,
+          profile: $profile,
+          sink_profile: ($profile | sub("^output:"; "")),
+          port_name: $port.key,
+          display_name: ($port.value.properties["device.product.name"] // $port.value.description // $card.properties["device.description"] // "HDMI"),
+          description: ($port.value.description // "")
+        })
+  ]
+  | sort_by(if .type == "sink" then 0 else (.profile | hdmi_profile_number) end)
+')"
+
+tmpfile="$(mktemp)"
+trap 'rm -f "$tmpfile"' EXIT
+
+printf '%s\n' "$outputs_json" > "$tmpfile"
+install -Dm644 "$tmpfile" "$outputs_file"
+
+printf '%s\n' "$outputs_json"

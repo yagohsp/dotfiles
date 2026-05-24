@@ -14,7 +14,7 @@
 (defwidget system []
     (button 
         :class "system-button"
-        :onclick "eww open system-menu"
+        :onclick "eww open system-menu-backdrop; eww open system-menu"
 
         (label 
             :text "⏻" 

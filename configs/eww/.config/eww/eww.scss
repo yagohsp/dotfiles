@@ -1,7 +1,7 @@
 // Rose Pine Theme Colors
-$base: #191724;
-$surface: #1f1d2e;
-$overlay: #26233a;
+$base: #1a1822;
+$surface: #1a1822;
+$overlay: #1a1822;
 $muted: #6e6a86;
 $subtle: #908caa;
 $text: #e0def4;
@@ -67,7 +67,7 @@ scale {
     color: $muted;
   }
   
-  &:hover .workspace-circle {
+  &:active .workspace-circle {
     color: $text;
   }
   
@@ -85,7 +85,7 @@ scale {
   background-color: $surface;
   transition: all 0.2s ease;
   
-  &:hover {
+  &:active {
     background-color: $highlight-med;
   }
   
@@ -105,7 +105,7 @@ scale {
   button.default_audio {
     border: 1px solid transparent;
     
-    &:hover {
+    &:active {
       background-color: $highlight-med;
     }
 
@@ -133,7 +133,7 @@ scale {
       color: $love;
     }
 
-    &:hover {
+    &:active {
       background-color: $highlight-med;
     }
 
@@ -158,6 +158,10 @@ scale {
 .calendar-window {
   background-color: $overlay;
   padding: 12px;
+}
+
+.modal-backdrop-hit {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .calendar-widget {
@@ -212,7 +216,7 @@ scale {
   background-color: $surface;
   transition: all 0.2s ease;
   
-  &:hover {
+  &:active {
     background-color: $highlight-med;
   }
   
@@ -232,7 +236,7 @@ scale {
     background-color: transparent;
     color: $text;
     
-    &:hover {
+    &:active {
       background-color: $highlight-med;
     }
     
@@ -253,7 +257,7 @@ scale {
 }
 
 .panel-window {
-  background-color: rgba(25, 23, 36, 0.95);
+  background-color: rgba(28, 26, 38, 0.95);
   padding: 0;
 }
 
@@ -270,7 +274,7 @@ scale {
   color: $text;
   transition: all 0.2s ease;
   
-  &:hover {
+  &:active {
     background-color: $highlight-med;
     color: $love;
   }
@@ -297,7 +301,7 @@ scale {
   background-color: $surface;
   transition: all 0.2s ease;
   
-  &:hover {
+  &:active {
     background-color: $highlight-med;
   }
   

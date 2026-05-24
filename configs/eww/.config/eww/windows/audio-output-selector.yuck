@@ -1,6 +1,26 @@
+(defwindow audio-output-selector-backdrop
+    :monitor "DP-2"
+    :windowtype "dialog"
+    :geometry (geometry
+        :x "0%"
+        :y "0%"
+        :width "100%"
+        :height "100%"
+        :anchor "top left")
+    :stacking "fg"
+
+    (button
+        :class "modal-backdrop-hit"
+        :hexpand true
+        :vexpand true
+        :onclick "eww close audio-output-selector; eww close audio-output-selector-backdrop"
+    )
+)
+
 (defwindow audio-output-selector
     :monitor "DP-2"
     :windowtype "dialog"
+    :stacking "fg"
     :geometry (geometry 
         :x "-160px"
         :y "60px"
@@ -23,7 +43,7 @@
                 (for output in available_audio_outputs
                     (button 
                         :class "audio-output-selector-item ${output.name == current_audio_output ? 'active' : ''}"
-                        :onclick "scripts/set-audio-output.sh '${output}' && eww close audio-output-selector"
+                        :onclick "scripts/set-audio-output.sh '${output}'; eww close audio-output-selector; eww close audio-output-selector-backdrop"
 
                         (label :text "${output.name}")
                     )

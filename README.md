@@ -30,6 +30,7 @@ Personal dotfiles managed with GNU Stow.
 - `thunar`: `~/.config/Thunar`
 - `desktop`: `~/.config/autostart`, `~/.config/mimeapps.list`
 - `obs`: `~/.config/obs-studio`
+- `vlc`: `~/.config/vlc`
 
 ## Requirements
 

@@ -18,6 +18,7 @@ input
 thunar
 desktop
 obs
+vlc
 '
 
 TARGETS='
@@ -49,4 +50,5 @@ TARGETS='
 .config/autostart
 .config/mimeapps.list
 .config/obs-studio
+.config/vlc
 '

@@ -1,16 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Get headset ID (sink, not device)
-headset_id=$(wpctl status | grep "│.*HyperX Cloud Flight" | grep "\[vol:" | awk '{print $2}' | tr -d '. *')
+set -euo pipefail
 
-# Get GPU card ID  
-gpu_card="53"
+outputs_file="$HOME/dotfiles/configs/eww/.config/audio/outputs.json"
+refresh_script="$HOME/dotfiles/scripts/refresh-audio-outputs"
 
-# Output as JSON array
-cat << EOF
-[
-  {"name": "Headset", "type": "sink", "id": "$headset_id"},
-  {"name": "Monitor 1 (HDMI 1)", "type": "profile", "card": "$gpu_card", "profile": "output:hdmi-stereo"},
-  {"name": "Monitor 2 (HDMI 2)", "type": "profile", "card": "$gpu_card", "profile": "output:hdmi-stereo-extra1"}
-]
-EOF
+if [[ ! -r "$outputs_file" && -x "$refresh_script" ]]; then
+  "$refresh_script" >/dev/null
+fi
+
+if [[ -r "$outputs_file" ]]; then
+  exec jq -c '.' "$outputs_file"
+fi
+
+printf '[]\n'
