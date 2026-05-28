@@ -159,7 +159,7 @@ focused_binary="$(process_binary "$focused_pid")"
 sinks_json="$(pactl -f json list sinks)"
 inputs_json="$(pactl -f json list sink-inputs)"
 
-if [[ ! -r "$outputs_file" && -x "$refresh_script" ]]; then
+if [[ -x "$refresh_script" ]]; then
   "$refresh_script" >/dev/null
 fi
 

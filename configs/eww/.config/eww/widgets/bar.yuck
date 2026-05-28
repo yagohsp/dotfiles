@@ -26,7 +26,7 @@
         :halign "end"
         :spacing 20
 
-        (audio)
+        (volume-toggle)
         (tray)
         (system)
         (panel-toggle)

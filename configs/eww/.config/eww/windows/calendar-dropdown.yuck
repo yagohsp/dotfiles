@@ -20,7 +20,6 @@
 (defwindow calendar-dropdown
     :monitor "DP-2"
     :windowtype "dialog"
-    :stacking "fg"
     :geometry (geometry 
         :x "0px"
         :y "36px"

@@ -8,21 +8,17 @@
   },
   {
     "name": "Monitor 1 (HDMI 1)",
-    "type": "profile",
+    "type": "sink",
+    "sink_name": "alsa_output.pci-0000_07_00.1.pro-output-3",
     "card_name": "alsa_card.pci-0000_07_00.1",
-    "profile": "output:hdmi-stereo",
-    "sink_profile": "hdmi-stereo",
-    "port_name": "hdmi-output-0",
     "display_name": "PHL 242V8",
     "description": "HDMI / DisplayPort"
   },
   {
     "name": "Monitor 2 (HDMI 2)",
-    "type": "profile",
+    "type": "sink",
+    "sink_name": "alsa_output.pci-0000_07_00.1.pro-output-7",
     "card_name": "alsa_card.pci-0000_07_00.1",
-    "profile": "output:hdmi-stereo-extra1",
-    "sink_profile": "hdmi-stereo-extra1",
-    "port_name": "hdmi-output-1",
     "display_name": "VG2791R",
     "description": "HDMI / DisplayPort 2"
   }

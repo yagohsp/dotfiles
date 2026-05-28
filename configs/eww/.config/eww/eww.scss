@@ -101,58 +101,24 @@ scale {
   }
 }
 
-.audio {
-  button.default_audio {
-    border: 1px solid transparent;
-    
-    &:active {
-      background-color: $highlight-med;
-    }
-
-    &.active {
-      border: 1px solid $rose;
-
-      label {
-        color: $rose;
-      }
-    }
-
-    &.monitor label {
-      font-size: 20px;
-    }
-
-    label {
-      font-size: 26px;
-    }
-  }
-  
-  button.mute {
-    padding: 0px 8px;
-    
-    &.is_muted label{
-      color: $love;
-    }
-
-    &:active {
-      background-color: $highlight-med;
-    }
-
-    label {
-      color: $rose;
-      font-size: 26px;
-    }
-  }
-  
-  .audio-slider {
-    &.is_muted {
-      opacity: 0.5;
-    }
-  }
-}
-
 .tray-widget {
   padding: 4px 8px;
   background-color: $surface;
+}
+
+.volume-toggle-button {
+  padding: 4px 12px;
+  background-color: $surface;
+  transition: all 0.2s ease;
+
+  &:active {
+    background-color: $highlight-med;
+  }
+
+  .volume-toggle-icon {
+    font-size: 22px;
+    color: $foam;
+  }
 }
 
 .calendar-window {
@@ -161,7 +127,7 @@ scale {
 }
 
 .modal-backdrop-hit {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(28, 26, 38, 0);
 }
 
 .calendar-widget {
@@ -246,13 +212,124 @@ scale {
   }
 }
 
-.outputs-volume-popup {
+.volume-modal-window {
   background-color: $overlay;
-  border: 1px solid $rose;
+  border: 1px solid $highlight-med;
+  padding: 14px;
+  min-width: 360px;
+}
 
-  box {
-    padding: 6px;
-    border-radius: 8px;
+.volume-modal-divider {
+  min-height: 1px;
+  background-color: $highlight-med;
+}
+
+.volume-section {
+  padding: 2px 0;
+}
+
+.volume-modal-subtitle {
+  font-size: 12px;
+  font-weight: bold;
+  color: $rose;
+  letter-spacing: 1px;
+}
+
+.volume-modal-header {
+  min-height: 0;
+  padding-bottom: 0;
+}
+
+.volume-device-row {
+  background-color: $surface;
+  padding: 12px;
+  min-width: 336px;
+}
+
+.volume-header-row {
+  min-height: 24px;
+}
+
+.volume-control-row {
+  min-height: 28px;
+}
+
+.volume-inline-meta {
+  min-width: 74px;
+}
+
+.volume-mute-button {
+  color: $rose;
+  padding: 2px 6px;
+
+  &:active {
+    color: $love;
+  }
+
+  &.muted {
+    color: $love;
+  }
+
+  label {
+    font-size: 20px;
+  }
+}
+
+.volume-device-label {
+  font-size: 13px;
+  color: $text;
+  font-weight: bold;
+}
+
+.volume-device-value {
+  font-size: 12px;
+  color: $subtle;
+  min-width: 36px;
+}
+
+.stream-route-row {
+  background-color: $surface;
+  padding: 12px;
+  min-width: 336px;
+}
+
+.stream-route-label {
+  font-size: 14px;
+  color: $text;
+  font-weight: bold;
+}
+
+.stream-volume-label {
+  font-size: 11px;
+  color: $subtle;
+}
+
+.stream-volume-value {
+  font-size: 11px;
+  color: $subtle;
+  min-width: 36px;
+}
+
+.stream-output-button {
+  padding: 7px 0;
+  background-color: $highlight-low;
+  color: $text;
+  min-width: 104px;
+  border: 1px solid transparent;
+
+  &:active {
+    background-color: $highlight-med;
+  }
+
+  &.active {
+    background-color: $iris;
+    color: $base;
+    border-color: $rose;
+  }
+
+  label {
+    font-size: 12px;
+    font-weight: bold;
   }
 }
 

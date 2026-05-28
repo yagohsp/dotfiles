@@ -1,0 +1,146 @@
+17:55:46.660: Crash or unclean shutdown detected
+08:49:21.243: [Safe Mode] Normal launch selected, loading third-party plugins is enabled
+08:49:21.243: Command Line Arguments: --startreplaybuffer --minimize-to-tray
+08:49:21.243: Using EGL/X11
+08:49:21.244: CPU Name: AMD Ryzen 7 5700X3D 8-Core Processor
+08:49:21.244: CPU Speed: 3842.837MHz
+08:49:21.244: Physical Cores: 8, Logical Cores: 16
+08:49:21.244: Physical Memory: 31997MB Total, 12489MB Free
+08:49:21.244: Kernel Version: Linux 7.0.10-1-cachyos
+08:49:21.244: Distribution: "CachyOS Linux" Unknown
+08:49:21.244: Desktop Environment: i3
+08:49:21.244: Session Type: x11
+08:49:21.244: Window System: X11.0, Vendor: The X.Org Foundation, Version: 1.21.1
+08:49:21.245: Current Date/Time: 2026-05-28, 08:49:21
+08:49:21.245: Browser Hardware Acceleration: true
+08:49:21.245: Qt Version: 6.11.1 (runtime), 6.11.1 (compiled)
+08:49:21.245: Portable mode: false
+08:49:21.260: OBS 32.1.2 (linux)
+08:49:21.260: ---------------------------------
+08:49:21.261: ---------------------------------
+08:49:21.261: audio settings reset:
+08:49:21.261: 	samples per sec: 48000
+08:49:21.261: 	speakers:        2
+08:49:21.261: 	max buffering:   960 milliseconds
+08:49:21.261: 	buffering type:  dynamically increasing
+08:49:21.263: ---------------------------------
+08:49:21.263: Initializing OpenGL...
+08:49:21.425: Loading up OpenGL on adapter NVIDIA Corporation NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
+08:49:21.425: OpenGL loaded successfully, version 3.3.0 NVIDIA 595.71.05, shading language 3.30 NVIDIA via Cg compiler
+08:49:21.448: ---------------------------------
+08:49:21.448: video settings reset:
+08:49:21.448: 	base resolution:   1920x1080
+08:49:21.448: 	output resolution: 1920x1080
+08:49:21.448: 	downscale filter:  Bicubic
+08:49:21.448: 	fps:               60/1
+08:49:21.448: 	format:            NV12
+08:49:21.448: 	YUV mode:          Rec. 709/Partial
+08:49:21.448: NV12 texture support enabled
+08:49:21.448: P010 texture support not available
+08:49:21.448: Audio monitoring device:
+08:49:21.448: 	name: Default
+08:49:21.448: 	id: default
+08:49:21.490: ---------------------------------
+08:49:21.491: Failed to load 'en-US' text for module: 'decklink-captions.so'
+08:49:21.493: Failed to load 'en-US' text for module: 'decklink-output-ui.so'
+08:49:21.494: A DeckLink iterator could not be created.  The DeckLink drivers may not be installed
+08:49:21.494: Failed to initialize module 'decklink.so'
+08:49:21.598: [pipewire] No capture sources available
+08:49:21.940: VAAPI: API version 1.23
+08:49:21.999: FFmpeg VAAPI H264 encoding not supported
+08:49:22.293: FFmpeg VAAPI AV1 encoding not supported
+08:49:22.547: FFmpeg VAAPI HEVC encoding not supported
+08:49:22.755: [obs-nvenc] NVENC version: 13.0 (compiled) / 13.0 (driver), CUDA driver version: 13.20, AV1 supported: false
+08:49:23.527: [obs-websocket] [obs_module_load] you can haz websockets (Version: 5.7.3 | RPC Version: 1)
+08:49:23.527: [obs-websocket] [obs_module_load] Qt version (compile-time): 6.11.1 | Qt version (run-time): 6.11.1
+08:49:23.527: [obs-websocket] [obs_module_load] Linked ASIO Version: 103800
+08:49:23.531: [obs-websocket] [obs_module_load] Module loaded.
+08:49:23.535: ---------------------------------
+08:49:23.535:   Loaded Modules:
+08:49:23.535:     text-freetype2.so
+08:49:23.535:     rtmp-services.so
+08:49:23.535:     obs-x264.so
+08:49:23.535:     obs-websocket.so
+08:49:23.535:     obs-webrtc.so
+08:49:23.535:     obs-vst.so
+08:49:23.535:     obs-transitions.so
+08:49:23.535:     obs-qsv11.so
+08:49:23.535:     obs-outputs.so
+08:49:23.535:     obs-nvenc.so
+08:49:23.535:     obs-libfdk.so
+08:49:23.535:     obs-filters.so
+08:49:23.535:     obs-ffmpeg.so
+08:49:23.535:     linux-v4l2.so
+08:49:23.535:     linux-pulseaudio.so
+08:49:23.535:     linux-pipewire.so
+08:49:23.535:     linux-jack.so
+08:49:23.535:     linux-capture.so
+08:49:23.535:     linux-alsa.so
+08:49:23.535:     image-source.so
+08:49:23.535:     frontend-tools.so
+08:49:23.535:     decklink-output-ui.so
+08:49:23.535:     decklink-captions.so
+08:49:23.535: ---------------------------------
+08:49:23.536: ---------------------------------
+08:49:23.536: Available Encoders:
+08:49:23.536:   Video Encoders:
+08:49:23.536: 	- ffmpeg_svt_av1 (SVT-AV1)
+08:49:23.536: 	- ffmpeg_aom_av1 (AOM AV1)
+08:49:23.536: 	- obs_nvenc_h264_tex (NVIDIA NVENC H.264)
+08:49:23.536: 	- obs_nvenc_hevc_tex (NVIDIA NVENC HEVC)
+08:49:23.536: 	- obs_x264 (x264)
+08:49:23.536:   Audio Encoders:
+08:49:23.536: 	- ffmpeg_aac (FFmpeg AAC)
+08:49:23.536: 	- ffmpeg_opus (FFmpeg Opus)
+08:49:23.536: 	- ffmpeg_pcm_s16le (FFmpeg PCM (16-bit))
+08:49:23.536: 	- ffmpeg_pcm_s24le (FFmpeg PCM (24-bit))
+08:49:23.536: 	- ffmpeg_pcm_f32le (FFmpeg PCM (32-bit float))
+08:49:23.536: 	- ffmpeg_alac (FFmpeg ALAC (24-bit))
+08:49:23.536: 	- ffmpeg_flac (FFmpeg FLAC (16-bit))
+08:49:23.536: 	- libfdk_aac (libfdk AAC)
+08:49:23.536: ==== Startup complete ===============================================
+08:49:23.565: All scene data cleared
+08:49:23.565: ------------------------------------------------
+08:49:23.569: Device for 'Audio Output Capture' source Desktop Audio is also used for audio monitoring.
+08:49:23.569: Deduplication logic is being applied to all monitored sources.
+08:49:23.569: pulse-input: Server name: 'PulseAudio (on PipeWire 1.6.5) 15.0.0'
+08:49:23.570: pulse-input: Audio format: s16le, 48000 Hz, 2 channels
+08:49:23.570: pulse-input: Started recording from 'alsa_output.usb-Kingston_Technology_Company_HyperX_Cloud_Flight_Wireless-00.analog-stereo.monitor' (default)
+08:49:23.570: [Loaded global audio device]: 'Desktop Audio'
+08:49:23.570: pulse-input: Server name: 'PulseAudio (on PipeWire 1.6.5) 15.0.0'
+08:49:23.570: pulse-input: Audio format: s16le, 48000 Hz, 1 channels
+08:49:23.570: pulse-input: Started recording from 'alsa_input.usb-Kingston_Technology_Company_HyperX_Cloud_Flight_Wireless-00.mono-fallback' (default)
+08:49:23.570: [Loaded global audio device]: 'Mic/Aux'
+08:49:23.570:     - filter: 'Gain' (gain_filter)
+08:49:23.570: xshm-input: Geometry 1920x1080 @ 0,0
+08:49:23.571: Switched to scene 'Scene'
+08:49:23.571: ------------------------------------------------
+08:49:23.571: Loaded scenes:
+08:49:23.571: - scene 'Scene':
+08:49:23.571:     - source: 'Display Capture (XSHM)' (xshm_input_v2)
+08:49:23.571: ------------------------------------------------
+08:49:23.598: Device for 'Audio Output Capture' source Desktop Audio is also used for audio monitoring.
+08:49:23.598: Deduplication logic is being applied to all monitored sources.
+08:49:23.729: [obs-nvenc: 'simple_video_recording'] settings:
+08:49:23.729: 	codec:        H264
+08:49:23.729: 	rate_control: CQP
+08:49:23.729: 	cqp:          23
+08:49:23.729: 	keyint:       250
+08:49:23.729: 	preset:       p5
+08:49:23.729: 	tuning:       hq
+08:49:23.729: 	multipass:    qres
+08:49:23.729: 	profile:      high
+08:49:23.729: 	width:        1920
+08:49:23.729: 	height:       1080
+08:49:23.729: 	b-frames:     2
+08:49:23.729: 	b-ref-mode:   0
+08:49:23.729: 	lookahead:    true (8 frames)
+08:49:23.729: 	aq:           true
+08:49:23.729: 
+08:49:23.764: libfdk_aac encoder created
+08:49:23.764: libfdk_aac bitrate: 192, channels: 2
+08:49:23.779: ==== Replay Buffer Start ===========================================
+08:49:24.098: adding 21 milliseconds of audio buffering, total audio buffering is now 21 milliseconds (source: Desktop Audio)
+08:49:24.098: 
+09:15:18.253: adding 21 milliseconds of audio buffering, total audio buffering is now 42 milliseconds (source: Desktop Audio)
+09:15:18.253: 

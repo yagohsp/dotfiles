@@ -20,7 +20,6 @@
 (defwindow system-menu
     :monitor "DP-2"
     :windowtype "dialog"
-    :stacking "fg"
     :geometry (geometry 
         :x "-8px"
         :y "50px"
@@ -35,26 +34,26 @@
 
         (button 
             :class "system-menu-item"
-            :onclick "systemctl reboot && eww close system-menu; eww close system-menu-backdrop"
+            :onclick "systemctl reboot && eww close system-menu && eww close system-menu-backdrop"
 
             (label :text "Restart")
         )
 
         (button 
             :class "system-menu-item"
-            :onclick "systemctl suspend && eww close system-menu; eww close system-menu-backdrop"
+            :onclick "systemctl suspend && eww close system-menu && eww close system-menu-backdrop"
 
             (label :text "Suspend")
         )
         (button 
             :class "system-menu-item"
-            :onclick "scripts/update-and-shutdown.sh && eww close system-menu; eww close system-menu-backdrop"
+            :onclick "scripts/update-and-shutdown.sh && eww close system-menu && eww close system-menu-backdrop"
 
             (label :text "Update & Shutdown")
         )
         (button 
             :class "system-menu-item"
-            :onclick "systemctl poweroff && eww close system-menu; eww close system-menu-backdrop"
+            :onclick "systemctl poweroff && eww close system-menu && eww close system-menu-backdrop"
 
             (label :text "Shutdown")
         )

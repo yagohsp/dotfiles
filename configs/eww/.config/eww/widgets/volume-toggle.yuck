@@ -1,0 +1,11 @@
+(defwidget volume-toggle []
+    (button
+        :class "volume-toggle-button"
+        :onclick "scripts/toggle-volume-modal.sh"
+
+        (label
+            :text "󰕾"
+            :class "volume-toggle-icon"
+        )
+    )
+)

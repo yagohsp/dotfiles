@@ -16,29 +16,13 @@
     :initial "[]"
     "scripts/workspaces-all.sh")
 
-(deflisten default_audio_volume 
-    :initial "0"
-    "scripts/listen-default-audio-volume.sh")
-
-(deflisten is_audio_muted
-    :initial "0"
-    "scripts/listen-default-audio-mute.sh")
-
-(deflisten default_audio
-    "scripts/listen-default-audio-selected.sh")
-
-(deflisten audio_outputs
+(deflisten output_device_volumes
     :initial "[]"
-    "scripts/listen-audio-outputs.sh")
+    "scripts/listen-output-device-volumes.sh")
 
-(defpoll available_audio_outputs
-    :interval "5s"
+(deflisten app_stream_routes
     :initial "[]"
-    "scripts/list-audio-outputs.sh")
-
-(defpoll current_audio_output
-    :interval "1s"
-    "scripts/get-current-audio-output.sh")
+    "scripts/listen-stream-routes.sh")
 
 ;; ========================================
 ;; Widgets
@@ -46,7 +30,7 @@
 
 (include "widgets/workspaces.yuck")
 (include "widgets/time.yuck")
-(include "widgets/audio.yuck")
+(include "widgets/volume-toggle.yuck")
 (include "widgets/tray-system.yuck")
 (include "widgets/panel-toggle.yuck")
 (include "widgets/bar.yuck")
@@ -57,7 +41,6 @@
 
 (include "windows/bar.yuck")
 (include "windows/calendar-dropdown.yuck")
-(include "windows/audio-output-selector.yuck")
-(include "windows/outputs-volume-popup.yuck")
+(include "windows/volume-modal.yuck")
 (include "windows/system-menu.yuck")
 (include "windows/panel.yuck")
