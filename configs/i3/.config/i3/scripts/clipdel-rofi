@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Show clipboard history in rofi and delete the selected entry
+
+: "${CM_DIR="${XDG_RUNTIME_DIR-"${TMPDIR-/tmp}"}"}"
+: "${CM_HISTLENGTH=8}"
+major_version=6
+cache_dir=$CM_DIR/clipmenu.$major_version.$USER
+cache_file=$cache_dir/line_cache
+lock_file=$cache_dir/lock
+
+[[ -f "$cache_file" ]] || exit 1
+
+list_clips() {
+    LC_ALL=C sort -rnk 1 < "$cache_file" | cut -d' ' -f2- | awk '!seen[$0]++'
+}
+
+chosen_line=$(list_clips | rofi -dmenu -l "$CM_HISTLENGTH" -p "Delete clip:")
+[[ $chosen_line ]] || exit 1
+
+ck=$(cksum <<< "$chosen_line")
+rm -f -- "$cache_dir/$ck"
+
+exec {lock_fd}> "$lock_file"
+flock -x -w 2 "$lock_fd"
+
+temp=$(mktemp)
+chosen="$chosen_line" awk '{
+    content = substr($0, index($0, " ") + 1)
+    if (content != ENVIRON["chosen"]) print $0
+}' "$cache_file" > "$temp"
+mv -- "$temp" "$cache_file"
+
+flock -u "$lock_fd"

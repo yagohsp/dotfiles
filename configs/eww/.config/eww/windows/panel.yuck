@@ -1,5 +1,5 @@
 (defwindow panel
-    :monitor "DP-2"
+    :monitor "DP-4"
     :windowtype "dialog"
     :geometry (geometry 
         :x "0%"

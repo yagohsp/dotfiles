@@ -23,9 +23,25 @@ outputs_json="$(jq -n --argjson sinks "$sinks_json" --argjson cards "$cards_json
     else ((capture("^output:hdmi-stereo-extra(?<n>[0-9]+)$").n | tonumber) + 1)
     end;
 
+  def sink_for_hdmi_output($card_name; $sink_profile; $display_name):
+    first(
+      $sinks[]
+      | select((.properties["device.name"] // "") == $card_name)
+      | select(
+          (.properties["device.profile.name"] // "") == $sink_profile
+          or (
+            ((.properties["device.profile.name"] // "") | startswith("pro-output-"))
+            and ((.properties["alsa.name"] // .properties["node.nick"] // .description // "") == $display_name)
+          )
+        )
+    );
+
   [
     ($sinks[]
-      | select(((.properties["device.profile.name"] // "") | startswith("hdmi-")) | not)
+      | select(
+          ((.properties["device.profile.name"] // "") | startswith("hdmi-") or startswith("pro-output-"))
+          | not
+        )
       | {
           name: (
             if ((.description // .properties["device.description"] // "") | ascii_downcase | test("hyperx|headset|headphones"))
@@ -33,6 +49,7 @@ outputs_json="$(jq -n --argjson sinks "$sinks_json" --argjson cards "$cards_json
             else (.description // .properties["device.description"] // .name)
             end
           ),
+          order: 0,
           type: "sink",
           sink_name: .name,
           card_name: (.properties["device.name"] // ""),
@@ -49,18 +66,24 @@ outputs_json="$(jq -n --argjson sinks "$sinks_json" --argjson cards "$cards_json
       | select($card.profiles[.]?.available == true)
       | . as $profile
       | ($profile | hdmi_profile_number) as $num
+      | ($port.value.properties["device.product.name"] // $port.value.description // $card.properties["device.description"] // "HDMI") as $display_name
+      | (sink_for_hdmi_output($card.name; ($profile | sub("^output:"; "")); $display_name)) as $sink
       | {
           name: "Monitor \($num) (HDMI \($num))",
-          type: "profile",
+          order: $num,
+          type: (if $sink then "sink" else "profile" end),
+          sink_name: ($sink.name // null),
           card_name: $card.name,
           profile: $profile,
           sink_profile: ($profile | sub("^output:"; "")),
           port_name: $port.key,
-          display_name: ($port.value.properties["device.product.name"] // $port.value.description // $card.properties["device.description"] // "HDMI"),
+          display_name: $display_name,
           description: ($port.value.description // "")
-        })
+        }
+      | if .type == "sink" then del(.profile, .sink_profile, .port_name) else . end)
   ]
-  | sort_by(if .type == "sink" then 0 else (.profile | hdmi_profile_number) end)
+  | sort_by(.order)
+  | map(del(.order))
 ')"
 
 tmpfile="$(mktemp)"

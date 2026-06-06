@@ -1,5 +1,5 @@
 (defwindow bar
-    :monitor "DP-2"
+    :monitor "DP-4"
     :windowtype "dock"
     :geometry (geometry 
         :x "0%"
@@ -11,11 +11,11 @@
     :stacking "fg"
     :exclusive true
 
-    (bar :workspaces_var workspaces :monitor_name "DP-2")
+    (bar :workspaces_var workspaces :monitor_name "DP-4")
 )
 
 (defwindow bar-dp0
-    :monitor "DP-0"
+    :monitor "HDMI-0"
     :windowtype "dock"
     :geometry (geometry 
         :x "0%"
@@ -27,5 +27,5 @@
     :stacking "fg"
     :exclusive true
 
-    (bar :workspaces_var workspaces :monitor_name "DP-0")
+    (bar :workspaces_var workspaces :monitor_name "HDMI-0")
 )
