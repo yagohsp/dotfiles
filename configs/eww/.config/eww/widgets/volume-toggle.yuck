@@ -3,9 +3,23 @@
         :class "volume-toggle-button"
         :onclick "scripts/toggle-volume-modal.sh"
 
-        (label
-            :text "󰕾"
-            :class "volume-toggle-icon"
+        (box
+            :orientation "h"
+            :space-evenly false
+            :spacing 6
+
+            (label
+                :text "󰕾"
+                :class "volume-toggle-icon"
+            )
+
+            (for output in output_device_volumes
+                (label
+                    :visible "${output.is_default}"
+                    :text "${output.volume}%"
+                    :class "volume-toggle-percentage"
+                )
+            )
         )
     )
 )

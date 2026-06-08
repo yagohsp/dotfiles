@@ -1,0 +1,153 @@
+23:59:39.377: Crash or unclean shutdown detected
+23:59:43.809: [Safe Mode] Normal launch selected, loading third-party plugins is enabled
+23:59:43.810: Command Line Arguments: --startreplaybuffer --minimize-to-tray
+23:59:43.810: Using EGL/X11
+23:59:43.810: CPU Name: AMD Ryzen 7 5700X3D 8-Core Processor
+23:59:43.810: CPU Speed: 3842.443MHz
+23:59:43.810: Physical Cores: 8, Logical Cores: 16
+23:59:43.810: Physical Memory: 31997MB Total, 29871MB Free
+23:59:43.810: Kernel Version: Linux 7.0.11-1-cachyos
+23:59:43.810: Distribution: "CachyOS Linux" Unknown
+23:59:43.810: Desktop Environment: i3
+23:59:43.810: Session Type: x11
+23:59:43.810: Window System: X11.0, Vendor: The X.Org Foundation, Version: 1.21.1
+23:59:43.843: Current Date/Time: 2026-06-07, 23:59:43
+23:59:43.843: Browser Hardware Acceleration: true
+23:59:43.843: Qt Version: 6.11.1 (runtime), 6.11.1 (compiled)
+23:59:43.843: Portable mode: false
+23:59:43.858: OBS 32.1.2 (linux)
+23:59:43.858: ---------------------------------
+23:59:43.864: ---------------------------------
+23:59:43.864: audio settings reset:
+23:59:43.864: 	samples per sec: 48000
+23:59:43.864: 	speakers:        2
+23:59:43.864: 	max buffering:   960 milliseconds
+23:59:43.864: 	buffering type:  dynamically increasing
+23:59:43.866: ---------------------------------
+23:59:43.866: Initializing OpenGL...
+23:59:44.106: Loading up OpenGL on adapter NVIDIA Corporation NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
+23:59:44.106: OpenGL loaded successfully, version 3.3.0 NVIDIA 610.43.02, shading language 3.30 NVIDIA via Cg compiler
+23:59:44.128: ---------------------------------
+23:59:44.128: video settings reset:
+23:59:44.128: 	base resolution:   1920x1080
+23:59:44.128: 	output resolution: 1920x1080
+23:59:44.128: 	downscale filter:  Bicubic
+23:59:44.128: 	fps:               60/1
+23:59:44.128: 	format:            NV12
+23:59:44.128: 	YUV mode:          Rec. 709/Partial
+23:59:44.128: NV12 texture support enabled
+23:59:44.128: P010 texture support not available
+23:59:44.174: Audio monitoring device:
+23:59:44.174: 	name: Default
+23:59:44.174: 	id: default
+23:59:44.176: ---------------------------------
+23:59:44.177: Failed to load 'en-US' text for module: 'decklink-captions.so'
+23:59:44.179: Failed to load 'en-US' text for module: 'decklink-output-ui.so'
+23:59:44.180: A DeckLink iterator could not be created.  The DeckLink drivers may not be installed
+23:59:44.180: Failed to initialize module 'decklink.so'
+23:59:44.277: [pipewire] No capture sources available
+23:59:44.661: VAAPI: API version 1.23
+23:59:44.717: FFmpeg VAAPI H264 encoding not supported
+23:59:44.966: FFmpeg VAAPI AV1 encoding not supported
+23:59:45.205: FFmpeg VAAPI HEVC encoding not supported
+23:59:45.398: [obs-nvenc] NVENC version: 13.0 (compiled) / 13.1 (driver), CUDA driver version: 13.30, AV1 supported: false
+23:59:46.123: [obs-websocket] [obs_module_load] you can haz websockets (Version: 5.7.3 | RPC Version: 1)
+23:59:46.123: [obs-websocket] [obs_module_load] Qt version (compile-time): 6.11.1 | Qt version (run-time): 6.11.1
+23:59:46.123: [obs-websocket] [obs_module_load] Linked ASIO Version: 103800
+23:59:46.127: [obs-websocket] [obs_module_load] Module loaded.
+23:59:46.130: ---------------------------------
+23:59:46.130:   Loaded Modules:
+23:59:46.130:     text-freetype2.so
+23:59:46.130:     rtmp-services.so
+23:59:46.130:     obs-x264.so
+23:59:46.130:     obs-websocket.so
+23:59:46.130:     obs-webrtc.so
+23:59:46.130:     obs-vst.so
+23:59:46.130:     obs-transitions.so
+23:59:46.131:     obs-qsv11.so
+23:59:46.131:     obs-outputs.so
+23:59:46.131:     obs-nvenc.so
+23:59:46.131:     obs-libfdk.so
+23:59:46.131:     obs-filters.so
+23:59:46.131:     obs-ffmpeg.so
+23:59:46.131:     linux-v4l2.so
+23:59:46.131:     linux-pulseaudio.so
+23:59:46.131:     linux-pipewire.so
+23:59:46.131:     linux-jack.so
+23:59:46.131:     linux-capture.so
+23:59:46.131:     linux-alsa.so
+23:59:46.131:     image-source.so
+23:59:46.131:     frontend-tools.so
+23:59:46.131:     decklink-output-ui.so
+23:59:46.131:     decklink-captions.so
+23:59:46.131: ---------------------------------
+23:59:46.131: [obs-websocket] [obs_module_post_load] WebSocket server is enabled, starting...
+23:59:46.131: [obs-websocket] [WebSocketServer::Start] Not locked to IPv4 bindings
+23:59:46.131: [obs-websocket] [WebSocketServer::ServerRunner] IO thread started.
+23:59:46.131: [obs-websocket] [WebSocketServer::Start] Server started successfully on port 4455. Possible connect address: 192.168.100.8
+23:59:46.131: ---------------------------------
+23:59:46.131: Available Encoders:
+23:59:46.131:   Video Encoders:
+23:59:46.131: 	- ffmpeg_svt_av1 (SVT-AV1)
+23:59:46.131: 	- ffmpeg_aom_av1 (AOM AV1)
+23:59:46.131: 	- obs_nvenc_h264_tex (NVIDIA NVENC H.264)
+23:59:46.131: 	- obs_nvenc_hevc_tex (NVIDIA NVENC HEVC)
+23:59:46.131: 	- obs_x264 (x264)
+23:59:46.131:   Audio Encoders:
+23:59:46.131: 	- ffmpeg_aac (FFmpeg AAC)
+23:59:46.131: 	- ffmpeg_opus (FFmpeg Opus)
+23:59:46.131: 	- ffmpeg_pcm_s16le (FFmpeg PCM (16-bit))
+23:59:46.131: 	- ffmpeg_pcm_s24le (FFmpeg PCM (24-bit))
+23:59:46.131: 	- ffmpeg_pcm_f32le (FFmpeg PCM (32-bit float))
+23:59:46.131: 	- ffmpeg_alac (FFmpeg ALAC (24-bit))
+23:59:46.131: 	- ffmpeg_flac (FFmpeg FLAC (16-bit))
+23:59:46.131: 	- libfdk_aac (libfdk AAC)
+23:59:46.131: ==== Startup complete ===============================================
+23:59:46.147: All scene data cleared
+23:59:46.147: ------------------------------------------------
+23:59:46.176: Device for 'Audio Output Capture' source Desktop Audio is also used for audio monitoring.
+23:59:46.176: Deduplication logic is being applied to all monitored sources.
+23:59:46.176: pulse-input: Server name: 'PulseAudio (on PipeWire 1.6.6) 15.0.0'
+23:59:46.176: pulse-input: Audio format: s16le, 48000 Hz, 2 channels
+23:59:46.176: pulse-input: Started recording from 'alsa_output.usb-Kingston_Technology_Company_HyperX_Cloud_Flight_Wireless-00.analog-stereo.monitor' (default)
+23:59:46.176: [Loaded global audio device]: 'Desktop Audio'
+23:59:46.177: pulse-input: Server name: 'PulseAudio (on PipeWire 1.6.6) 15.0.0'
+23:59:46.177: pulse-input: Audio format: s16le, 48000 Hz, 1 channels
+23:59:46.177: pulse-input: Started recording from 'alsa_input.usb-Kingston_Technology_Company_HyperX_Cloud_Flight_Wireless-00.mono-fallback' (default)
+23:59:46.177: [Loaded global audio device]: 'Mic/Aux'
+23:59:46.177:     - filter: 'Gain' (gain_filter)
+23:59:46.177: xshm-input: Geometry 1920x1080 @ 1920,0
+23:59:46.178: Switched to scene 'Scene'
+23:59:46.178: ------------------------------------------------
+23:59:46.178: Loaded scenes:
+23:59:46.178: - scene 'Scene':
+23:59:46.178:     - source: 'Display Capture (XSHM)' (xshm_input_v2)
+23:59:46.178: ------------------------------------------------
+23:59:46.183: Device for 'Audio Output Capture' source Desktop Audio is also used for audio monitoring.
+23:59:46.183: Deduplication logic is being applied to all monitored sources.
+23:59:46.342: [obs-nvenc: 'simple_video_recording'] settings:
+23:59:46.342: 	codec:        H264
+23:59:46.342: 	rate_control: CQP
+23:59:46.342: 	cqp:          23
+23:59:46.342: 	keyint:       250
+23:59:46.342: 	preset:       p5
+23:59:46.342: 	tuning:       hq
+23:59:46.342: 	multipass:    qres
+23:59:46.342: 	profile:      high
+23:59:46.342: 	width:        1920
+23:59:46.342: 	height:       1080
+23:59:46.342: 	b-frames:     2
+23:59:46.342: 	b-ref-mode:   0
+23:59:46.342: 	lookahead:    true (8 frames)
+23:59:46.342: 	aq:           true
+23:59:46.342: 
+23:59:46.378: libfdk_aac encoder created
+23:59:46.378: libfdk_aac bitrate: 192, channels: 2
+23:59:46.393: ==== Replay Buffer Start ===========================================
+23:59:46.723: adding 21 milliseconds of audio buffering, total audio buffering is now 21 milliseconds (source: Desktop Audio)
+23:59:46.723: 
+23:59:46.787: adding 21 milliseconds of audio buffering, total audio buffering is now 42 milliseconds (source: Mic/Aux)
+23:59:46.787: 
+00:13:32.749: QWidgetWindow(0x556607525ba0, name="QWidgetClassWindow") must be a top level window.
+00:13:41.694: QWidgetWindow(0x556607525ba0, name="QWidgetClassWindow") must be a top level window.
+00:13:42.510: QWidgetWindow(0x556607525ba0, name="QWidgetClassWindow") must be a top level window.

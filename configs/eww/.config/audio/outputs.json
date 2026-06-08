@@ -4,6 +4,7 @@
     "type": "sink",
     "sink_name": "alsa_output.usb-Kingston_Technology_Company_HyperX_Cloud_Flight_Wireless-00.analog-stereo",
     "card_name": "alsa_card.usb-Kingston_Technology_Company_HyperX_Cloud_Flight_Wireless-00",
+    "display_name": "HyperX Cloud Flight",
     "description": "HyperX Cloud Flight"
   },
   {

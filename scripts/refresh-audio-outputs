@@ -53,6 +53,7 @@ outputs_json="$(jq -n --argjson sinks "$sinks_json" --argjson cards "$cards_json
           type: "sink",
           sink_name: .name,
           card_name: (.properties["device.name"] // ""),
+          display_name: (.description // .properties["device.description"] // .name),
           description: (.description // .properties["device.description"] // .name)
         }),
     ($cards[]
@@ -86,10 +87,13 @@ outputs_json="$(jq -n --argjson sinks "$sinks_json" --argjson cards "$cards_json
   | map(del(.order))
 ')"
 
-tmpfile="$(mktemp)"
+mkdir -p "$(dirname "$outputs_file")"
+tmpfile="$(mktemp "$outputs_file.XXXXXX")"
 trap 'rm -f "$tmpfile"' EXIT
 
 printf '%s\n' "$outputs_json" > "$tmpfile"
-install -Dm644 "$tmpfile" "$outputs_file"
+chmod 644 "$tmpfile"
+mv -f "$tmpfile" "$outputs_file"
+trap - EXIT
 
 printf '%s\n' "$outputs_json"

@@ -1,0 +1,1 @@
+01:06:19.536: Crash or unclean shutdown detected

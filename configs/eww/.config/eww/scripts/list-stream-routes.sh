@@ -18,17 +18,25 @@ outputs_json="$(jq -c '[ .[] | select(.type == "sink") ]' "$outputs_file")"
 inputs_json="$(pactl -f json list sink-inputs)"
 sinks_json="$(pactl -f json list sinks)"
 
+# A target.node/target.object value of -1 is PipeWire's sentinel for "no override"
+# (e.g. pactl move-sink-input to the sink a stream is already on writes -1, not a real id) —
+# only a non-negative integer value means the stream is actually pinned.
+pinned_object_ids_json="$(
+  { pw-metadata -n default 2>/dev/null \
+    | grep -oP "id:\K[0-9]+(?=\s+key:'target\.(node|object)'\s+value:'[0-9]+')" \
+    || true; } \
+    | sort -u \
+    | jq -R . | jq -cs .
+)"
+
 jq -cn \
   --argjson outputs "$outputs_json" \
   --argjson inputs "$inputs_json" \
-  --argjson sinks "$sinks_json" '
+  --argjson sinks "$sinks_json" \
+  --argjson pinned_object_ids "$pinned_object_ids_json" '
   def output_at($arr; $index): ($arr[$index] // {});
   def output_button_label($output):
-    if (($output.name // "") == "Headset") then "Headset"
-    elif (($output.name // "") | test("Monitor 1")) then "HDMI 1"
-    elif (($output.name // "") | test("Monitor 2")) then "HDMI 2"
-    else ($output.name // "Output")
-    end;
+    ($output.display_name // $output.name // "Output");
   def useful_media_name($media_name; $app_name):
     ($media_name // "") as $media
     | if $media == ""
@@ -61,10 +69,12 @@ jq -cn \
   | map(
       . as $input
       | ($sinks[] | select(.index == ($input.sink // -1)) | .name)? as $current_sink_name
+      | ((.properties["object.id"] // "") as $oid | ($pinned_object_ids | index($oid)) != null) as $is_pinned
       | ($outputs | map({
           name,
+          display_name,
           sink_name,
-          current: (.sink_name == ($current_sink_name // ""))
+          current: ($is_pinned and .sink_name == ($current_sink_name // ""))
         })) as $stream_outputs
       | {
           index: .index,
@@ -72,6 +82,7 @@ jq -cn \
           muted: (.mute // false),
           volume: ((.volume["front-left"].value_percent // .volume["aux0"].value_percent // "0%") | rtrimstr("%") | tonumber),
           current_sink_name: ($current_sink_name // ""),
+          following_default: ($is_pinned | not),
           current_output_name: (
             ($outputs[] | select(.sink_name == ($current_sink_name // "")) | .name)?
             // "Unknown"

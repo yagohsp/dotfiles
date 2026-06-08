@@ -119,6 +119,11 @@ scale {
     font-size: 22px;
     color: $foam;
   }
+
+  .volume-toggle-percentage {
+    font-size: 13px;
+    color: $subtle;
+  }
 }
 
 .calendar-window {
@@ -208,6 +213,37 @@ scale {
     
     label {
       font-size: 14px;
+    }
+  }
+}
+
+.volume-osd {
+  background-color: $overlay;
+  border-radius: 8px;
+  padding: 12px 16px;
+
+  .volume-osd-icon {
+    font-size: 22px;
+    color: $foam;
+  }
+
+  .volume-osd-value {
+    font-size: 13px;
+    color: $text;
+  }
+
+  .volume-osd-bar {
+    min-height: 6px;
+    border-radius: 3px;
+
+    progress {
+      background-color: $foam;
+      border-radius: 3px;
+    }
+
+    trough {
+      background-color: $highlight-med;
+      border-radius: 3px;
     }
   }
 }
@@ -311,10 +347,10 @@ scale {
 }
 
 .stream-output-button {
-  padding: 7px 0;
+  padding: 6px 2px;
   background-color: $highlight-low;
   color: $text;
-  min-width: 104px;
+  min-width: 0;
   border: 1px solid transparent;
 
   &:active {
@@ -328,7 +364,7 @@ scale {
   }
 
   label {
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
   }
 }

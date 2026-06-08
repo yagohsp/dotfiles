@@ -4,6 +4,9 @@
 
 (defvar show_panel false)
 
+(defvar volume_osd_value 0)
+(defvar volume_osd_muted false)
+
 (defpoll time 
     :interval "1s"
     "date '+%H:%M'")
@@ -23,6 +26,10 @@
 (deflisten app_stream_routes
     :initial "[]"
     "scripts/listen-stream-routes.sh")
+
+(deflisten default_sink_options
+    :initial "[]"
+    "scripts/listen-default-sink-options.sh")
 
 ;; ========================================
 ;; Widgets
@@ -44,3 +51,4 @@
 (include "windows/volume-modal.yuck")
 (include "windows/system-menu.yuck")
 (include "windows/panel.yuck")
+(include "windows/volume-osd.yuck")

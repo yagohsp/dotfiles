@@ -9,6 +9,12 @@ emit() {
   "$list_script"
 }
 
+until pactl info >/dev/null 2>&1; do
+  sleep 0.5
+done
+
+emit
+sleep 1.5
 emit
 
 pactl subscribe 2>/dev/null | while IFS= read -r event; do
