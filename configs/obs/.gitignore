@@ -1,0 +1,7 @@
+.config/obs-studio/logs/
+.config/obs-studio/profiler_data/
+.config/obs-studio/.sentinel/
+.config/obs-studio/basic/scenes/*.bak
+.config/obs-studio/plugin_config/obs-websocket/config.json
+.config/obs-studio/plugin_config/rtmp-services/
+.config/obs-studio/plugin_manager/
