@@ -19,6 +19,7 @@ Personal dotfiles managed with GNU Stow.
 - `nvim`: `~/.config/nvim`
 - `i3`: `~/.config/i3`
 - `eww`: `~/.config/eww`
+- `quickshell`: `~/.config/quickshell`
 - `rofi`: `~/.config/rofi`
 - `picom`: `~/.config/picom`
 - `dunst`: `~/.config/dunst`

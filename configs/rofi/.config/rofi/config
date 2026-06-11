@@ -2,8 +2,8 @@ configuration {
 	modi: "drun";
 	show-icons: true;
 	icon-theme: "Adwaita";
-	display-drun: "Apps";
-	drun-display-format: "{icon} {name}";
+	display-drun: " ";
+	drun-display-format: "{name}";
 }
 
 @theme "config.rasi"

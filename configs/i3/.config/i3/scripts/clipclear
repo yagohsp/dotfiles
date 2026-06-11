@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+: "${CM_DIR="$HOME/.local/share"}"
+major_version=6
+cache_dir=$CM_DIR/clipmenu.$major_version.$USER
+cache_file=$cache_dir/line_cache
+lock_file=$cache_dir/lock
+
+[[ -d "$cache_dir" ]] || exit 1
+
+exec {lock_fd}> "$lock_file"
+flock -x -w 2 "$lock_fd"
+
+truncate -s 0 -- "$cache_file"
+find "$cache_dir" -maxdepth 1 -type f \
+    ! -name 'line_cache' ! -name 'lock' ! -name 'session_lock' \
+    -delete
+
+flock -u "$lock_fd"

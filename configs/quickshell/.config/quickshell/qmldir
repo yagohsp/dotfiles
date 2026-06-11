@@ -1,0 +1,21 @@
+singleton Theme Theme.qml
+singleton ShellGlobals ShellGlobals.qml
+singleton AudioService AudioService.qml
+singleton WorkspaceService WorkspaceService.qml
+
+Bar Bar.qml
+CalendarDropdown CalendarDropdown.qml
+CaptureBtn CaptureBtn.qml
+CaptureToggle CaptureToggle.qml
+ClockWidget ClockWidget.qml
+MuteButton MuteButton.qml
+OutputButton OutputButton.qml
+SysMenuItem SysMenuItem.qml
+SystemButton SystemButton.qml
+SystemMenu SystemMenu.qml
+TrayWidget TrayWidget.qml
+VolumeButton VolumeButton.qml
+VolumeModal VolumeModal.qml
+VolumeOsd VolumeOsd.qml
+VolumeSlider VolumeSlider.qml
+WorkspacesWidget WorkspacesWidget.qml

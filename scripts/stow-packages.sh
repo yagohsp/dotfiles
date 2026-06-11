@@ -7,6 +7,7 @@ x11
 nvim
 i3
 eww
+quickshell
 rofi
 picom
 dunst
@@ -34,6 +35,7 @@ TARGETS='
 .config/nvim
 .config/i3
 .config/eww
+.config/quickshell
 .config/rofi
 .config/picom
 .config/dunst
