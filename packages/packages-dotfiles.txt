@@ -23,7 +23,9 @@ quickshell
 rofi
 rose-pine-gtk-theme-full
 slop
+sshpass
 stabilitymatrix-bin
+syncthing
 thunar
 tmux
 tree

@@ -6,7 +6,7 @@ Rectangle {
     property bool active: false
     signal clicked
 
-    implicitWidth: lbl.implicitWidth + 4
+    implicitWidth: lbl.implicitWidth + 16
     implicitHeight: lbl.implicitHeight + 12
     color: active  ? Theme.iris
          : ma.pressed ? Theme.highlightMed
@@ -18,7 +18,11 @@ Rectangle {
 
     Text {
         id: lbl
-        anchors.centerIn: parent
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: 8
+        anchors.rightMargin: 8
         text: root.label
         font.family: Theme.font
         font.pixelSize: 10
@@ -27,7 +31,6 @@ Rectangle {
         elide: Text.ElideRight
         maximumLineCount: 1
         horizontalAlignment: Text.AlignHCenter
-        width: Math.min(implicitWidth, 90)
     }
 
     MouseArea {

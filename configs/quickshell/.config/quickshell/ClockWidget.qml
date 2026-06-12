@@ -4,7 +4,7 @@ import Quickshell
 
 Item {
     implicitWidth: row.implicitWidth + 24
-    implicitHeight: row.implicitHeight + 4
+    implicitHeight: 36
 
     SystemClock {
         id: clock
@@ -13,11 +13,12 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: hovered ? Theme.highlightMed : "transparent"
-        radius: 2
-
-
-        property bool hovered: false
+        color: ma.pressed        ? Theme.highlightMed
+             : ma.containsMouse ? Theme.highlightLow
+             :                    "transparent"
+        radius: 4
+        border.color: ma.containsMouse ? Theme.highlightMed : "transparent"
+        border.width: 1
 
         RowLayout {
             id: row
@@ -41,10 +42,9 @@ Item {
         }
 
         MouseArea {
+            id: ma
             anchors.fill: parent
             hoverEnabled: true
-            onEntered: parent.hovered = true
-            onExited:  parent.hovered = false
             onClicked: ShellGlobals.calendarOpen = !ShellGlobals.calendarOpen
             cursorShape: Qt.PointingHandCursor
         }

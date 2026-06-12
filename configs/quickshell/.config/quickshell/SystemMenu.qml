@@ -9,8 +9,8 @@ PopupWindow {
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: (ShellGlobals.primaryBarWindow?.width ?? 1920) - (menuBox.implicitWidth + 8)
     anchor.rect.y: ShellGlobals.primaryBarWindow?.height ?? 44
-    implicitWidth:  ShellGlobals.systemMenuOpen ? menuBox.implicitWidth  : 0
-    implicitHeight: ShellGlobals.systemMenuOpen ? menuBox.implicitHeight : 0
+    implicitWidth:  menuBox.implicitWidth
+    implicitHeight: menuBox.implicitHeight
     color: "transparent"
     grabFocus: false
 
@@ -28,21 +28,25 @@ PopupWindow {
 
     Rectangle {
         id: menuBox
-        visible: ShellGlobals.systemMenuOpen
         anchors.fill: parent
         implicitWidth:  menuCol.implicitWidth  + 16
         implicitHeight: menuCol.implicitHeight + 16
         color: Theme.overlay
+        opacity: ShellGlobals.systemMenuOpen ? 1 : 0
+        scale:   ShellGlobals.systemMenuOpen ? 1 : 0.96
+        transformOrigin: Item.TopRight
+        Behavior on opacity { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+        Behavior on scale   { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
 
         ColumnLayout {
             id: menuCol
             anchors.centerIn: parent
             spacing: 0
 
-            SysMenuItem { label: "Restart";           onClicked: root._run(["systemctl", "pkill obs && reboot"]) }
+            SysMenuItem { label: "Restart";           onClicked: root._run(["bash", "-c", "pkill obs; systemctl reboot"]) }
             SysMenuItem { label: "Suspend";           onClicked: root._run(["systemctl", "suspend"]) }
-            SysMenuItem { label: "Update & Shutdown"; onClicked: root._run(["bash", "pkill obs && /home/yago/.config/quickshell/scripts/update-and-shutdown.sh"]) }
-            SysMenuItem { label: "Shutdown";          onClicked: root._run(["systemctl", "pkill obs && poweroff"]) }
+            SysMenuItem { label: "Update & Shutdown"; onClicked: root._run(["bash", "/home/yago/.config/quickshell/scripts/update-and-shutdown.sh"]) }
+            SysMenuItem { label: "Shutdown";          onClicked: root._run(["bash", "-c", "pkill obs; systemctl poweroff"]) }
         }
     }
 }

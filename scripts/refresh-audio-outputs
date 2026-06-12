@@ -12,7 +12,7 @@ require() {
 require jq
 require pactl
 
-outputs_file="$HOME/dotfiles/configs/eww/.config/audio/outputs.json"
+outputs_file="$HOME/.config/quickshell/scripts/outputs.json"
 
 sinks_json="$(pactl -f json list sinks)"
 cards_json="$(pactl -f json list cards)"

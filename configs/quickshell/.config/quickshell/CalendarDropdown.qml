@@ -8,8 +8,8 @@ PopupWindow {
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: Math.round(((ShellGlobals.primaryBarWindow?.width ?? 1920) - calBox.implicitWidth) / 2)
     anchor.rect.y: ShellGlobals.primaryBarWindow?.height ?? 44
-    implicitWidth:  ShellGlobals.calendarOpen ? calBox.implicitWidth  : 0
-    implicitHeight: ShellGlobals.calendarOpen ? calBox.implicitHeight : 0
+    implicitWidth:  calBox.implicitWidth
+    implicitHeight: calBox.implicitHeight
     color: "transparent"
     grabFocus: false
 
@@ -20,11 +20,15 @@ PopupWindow {
 
     Rectangle {
         id: calBox
-        visible: ShellGlobals.calendarOpen
         anchors.fill: parent
         implicitWidth:  calContent.implicitWidth  + 24
         implicitHeight: calContent.implicitHeight + 24
         color: Theme.overlay
+        opacity: ShellGlobals.calendarOpen ? 1 : 0
+        scale:   ShellGlobals.calendarOpen ? 1 : 0.96
+        transformOrigin: Item.Top
+        Behavior on opacity { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+        Behavior on scale   { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
 
         property date currentDate: new Date()
 

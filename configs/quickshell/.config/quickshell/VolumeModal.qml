@@ -8,8 +8,8 @@ PopupWindow {
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: (ShellGlobals.primaryBarWindow?.width ?? 1920) - 360 - 8
     anchor.rect.y: ShellGlobals.primaryBarWindow?.height ?? 44
-    implicitWidth: ShellGlobals.volumeModalOpen ? 360 : 0
-    implicitHeight: ShellGlobals.volumeModalOpen ? contentRect.implicitHeight : 0
+    implicitWidth: 360
+    implicitHeight: contentRect.implicitHeight
     color: "transparent"
     grabFocus: false
 
@@ -20,12 +20,16 @@ PopupWindow {
 
     Rectangle {
         id: contentRect
-        visible: ShellGlobals.volumeModalOpen
         anchors.fill: parent
         implicitHeight: contentCol.implicitHeight + 28 + 2
         color: Theme.overlay
         border.color: Theme.highlightMed
         border.width: 1
+        opacity: ShellGlobals.volumeModalOpen ? 1 : 0
+        scale:   ShellGlobals.volumeModalOpen ? 1 : 0.96
+        transformOrigin: Item.Top
+        Behavior on opacity { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+        Behavior on scale   { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
 
         ColumnLayout {
             id: contentCol
@@ -104,6 +108,7 @@ PopupWindow {
                         OutputButton {
                             required property var modelData
                             Layout.fillWidth: true
+                            Layout.preferredWidth: 0
                             label: modelData.display_name
                             active: modelData.is_default
                             onClicked: AudioService.setDefaultSink(modelData.sink_name)
@@ -165,6 +170,7 @@ PopupWindow {
                             OutputButton {
                                 visible: modelData.output_1_name !== ""
                                 Layout.fillWidth: true
+                                Layout.preferredWidth: 0
                                 label: modelData.output_1_button_label
                                 active: modelData.output_1_current
                                 onClicked: AudioService.setStreamOutput(modelData.index, modelData.output_1_sink_name)
@@ -172,6 +178,7 @@ PopupWindow {
                             OutputButton {
                                 visible: modelData.output_2_name !== ""
                                 Layout.fillWidth: true
+                                Layout.preferredWidth: 0
                                 label: modelData.output_2_button_label
                                 active: modelData.output_2_current
                                 onClicked: AudioService.setStreamOutput(modelData.index, modelData.output_2_sink_name)
@@ -179,12 +186,14 @@ PopupWindow {
                             OutputButton {
                                 visible: modelData.output_3_name !== ""
                                 Layout.fillWidth: true
+                                Layout.preferredWidth: 0
                                 label: modelData.output_3_button_label
                                 active: modelData.output_3_current
                                 onClicked: AudioService.setStreamOutput(modelData.index, modelData.output_3_sink_name)
                             }
                             OutputButton {
                                 Layout.fillWidth: true
+                                Layout.preferredWidth: 0
                                 label: "Default"
                                 active: modelData.following_default
                                 onClicked: AudioService.setStreamOutputDefault(modelData.index)

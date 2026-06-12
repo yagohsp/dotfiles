@@ -9,8 +9,8 @@ PopupWindow {
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: 20
     anchor.rect.y: ShellGlobals.primaryBarWindow?.height ?? 64
-    implicitWidth:  _open ? 220 : 0
-    implicitHeight: _open ? 68  : 0
+    implicitWidth:  220
+    implicitHeight: 68
     color: "transparent"
     grabFocus: false
 
@@ -51,10 +51,14 @@ PopupWindow {
     }
 
     Rectangle {
-        visible: root._open
         anchors.fill: parent
         color: Theme.overlay
         radius: 8
+        opacity: root._open ? 1 : 0
+        scale:   root._open ? 1 : 0.96
+        transformOrigin: Item.TopLeft
+        Behavior on opacity { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+        Behavior on scale   { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
 
         RowLayout {
             anchors { fill: parent; margins: 12 }

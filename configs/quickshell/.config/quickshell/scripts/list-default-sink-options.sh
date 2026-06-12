@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-outputs_file="$HOME/dotfiles/configs/eww/.config/audio/outputs.json"
+outputs_file="$HOME/.config/quickshell/scripts/outputs.json"
 refresh_script="$HOME/dotfiles/scripts/refresh-audio-outputs"
 
 if [[ -x "$refresh_script" ]]; then

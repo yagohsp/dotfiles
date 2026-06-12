@@ -14,7 +14,6 @@ QtObject {
     property string recordingMode: "none"   // "none" | "gif" | "mp4"
     property bool encoding: false
 
-    // start-record.sh / stop-record.sh write here instead of eww update
     property var _captureState: FileView {
         path: "/tmp/qs-capture.json"
         onTextChanged: {
