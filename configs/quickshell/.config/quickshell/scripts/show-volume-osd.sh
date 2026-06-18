@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Signal QuickShell's VolumeOsd via FIFO
 fifo="/tmp/qs-osd"
 [ -p "$fifo" ] || mkfifo "$fifo"
 
-echo "$(pamixer --get-volume):$(pamixer --get-mute)" > "$fifo" &
+wpctl_out="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
+volume="$(echo "$wpctl_out" | awk '{printf "%d", $2 * 100}')"
+muted="$(echo "$wpctl_out" | grep -q '\[MUTED\]' && echo true || echo false)"
+
+echo "${volume}:${muted}" > "$fifo" &
 disown

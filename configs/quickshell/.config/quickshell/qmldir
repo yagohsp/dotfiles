@@ -4,6 +4,7 @@ singleton AudioService AudioService.qml
 singleton WorkspaceService WorkspaceService.qml
 
 Bar Bar.qml
+PopupBackdrop PopupBackdrop.qml
 CalendarDropdown CalendarDropdown.qml
 CaptureBtn CaptureBtn.qml
 CaptureToggle CaptureToggle.qml
@@ -17,5 +18,6 @@ TrayWidget TrayWidget.qml
 VolumeButton VolumeButton.qml
 VolumeModal VolumeModal.qml
 VolumeOsd VolumeOsd.qml
+StreamVolumeOsd StreamVolumeOsd.qml
 VolumeSlider VolumeSlider.qml
 WorkspacesWidget WorkspacesWidget.qml

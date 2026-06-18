@@ -1,0 +1,139 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+STEP="${1:-+2%}"
+
+notify() {
+  notify-send "Focused app volume" "$1"
+}
+
+require() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    notify "Missing required command: $1"
+    exit 1
+  fi
+}
+
+is_descendant() {
+  local child="$1"
+  local ancestor="$2"
+  local current="$child"
+
+  while [[ "$current" =~ ^[0-9]+$ ]] && [[ "$current" -gt 1 ]]; do
+    if [[ "$current" == "$ancestor" ]]; then
+      return 0
+    fi
+    if [[ ! -r "/proc/$current/status" ]]; then
+      return 1
+    fi
+    current="$(awk '/^PPid:/ { print $2; exit }' "/proc/$current/status")"
+  done
+
+  return 1
+}
+
+require i3-msg
+require jq
+require pactl
+require notify-send
+require xdotool
+
+focused_json="$(i3-msg -t get_tree)"
+focused_info="$(jq -r '
+  first(
+    ..
+    | objects
+    | select(.focused? == true)
+  )
+  | [(.window_properties.class // .app_id // ""), (.name // "")]
+  | @tsv
+' <<< "$focused_json")"
+
+if [[ -z "$focused_info" ]]; then
+  notify "No focused i3 window found"
+  exit 1
+fi
+
+IFS=$'\t' read -r focused_class focused_name <<< "$focused_info"
+focused_pid="$(xdotool getwindowfocus getwindowpid 2>/dev/null || true)"
+
+if [[ -z "$focused_pid" || "$focused_pid" == "0" ]]; then
+  notify "Focused window has no process ID"
+  exit 1
+fi
+
+focused_binary=""
+if [[ -r "/proc/$focused_pid/comm" ]]; then
+  focused_binary="$(tr -d '\n' < "/proc/$focused_pid/comm")"
+fi
+
+inputs_json="$(pactl -f json list sink-inputs)"
+
+mapfile -t candidate_inputs < <(jq -r --arg pid "$focused_pid" '
+  .[]
+  | select((.properties["application.process.id"] // "") == $pid)
+  | .index
+' <<< "$inputs_json")
+
+if (( ${#candidate_inputs[@]} == 0 )); then
+  while IFS=$'\t' read -r input_index input_pid input_binary; do
+    [[ -n "$input_index" ]] || continue
+
+    if [[ -n "$input_pid" ]] && is_descendant "$input_pid" "$focused_pid"; then
+      candidate_inputs+=("$input_index")
+      continue
+    fi
+
+    if [[ -n "$focused_binary" && -n "$input_binary" && "$input_binary" == "$focused_binary" ]]; then
+      candidate_inputs+=("$input_index")
+    fi
+  done < <(jq -r '
+    .[]
+    | [
+        .index,
+        (.properties["application.process.id"] // ""),
+        (.properties["application.process.binary"] // "")
+      ]
+    | @tsv
+  ' <<< "$inputs_json")
+fi
+
+if (( ${#candidate_inputs[@]} == 0 )); then
+  while IFS= read -r input_index; do
+    [[ -n "$input_index" ]] || continue
+    candidate_inputs+=("$input_index")
+  done < <(jq -r --arg app_class "$focused_class" --arg app_name "$focused_name" '
+    .[]
+    | select(
+        ((.properties["application.name"] // "") == $app_class)
+        or ((.properties["application.name"] // "") == $app_name)
+        or ((.properties["media.name"] // "") == $app_name)
+      )
+    | .index
+  ' <<< "$inputs_json")
+fi
+
+if (( ${#candidate_inputs[@]} == 0 )); then
+  notify "No audio stream found for focused app"
+  exit 1
+fi
+
+for input_index in "${candidate_inputs[@]}"; do
+  pactl set-sink-input-volume "$input_index" "$STEP"
+done
+
+# Send updated volume to stream OSD
+fifo="/tmp/qs-stream-osd"
+[ -p "$fifo" ] || mkfifo "$fifo"
+first_input="${candidate_inputs[0]}"
+osd_data=$(pactl -f json list sink-inputs | jq -c --arg idx "$first_input" '
+    .[] | select(.index == ($idx | tonumber)) |
+    {
+        name: (.properties["application.name"] // "Unknown"),
+        volume: ((.volume["front-left"].value_percent // .volume["aux0"].value_percent // .volume["mono"].value_percent // "0%") | rtrimstr("%") | tonumber | floor),
+        muted: .mute
+    }
+')
+echo "$osd_data" > "$fifo" &
+disown

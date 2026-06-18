@@ -22,3 +22,5 @@ if [ -f '/home/yago/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/h
 export PATH="$PATH:/home/yago/.lmstudio/bin"
 # End of LM Studio CLI section
 
+export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
+export ANDROID_HOME="$HOME/Android"

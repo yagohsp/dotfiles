@@ -1,14 +1,20 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Window
 import Quickshell
 
 PopupWindow {
     id: root
     visible: ShellGlobals.primaryBarWindow !== null
     anchor.window: ShellGlobals.primaryBarWindow
-    anchor.rect.x: (ShellGlobals.primaryBarWindow?.width ?? 1920) - 360 - 8
-    anchor.rect.y: ShellGlobals.primaryBarWindow?.height ?? 44
-    implicitWidth: 360
+    readonly property int _w: ShellGlobals.volumeModalCentered ? 480 : 360
+    anchor.rect.x: ShellGlobals.volumeModalCentered
+        ? ((ShellGlobals.primaryBarWindow?.width ?? 1920) - _w) / 2
+        : (ShellGlobals.primaryBarWindow?.width ?? 1920) - _w - 8
+    anchor.rect.y: ShellGlobals.volumeModalCentered
+        ? (Screen.height - implicitHeight) / 2
+        : ShellGlobals.primaryBarWindow?.height ?? 44
+    implicitWidth: _w
     implicitHeight: contentRect.implicitHeight
     color: "transparent"
     grabFocus: false

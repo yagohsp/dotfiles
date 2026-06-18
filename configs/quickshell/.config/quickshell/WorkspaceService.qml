@@ -7,7 +7,7 @@ QtObject {
     property var workspaces: []
 
     property var _proc: Process {
-        command: ["bash", "/home/yago/.config/quickshell/scripts/workspaces-all.sh"]
+        command: ["/home/yago/.config/quickshell/scripts/workspaces-all.sh"]
         running: true
         stdout: SplitParser {
             splitMarker: "\n"

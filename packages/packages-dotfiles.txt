@@ -1,3 +1,4 @@
+android-studio
 asdf-vm
 clipmenu
 dunst
@@ -28,7 +29,9 @@ stabilitymatrix-bin
 syncthing
 thunar
 tmux
+torbrowser-launcher
 tree
 xcolor
+xorg-xev
 xorg-xinit
 zsh
