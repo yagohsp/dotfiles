@@ -6,21 +6,5 @@
     "card_name": "alsa_card.usb-Kingston_Technology_Company_HyperX_Cloud_Flight_Wireless-00",
     "display_name": "HyperX Cloud Flight",
     "description": "HyperX Cloud Flight"
-  },
-  {
-    "name": "Monitor 1 (HDMI 1)",
-    "type": "sink",
-    "sink_name": "alsa_output.pci-0000_07_00.1.pro-output-3",
-    "card_name": "alsa_card.pci-0000_07_00.1",
-    "display_name": "VG2791R",
-    "description": "HDMI / DisplayPort"
-  },
-  {
-    "name": "Monitor 2 (HDMI 2)",
-    "type": "sink",
-    "sink_name": "alsa_output.pci-0000_07_00.1.pro-output-7",
-    "card_name": "alsa_card.pci-0000_07_00.1",
-    "display_name": "PHL 242V8",
-    "description": "HDMI / DisplayPort 2"
   }
 ]
