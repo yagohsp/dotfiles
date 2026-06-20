@@ -18,7 +18,6 @@ Personal dotfiles managed with GNU Stow.
 - `x11`: `.xinitrc`, `.gtkrc-2.0`
 - `nvim`: `~/.config/nvim`
 - `i3`: `~/.config/i3`
-- `eww`: `~/.config/eww`
 - `quickshell`: `~/.config/quickshell`
 - `rofi`: `~/.config/rofi`
 - `picom`: `~/.config/picom`
@@ -32,6 +31,7 @@ Personal dotfiles managed with GNU Stow.
 - `desktop`: `~/.config/autostart`, `~/.config/mimeapps.list`
 - `obs`: `~/.config/obs-studio`
 - `vlc`: `~/.config/vlc`
+- `flameshot`: `~/.config/flameshot`
 
 ## Requirements
 
@@ -92,6 +92,14 @@ Run everything:
 
 All of these scripts are safe to rerun.
 
+Install the [Rosé Pine GTK theme](https://github.com/Fausto-Korpsvart/Rose-Pine-GTK-Theme) (also run as part of `run-all.sh`):
+
+```bash
+./scripts/install-rose-pine-gtk-theme.sh
+```
+
+Installs the default-accent light variant (`Rosepine-Light`, matching this setup's `gtk-application-prefer-dark-theme=0`) and sets it as the active GTK theme in `gtk-3.0`/`gtk-4.0` `settings.ini` and `xsettingsd.conf`, reloading `xsettingsd` if it's running.
+
 Apply selected packages manually:
 
 ```bash
@@ -126,3 +134,4 @@ stow -d configs -nv -t "$HOME" zsh nvim
 - `scripts/install-packages.sh` is idempotent because it uses `paru -S --needed`.
 - `scripts/apply-stow.sh` is idempotent because it restows managed links and only backs up unmanaged existing targets.
 - `scripts/enable-package-sync.sh` is idempotent because it reinstalls the hook in place and only initializes tracking state when it does not exist.
+- `scripts/install-rose-pine-gtk-theme.sh` caches the upstream theme source in `~/.cache/dotfiles/Rose-Pine-GTK-Theme` and pulls instead of re-cloning on rerun.

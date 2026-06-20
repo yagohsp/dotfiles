@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import Quickshell.Io
 
 Row {
@@ -97,17 +98,17 @@ Row {
 
     function _startRecord(mode) {
         ShellGlobals.recordingMode = mode   // immediate: panel switches to Stop
-        _run(["bash", "-c", `setsid -f bash -c 'sleep 0.1 && /home/yago/.config/quickshell/scripts/start-record.sh ${mode}'`])
+        _run(["bash", "-c", `setsid -f bash -c 'sleep 0.1 && ${Quickshell.env("HOME")}/.config/quickshell/scripts/start-record.sh ${mode}'`])
     }
 
     function _stopRecord() {
         ShellGlobals.recordingMode = "none"
         ShellGlobals.captureExpanded = false
-        _run(["bash", "-c", "setsid -f bash -c 'sleep 0.1 && /home/yago/.config/quickshell/scripts/stop-record.sh'"])
+        _run(["bash", "-c", `setsid -f bash -c 'sleep 0.1 && ${Quickshell.env("HOME")}/.config/quickshell/scripts/stop-record.sh'`])
     }
 
     function _screenshot() {
         ShellGlobals.captureExpanded = false
-        _run(["bash", "/home/yago/.config/quickshell/scripts/take-screenshot.sh"])
+        _run(["bash", `${Quickshell.env("HOME")}/.config/quickshell/scripts/take-screenshot.sh`])
     }
 }

@@ -1,9 +1,12 @@
 pragma Singleton
 import QtQuick
+import Quickshell
 import Quickshell.Io
 
 QtObject {
     id: root
+
+    property string _scriptsDir: Quickshell.env("HOME") + "/.config/quickshell/scripts"
 
     property var outputDevices: []
     property var defaultSinkOptions: []
@@ -27,7 +30,7 @@ QtObject {
     // ── listeners ──────────────────────────────────────────────────────────
 
     property var _outputDevicesListener: Process {
-        command: ["bash", "/home/yago/.config/quickshell/scripts/listen-output-device-volumes.sh"]
+        command: ["bash", root._scriptsDir + "/listen-output-device-volumes.sh"]
         running: true
         stdout: SplitParser {
             splitMarker: "\n"
@@ -42,7 +45,7 @@ QtObject {
     }
 
     property var _defaultSinkListener: Process {
-        command: ["bash", "/home/yago/.config/quickshell/scripts/listen-default-sink-options.sh"]
+        command: ["bash", root._scriptsDir + "/listen-default-sink-options.sh"]
         running: true
         stdout: SplitParser {
             splitMarker: "\n"
@@ -57,7 +60,7 @@ QtObject {
     }
 
     property var _streamRoutesListener: Process {
-        command: ["bash", "/home/yago/.config/quickshell/scripts/listen-stream-routes.sh"]
+        command: ["bash", root._scriptsDir + "/listen-stream-routes.sh"]
         running: true
         stdout: SplitParser {
             splitMarker: "\n"
@@ -80,19 +83,19 @@ QtObject {
     }
 
     function setDefaultSink(sinkName) {
-        _run(["bash", "/home/yago/.config/quickshell/scripts/set-default-sink.sh", sinkName])
+        _run(["bash", root._scriptsDir + "/set-default-sink.sh", sinkName])
     }
 
     function setStreamOutput(index, sinkName) {
-        _run(["bash", "/home/yago/.config/quickshell/scripts/set-stream-output.sh", String(index), sinkName])
+        _run(["bash", root._scriptsDir + "/set-stream-output.sh", String(index), sinkName])
     }
 
     function setStreamOutputDefault(index) {
-        _run(["bash", "/home/yago/.config/quickshell/scripts/set-stream-output-default.sh", String(index)])
+        _run(["bash", root._scriptsDir + "/set-stream-output-default.sh", String(index)])
     }
 
     function setStreamVolume(index, volume) {
-        _run(["bash", "/home/yago/.config/quickshell/scripts/set-stream-volume.sh", String(index), String(Math.round(volume))])
+        _run(["bash", root._scriptsDir + "/set-stream-volume.sh", String(index), String(Math.round(volume))])
     }
 
     function setOutputVolume(sinkName, volume) {
@@ -104,6 +107,6 @@ QtObject {
     }
 
     function toggleStreamMute(index) {
-        _run(["bash", "/home/yago/.config/quickshell/scripts/toggle-stream-mute.sh", String(index)])
+        _run(["bash", root._scriptsDir + "/toggle-stream-mute.sh", String(index)])
     }
 }

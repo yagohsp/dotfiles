@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick
+import Quickshell
 import Quickshell.Io
 
 QtObject {
@@ -7,7 +8,7 @@ QtObject {
     property var workspaces: []
 
     property var _proc: Process {
-        command: ["/home/yago/.config/quickshell/scripts/workspaces-all.sh"]
+        command: [Quickshell.env("HOME") + "/.config/quickshell/scripts/workspaces-all.sh"]
         running: true
         stdout: SplitParser {
             splitMarker: "\n"

@@ -1,6 +1,7 @@
 import QtQuick
 
 Rectangle {
+    id: root
     implicitWidth: lbl.implicitWidth + 20
     implicitHeight: 36
     color: ma.pressed ? Theme.highlightMed
@@ -9,7 +10,6 @@ Rectangle {
     radius: 4
     border.color: ma.containsMouse ? Theme.highlightMed : "transparent"
     border.width: 1
-
 
     Text {
         id: lbl

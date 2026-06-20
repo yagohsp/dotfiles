@@ -6,7 +6,6 @@ asdf
 x11
 nvim
 i3
-eww
 quickshell
 rofi
 picom
@@ -20,6 +19,7 @@ thunar
 desktop
 obs
 vlc
+flameshot
 '
 
 TARGETS='
@@ -34,7 +34,6 @@ TARGETS='
 .gtkrc-2.0
 .config/nvim
 .config/i3
-.config/eww
 .config/quickshell
 .config/rofi
 .config/picom
@@ -53,4 +52,5 @@ TARGETS='
 .config/mimeapps.list
 .config/obs-studio
 .config/vlc
+.config/flameshot
 '

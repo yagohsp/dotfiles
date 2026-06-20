@@ -5,19 +5,19 @@ import Quickshell.Io
 
 PopupWindow {
     id: root
-    visible: ShellGlobals.primaryBarWindow !== null
+    // Window stays fixed-size and just snaps open/closed — RevealBox does
+    // the actual grow/shrink animation as an in-process clip, which avoids
+    // the flicker that comes from animating real X11 window geometry.
+    visible: ShellGlobals.primaryBarWindow !== null && revealBox.active
     anchor.window: ShellGlobals.primaryBarWindow
-    anchor.rect.x: (ShellGlobals.primaryBarWindow?.width ?? 1920) - (menuBox.implicitWidth + 8)
-    anchor.rect.y: ShellGlobals.primaryBarWindow?.height ?? 44
-    implicitWidth:  menuBox.implicitWidth
-    implicitHeight: menuBox.implicitHeight
+    anchor.rect.x: Math.max(8, Math.min(ShellGlobals.systemButtonCenterX - implicitWidth / 2, (ShellGlobals.primaryBarWindow?.width ?? 1920) - implicitWidth - 8))
+    anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) - 4
+    // SysMenuItem.implicitWidth is a fixed 200, plus RevealBox's default
+    // 14px content margins on each side.
+    implicitWidth: 228
+    implicitHeight: revealBox.implicitHeight
     color: "transparent"
     grabFocus: false
-
-    mask: Region {
-        width:  ShellGlobals.systemMenuOpen ? root.implicitWidth  : 0
-        height: ShellGlobals.systemMenuOpen ? root.implicitHeight : 0
-    }
 
     function _run(args) {
         ShellGlobals.systemMenuOpen = false
@@ -26,27 +26,20 @@ PopupWindow {
         p.running = true
     }
 
-    Rectangle {
-        id: menuBox
-        anchors.fill: parent
-        implicitWidth:  menuCol.implicitWidth  + 16
-        implicitHeight: menuCol.implicitHeight + 16
+    RevealBox {
+        id: revealBox
+        open: ShellGlobals.systemMenuOpen
         color: Theme.overlay
-        opacity: ShellGlobals.systemMenuOpen ? 1 : 0
-        scale:   ShellGlobals.systemMenuOpen ? 1 : 0.96
-        transformOrigin: Item.TopRight
-        Behavior on opacity { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
-        Behavior on scale   { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+        spacing: 0
 
-        ColumnLayout {
-            id: menuCol
-            anchors.centerIn: parent
-            spacing: 0
+        SysMenuItem { label: "Restart";           onClicked: root._run(["bash", "-c", "pkill obs; systemctl reboot"]) }
+        SysMenuItem { label: "Suspend";           onClicked: root._run(["systemctl", "suspend"]) }
+        SysMenuItem { label: "Update & Shutdown"; onClicked: root._run(["bash", Quickshell.env("HOME") + "/.config/quickshell/scripts/update-and-shutdown.sh"]) }
+        SysMenuItem { label: "Shutdown";          onClicked: root._run(["bash", "-c", "pkill obs; systemctl poweroff"]) }
+    }
 
-            SysMenuItem { label: "Restart";           onClicked: root._run(["bash", "-c", "pkill obs; systemctl reboot"]) }
-            SysMenuItem { label: "Suspend";           onClicked: root._run(["systemctl", "suspend"]) }
-            SysMenuItem { label: "Update & Shutdown"; onClicked: root._run(["bash", "/home/yago/.config/quickshell/scripts/update-and-shutdown.sh"]) }
-            SysMenuItem { label: "Shutdown";          onClicked: root._run(["bash", "-c", "pkill obs; systemctl poweroff"]) }
-        }
+    CloseOnExit {
+        anchors.fill: revealBox
+        onExited: ShellGlobals.systemMenuOpen = false
     }
 }

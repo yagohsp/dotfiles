@@ -16,7 +16,7 @@ if [ -f '/home/yago/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ya
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/yago/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/yago/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
-. "$HOME/.local/bin/env"
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/yago/.lmstudio/bin"

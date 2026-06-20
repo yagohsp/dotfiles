@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+set -eu
+
+lock=/run/lock/dotfiles-monitor-watch.lock
+exec 9>"$lock"
+flock -n 9 || exit 0
+
+sleep 1
+
+session=$(loginctl list-sessions --no-legend | awk '$3 == "seat0" { print $1; exit }')
+[ -n "$session" ] || exit 0
+
+user=$(loginctl show-session "$session" -p Name --value)
+display=$(loginctl show-session "$session" -p Display --value)
+home=$(getent passwd "$user" | cut -d: -f6)
+
+[ -n "$user" ] && [ -n "$home" ] || exit 0
+
+su - "$user" -c "DISPLAY=${display:-:0} XAUTHORITY=$home/.Xauthority $home/dotfiles/scripts/detect-monitors.sh"

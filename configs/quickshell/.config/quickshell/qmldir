@@ -1,12 +1,23 @@
 singleton Theme Theme.qml
 singleton ShellGlobals ShellGlobals.qml
 singleton AudioService AudioService.qml
+singleton BrightnessService BrightnessService.qml
+singleton BatteryService BatteryService.qml
+singleton WifiService WifiService.qml
 singleton WorkspaceService WorkspaceService.qml
 
 Bar Bar.qml
+BacklightButton BacklightButton.qml
+BacklightModal BacklightModal.qml
+BatteryWidget BatteryWidget.qml
+WifiButton WifiButton.qml
+WifiModal WifiModal.qml
 PopupBackdrop PopupBackdrop.qml
+RevealBox RevealBox.qml
+JoinedRect JoinedRect.qml
 CalendarDropdown CalendarDropdown.qml
 CaptureBtn CaptureBtn.qml
+CloseOnExit CloseOnExit.qml
 CaptureToggle CaptureToggle.qml
 ClockWidget ClockWidget.qml
 MuteButton MuteButton.qml

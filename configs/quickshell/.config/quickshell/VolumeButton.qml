@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 
 Rectangle {
+    id: root
     implicitWidth: row.implicitWidth + 20
     implicitHeight: 36
     color: ma.pressed ? Theme.highlightMed
@@ -10,7 +11,6 @@ Rectangle {
     radius: 4
     border.color: ma.containsMouse ? Theme.highlightMed : "transparent"
     border.width: 1
-
 
     RowLayout {
         id: row
