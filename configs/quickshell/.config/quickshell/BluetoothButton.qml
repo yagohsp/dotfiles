@@ -1,9 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Bluetooth
 
 Rectangle {
     id: root
-    visible: WifiService.available
+    visible: Bluetooth.defaultAdapter !== null
     implicitWidth: visible ? row.implicitWidth + 20 : 0
     implicitHeight: 36
     color: ma.pressed ? Theme.highlightMed
@@ -13,21 +14,23 @@ Rectangle {
     border.color: ma.containsMouse ? Theme.highlightMed : "transparent"
     border.width: 1
 
+    readonly property var connectedDevice: [...Bluetooth.devices.values].find(d => d.connected) ?? null
+
     RowLayout {
         id: row
         anchors.centerIn: parent
         spacing: 6
 
         Text {
-            text: ""
+            text: ""
             font.family: Theme.font
             font.pixelSize: 16
             color: Theme.iris
         }
 
         Text {
-            text: !WifiService.radioEnabled ? "Off"
-                : WifiService.connected ? WifiService.activeSsid
+            text: !(Bluetooth.defaultAdapter?.enabled ?? false) ? "Off"
+                : root.connectedDevice ? root.connectedDevice.name
                 : "Disconnected"
             font.family: Theme.font
             font.pixelSize: 13
@@ -41,6 +44,6 @@ Rectangle {
         id: ma
         anchors.fill: parent
         hoverEnabled: true
-        onContainsMouseChanged: ShellGlobals.wifiHover.buttonHovered = containsMouse
+        onContainsMouseChanged: ShellGlobals.bluetoothHover.buttonHovered = containsMouse
     }
 }

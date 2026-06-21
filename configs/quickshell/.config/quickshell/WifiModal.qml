@@ -5,24 +5,11 @@ import Quickshell
 
 PopupWindow {
     id: root
-    // Window stays fixed-size and just snaps open/closed — animating real
-    // X11 window geometry every frame caused visible flicker (native resize
-    // isn't double-buffered the way compositor-side clipping is). RevealBox
-    // does the actual grow/shrink animation as an in-process clip.
     visible: ShellGlobals.primaryBarWindow !== null && revealBox.active
     anchor.window: ShellGlobals.primaryBarWindow
-    // Window is wider than the body (bodyWidth + flareMargin*2) so the top
-    // corners have real canvas to flare outward into -- see RevealBox's
-    // flareMargin doc. Center the BODY on the button, not the wider window.
     readonly property int bodyWidth: 320
-    // Must stay comfortably larger than RevealBox's topRadius/joinSmoothing,
-    // or the corner's curve wants more canvas than exists and gets clipped/
-    // inverted at the window edge instead of flaring smoothly.
     readonly property int flareMargin: 58
     anchor.rect.x: Math.max(8, Math.min(ShellGlobals.wifiButtonCenterX - bodyWidth / 2 - flareMargin, (ShellGlobals.primaryBarWindow?.width ?? 1920) - implicitWidth - 8))
-    // Overlap by exactly the popup's own border width so its top border
-    // ring lands on the same pixels as the bar's bottom border, merging
-    // into one line instead of two adjacent parallel ones.
     anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) - 2
     implicitWidth: bodyWidth + flareMargin * 2
     implicitHeight: revealBox.implicitHeight
@@ -48,7 +35,6 @@ PopupWindow {
         bodyWidth: root.bodyWidth
         borderWidth: 2
         borderColor: Theme.iris
-        joinHeightScale: 1
 
         RowLayout {
             Layout.fillWidth: true
@@ -114,15 +100,6 @@ PopupWindow {
                         onClicked: {
                             root.pendingSsid = netRow.modelData.ssid
                             if (netRow.modelData.security && !WifiService.hasSavedProfile(netRow.modelData.ssid)) {
-                                // Ask for the password up front instead of
-                                // attempting a blind passwordless connect:
-                                // that attempt tears down the current
-                                // connection, fails, and NetworkManager's
-                                // autoconnect snaps back to it before this
-                                // prompt would ever get a chance to show.
-                                // Networks with a saved profile already have
-                                // a cached secret, so they skip straight to
-                                // connect() below.
                                 WifiService.connectError = "needs-password"
                             } else {
                                 WifiService.connect(netRow.modelData.ssid)
@@ -222,10 +199,15 @@ PopupWindow {
     }
 
     CloseOnExit {
-        // Don't close mid-connection-attempt — nmcli can take a few
-        // seconds, and the mouse drifting off the popup during that wait
-        // would otherwise hide the password prompt before it ever shows.
         anchors.fill: revealBox
-        onExited: if (!WifiService.connecting) ShellGlobals.wifiModalOpen = false
+        hover: ShellGlobals.wifiHover
     }
+
+    Binding {
+        target: ShellGlobals.wifiHover
+        property: "suppressClose"
+        value: WifiService.connecting
+    }
+
+    Binding { target: ShellGlobals; property: "wifiActive"; value: revealBox.active }
 }

@@ -5,19 +5,17 @@ import Quickshell
 
 PopupWindow {
     id: root
-    // Window stays fixed-size and just snaps open/closed — RevealBox does
-    // the actual grow/shrink animation as an in-process clip, which avoids
-    // the flicker that comes from animating real X11 window geometry.
     visible: ShellGlobals.primaryBarWindow !== null && revealBox.active
     anchor.window: ShellGlobals.primaryBarWindow
     readonly property int _w: ShellGlobals.volumeModalCentered ? 480 : 360
+    readonly property int flareMargin: ShellGlobals.volumeModalCentered ? 0 : 58
     anchor.rect.x: ShellGlobals.volumeModalCentered
-        ? ((ShellGlobals.primaryBarWindow?.width ?? 1920) - _w) / 2
-        : Math.max(8, Math.min(ShellGlobals.volumeButtonCenterX - _w / 2, (ShellGlobals.primaryBarWindow?.width ?? 1920) - _w - 8))
+        ? ((ShellGlobals.primaryBarWindow?.width ?? 1920) - implicitWidth) / 2
+        : Math.max(8, Math.min(ShellGlobals.volumeButtonCenterX - _w / 2 - flareMargin, (ShellGlobals.primaryBarWindow?.width ?? 1920) - implicitWidth - 8))
     anchor.rect.y: ShellGlobals.volumeModalCentered
         ? (Screen.height - implicitHeight) / 2
-        : (ShellGlobals.primaryBarWindow?.height ?? 44) - 4
-    implicitWidth: _w
+        : (ShellGlobals.primaryBarWindow?.height ?? 44) - 2
+    implicitWidth: _w + flareMargin * 2
     implicitHeight: revealBox.implicitHeight
     color: "transparent"
     grabFocus: false
@@ -26,6 +24,10 @@ PopupWindow {
         id: revealBox
         open: ShellGlobals.volumeModalOpen
         color: Theme.overlay
+        flareMargin: root.flareMargin
+        bodyWidth: root._w
+        borderWidth: 2
+        borderColor: Theme.iris
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -197,6 +199,8 @@ PopupWindow {
 
     CloseOnExit {
         anchors.fill: revealBox
-        onExited: ShellGlobals.volumeModalOpen = false
+        hover: ShellGlobals.volumeHover
     }
+
+    Binding { target: ShellGlobals; property: "volumeActive"; value: revealBox.active }
 }

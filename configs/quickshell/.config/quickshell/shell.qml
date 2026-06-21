@@ -23,6 +23,7 @@ ShellRoot {
     VolumeModal     {}
     BacklightModal  {}
     WifiModal       {}
+    BluetoothModal  {}
     CalendarDropdown {}
     SystemMenu      {}
 }

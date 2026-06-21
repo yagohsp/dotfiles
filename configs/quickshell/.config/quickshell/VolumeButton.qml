@@ -40,10 +40,9 @@ Rectangle {
         id: ma
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: {
-            ShellGlobals.volumeModalCentered = false
-            ShellGlobals.volumeModalOpen = !ShellGlobals.volumeModalOpen
+        onContainsMouseChanged: {
+            if (containsMouse) ShellGlobals.volumeModalCentered = false
+            ShellGlobals.volumeHover.buttonHovered = containsMouse
         }
-        cursorShape: Qt.PointingHandCursor
     }
 }

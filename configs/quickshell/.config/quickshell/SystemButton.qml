@@ -24,7 +24,6 @@ Rectangle {
         id: ma
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: ShellGlobals.systemMenuOpen = !ShellGlobals.systemMenuOpen
-        cursorShape: Qt.PointingHandCursor
+        onContainsMouseChanged: ShellGlobals.systemHover.buttonHovered = containsMouse
     }
 }

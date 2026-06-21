@@ -37,7 +37,6 @@ Rectangle {
         id: ma
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: ShellGlobals.backlightModalOpen = !ShellGlobals.backlightModalOpen
-        cursorShape: Qt.PointingHandCursor
+        onContainsMouseChanged: ShellGlobals.backlightHover.buttonHovered = containsMouse
     }
 }

@@ -45,8 +45,7 @@ Item {
             id: ma
             anchors.fill: parent
             hoverEnabled: true
-            onClicked: ShellGlobals.calendarOpen = !ShellGlobals.calendarOpen
-            cursorShape: Qt.PointingHandCursor
+            onContainsMouseChanged: ShellGlobals.calendarHover.buttonHovered = containsMouse
         }
     }
 }
