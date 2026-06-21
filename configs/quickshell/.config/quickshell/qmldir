@@ -8,16 +8,19 @@ singleton WorkspaceService WorkspaceService.qml
 
 Bar Bar.qml
 BacklightButton BacklightButton.qml
-BacklightModal BacklightModal.qml
+BacklightPopupContent BacklightPopupContent.qml
 BatteryWidget BatteryWidget.qml
 WifiButton WifiButton.qml
-WifiModal WifiModal.qml
+WifiPopupContent WifiPopupContent.qml
 BluetoothButton BluetoothButton.qml
-BluetoothModal BluetoothModal.qml
+BluetoothPopupContent BluetoothPopupContent.qml
 PopupBackdrop PopupBackdrop.qml
 RevealBox RevealBox.qml
+PopupCard PopupCard.qml
 FlareRect FlareRect.qml
-CalendarDropdown CalendarDropdown.qml
+GlobalPopup GlobalPopup.qml
+VolumeCenteredPopup VolumeCenteredPopup.qml
+CalendarPopupContent CalendarPopupContent.qml
 CaptureBtn CaptureBtn.qml
 CloseOnExit CloseOnExit.qml
 CaptureToggle CaptureToggle.qml
@@ -27,10 +30,10 @@ MuteButton MuteButton.qml
 OutputButton OutputButton.qml
 SysMenuItem SysMenuItem.qml
 SystemButton SystemButton.qml
-SystemMenu SystemMenu.qml
+SystemPopupContent SystemPopupContent.qml
 TrayWidget TrayWidget.qml
 VolumeButton VolumeButton.qml
-VolumeModal VolumeModal.qml
+VolumePopupContent VolumePopupContent.qml
 VolumeOsd VolumeOsd.qml
 StreamVolumeOsd StreamVolumeOsd.qml
 VolumeSlider VolumeSlider.qml

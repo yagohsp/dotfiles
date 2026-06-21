@@ -8,14 +8,6 @@ QtObject {
     id: root
 
     property string openPopup: ""
-    property string pendingPopup: ""
-
-    readonly property bool calendarOpen: openPopup === "calendar"
-    readonly property bool volumeModalOpen: openPopup === "volume"
-    readonly property bool systemMenuOpen: openPopup === "system"
-    readonly property bool backlightModalOpen: openPopup === "backlight"
-    readonly property bool wifiModalOpen: openPopup === "wifi"
-    readonly property bool bluetoothModalOpen: openPopup === "bluetooth"
     readonly property bool anyPopupOpen: openPopup !== ""
 
     property bool volumeModalCentered: false
@@ -33,25 +25,6 @@ QtObject {
     property real wifiButtonCenterX: 0
     property real bluetoothButtonCenterX: 0
     property real systemButtonCenterX: 0
-
-    property bool calendarActive: false
-    property bool volumeActive: false
-    property bool systemActive: false
-    property bool backlightActive: false
-    property bool wifiActive: false
-    property bool bluetoothActive: false
-    readonly property bool anyActive: calendarActive || volumeActive || systemActive || backlightActive || wifiActive || bluetoothActive
-
-    onAnyActiveChanged: {
-        if (!anyActive && root.pendingPopup !== "") Qt.callLater(root._promotePending)
-    }
-
-    function _promotePending() {
-        if (!root.anyActive && root.pendingPopup !== "") {
-            root.openPopup = root.pendingPopup
-            root.pendingPopup = ""
-        }
-    }
 
     readonly property string desiredPopup:
         wifiHover.hovering ? "wifi" :
@@ -71,21 +44,11 @@ QtObject {
     }
 
     function openNow(name) {
-        if (root.openPopup === name) {
-            root.pendingPopup = ""
-            return
-        }
-        if (root.openPopup === "" && !root.anyActive) {
-            root.openPopup = name
-            root.pendingPopup = ""
-        } else {
-            if (root.openPopup !== "") root.openPopup = ""
-            root.pendingPopup = name
-        }
+        root._closeTimer.stop()
+        root.openPopup = name
     }
 
     function closeNow(name) {
-        if (root.pendingPopup === name) root.pendingPopup = ""
         if (root.openPopup === name) root.openPopup = ""
     }
 

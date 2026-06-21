@@ -1,10 +1,10 @@
 import QtQuick
 
 MouseArea {
-    required property var hover
+    property var hover: null
 
     hoverEnabled: true
     acceptedButtons: Qt.NoButton
-    onEntered: hover.popupHovered = true
-    onExited: hover.popupHovered = false
+    onEntered: if (hover) hover.popupHovered = true
+    onExited: if (hover) hover.popupHovered = false
 }

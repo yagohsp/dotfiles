@@ -7,22 +7,56 @@ Item {
     property bool open: false
     property color color: "transparent"
     property int growDuration: Math.max(150, Math.min(500, Math.round(implicitHeight * 1.125)))
+    property int moveDuration: 300
     property int contentMargins: 14
     property int maxHeight: 480
-    property int spacing: 10
     property real radius: 8
     property real topRadius: 44
     property real joinSmoothing: 48
-    property real flareMargin: 0
-    property real bodyWidth: 0
+    property real flareMargin: 58
     property real borderWidth: 0
     property color borderColor: "transparent"
 
-    default property alias data: contentCol.data
+    property real targetBodyWidth: 0
+    property real targetX: 0
+    property Component content: null
+    property int fadeDuration: 150
 
-    implicitHeight: Math.min(contentCol.implicitHeight + contentMargins * 2, maxHeight)
+    implicitHeight: Math.min((sizingLoader.item ? sizingLoader.item.implicitHeight : 0) + contentMargins * 2, maxHeight)
 
-    readonly property real _bodyW: flareMargin > 0 ? bodyWidth : width
+    property real _bodyW: targetBodyWidth
+    Behavior on _bodyW {
+        enabled: root._revealProgress > 0
+        NumberAnimation { duration: root.moveDuration; easing.type: Easing.OutCubic }
+    }
+
+    property real _x: targetX
+    Behavior on _x {
+        enabled: root._revealProgress > 0
+        NumberAnimation { duration: root.moveDuration; easing.type: Easing.OutCubic }
+    }
+
+    property real _animHeight: implicitHeight
+    Behavior on _animHeight {
+        enabled: root._revealProgress > 0
+        NumberAnimation { duration: root.moveDuration; easing.type: Easing.OutCubic }
+    }
+
+    property Component _loadedContent: null
+    onContentChanged: {
+        if (root._revealProgress > 0) {
+            _fadeSwap.restart()
+        } else {
+            root._loadedContent = root.content
+        }
+    }
+
+    SequentialAnimation {
+        id: _fadeSwap
+        NumberAnimation { target: contentLoader; property: "opacity"; to: 0; duration: root.fadeDuration; easing.type: Easing.OutCubic }
+        ScriptAction { script: root._loadedContent = root.content }
+        NumberAnimation { target: contentLoader; property: "opacity"; to: 1; duration: root.fadeDuration; easing.type: Easing.OutCubic }
+    }
 
     property real _revealProgress: open ? 1 : 0
     Behavior on _revealProgress {
@@ -34,8 +68,10 @@ Item {
 
     readonly property bool active: open || _revealProgress > 0
 
-    anchors { top: parent.top; left: parent.left; right: parent.right }
-    height: _revealProgress * implicitHeight
+    anchors.top: parent.top
+    x: _x
+    width: _bodyW + flareMargin * 2
+    height: _revealProgress * _animHeight
     clip: true
 
     enabled: _revealProgress >= 1
@@ -81,13 +117,20 @@ Item {
         anchors.bottomMargin: root.contentMargins
         anchors.horizontalCenter: parent.horizontalCenter
         width: root._bodyW - root.contentMargins * 2
-        contentHeight: contentCol.implicitHeight
+        contentHeight: contentLoader.item ? contentLoader.item.implicitHeight : 0
         clip: true
 
-        ColumnLayout {
-            id: contentCol
+        Loader {
+            id: contentLoader
             width: flick.width
-            spacing: root.spacing
+            sourceComponent: root._loadedContent
         }
+    }
+
+    Loader {
+        id: sizingLoader
+        visible: false
+        width: flick.width
+        sourceComponent: root.content
     }
 }
