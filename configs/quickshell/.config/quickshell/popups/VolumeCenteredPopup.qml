@@ -6,8 +6,7 @@ import ".."
 
 PopupWindow {
     id: root
-    visible: ShellGlobals.primaryBarWindow !== null
-    mask: Region { item: revealBox }
+    visible: ShellGlobals.primaryBarWindow !== null && revealBox.active
     anchor.window: ShellGlobals.primaryBarWindow
     readonly property int _w: 480
     anchor.rect.x: ((ShellGlobals.primaryBarWindow?.width ?? 1920) - implicitWidth) / 2
