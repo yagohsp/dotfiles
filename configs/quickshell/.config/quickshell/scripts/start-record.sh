@@ -2,6 +2,11 @@
 exec >> /tmp/qs-record-debug.log 2>&1
 echo "[$(date)] start-record.sh $* DISPLAY=$DISPLAY"
 
+if [ -f /tmp/capture-rec.pid ] && kill -0 "$(cat /tmp/capture-rec.pid)" 2>/dev/null; then
+  echo "[$(date)] already recording (pid $(cat /tmp/capture-rec.pid)), ignoring"
+  exit 0
+fi
+
 mode="${1:-mp4}"
 
 _qs_state() { printf '{"recordingMode":"%s","encoding":%s}\n' "$1" "${2:-false}" > /tmp/qs-capture.json; }
