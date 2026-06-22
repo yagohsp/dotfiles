@@ -6,3 +6,7 @@
 # macOS / Windows noise
 .DS_Store
 Thumbs.db
+
+# Generated runtime caches
+configs/quickshell/.config/quickshell/scripts/outputs.json
+configs/input/.config/fcitx/dbus/*
