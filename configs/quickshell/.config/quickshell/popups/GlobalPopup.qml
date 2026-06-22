@@ -5,7 +5,7 @@ import ".."
 
 PopupWindow {
     id: root
-    visible: ShellGlobals.primaryBarWindow !== null && card.active
+    visible: ShellGlobals.primaryBarWindow !== null
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: 0
     anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) - 2
