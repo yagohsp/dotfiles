@@ -1,40 +1,40 @@
-singleton Theme Theme.qml
-singleton ShellGlobals ShellGlobals.qml
-singleton AudioService AudioService.qml
-singleton BrightnessService BrightnessService.qml
-singleton BatteryService BatteryService.qml
-singleton WifiService WifiService.qml
-singleton WorkspaceService WorkspaceService.qml
+singleton Theme services/Theme.qml
+singleton ShellGlobals services/ShellGlobals.qml
+singleton AudioService services/AudioService.qml
+singleton BrightnessService services/BrightnessService.qml
+singleton BatteryService services/BatteryService.qml
+singleton WifiService services/WifiService.qml
+singleton WorkspaceService services/WorkspaceService.qml
 
 Bar Bar.qml
-BacklightButton BacklightButton.qml
-BacklightPopupContent BacklightPopupContent.qml
-BatteryWidget BatteryWidget.qml
-WifiButton WifiButton.qml
-WifiPopupContent WifiPopupContent.qml
-BluetoothButton BluetoothButton.qml
-BluetoothPopupContent BluetoothPopupContent.qml
-PopupBackdrop PopupBackdrop.qml
-RevealBox RevealBox.qml
-PopupCard PopupCard.qml
-FlareRect FlareRect.qml
-GlobalPopup GlobalPopup.qml
-VolumeCenteredPopup VolumeCenteredPopup.qml
-CalendarPopupContent CalendarPopupContent.qml
-CaptureBtn CaptureBtn.qml
-CloseOnExit CloseOnExit.qml
-CaptureToggle CaptureToggle.qml
-ClockWidget ClockWidget.qml
-HoverPopupController HoverPopupController.qml
-MuteButton MuteButton.qml
-OutputButton OutputButton.qml
-SysMenuItem SysMenuItem.qml
-SystemButton SystemButton.qml
-SystemPopupContent SystemPopupContent.qml
-TrayWidget TrayWidget.qml
-VolumeButton VolumeButton.qml
-VolumePopupContent VolumePopupContent.qml
-VolumeOsd VolumeOsd.qml
-StreamVolumeOsd StreamVolumeOsd.qml
-VolumeSlider VolumeSlider.qml
-WorkspacesWidget WorkspacesWidget.qml
+BacklightButton widgets/BacklightButton.qml
+BacklightPopupContent popups/BacklightPopupContent.qml
+BatteryWidget widgets/BatteryWidget.qml
+WifiButton widgets/WifiButton.qml
+WifiPopupContent popups/WifiPopupContent.qml
+BluetoothButton widgets/BluetoothButton.qml
+BluetoothPopupContent popups/BluetoothPopupContent.qml
+PopupBackdrop popups/PopupBackdrop.qml
+RevealBox popups/RevealBox.qml
+PopupCard popups/PopupCard.qml
+FlareRect ui/FlareRect.qml
+GlobalPopup popups/GlobalPopup.qml
+VolumeCenteredPopup popups/VolumeCenteredPopup.qml
+CalendarPopupContent popups/CalendarPopupContent.qml
+CaptureBtn widgets/CaptureBtn.qml
+CloseOnExit popups/CloseOnExit.qml
+CaptureToggle widgets/CaptureToggle.qml
+ClockWidget widgets/ClockWidget.qml
+HoverPopupController popups/HoverPopupController.qml
+MuteButton widgets/MuteButton.qml
+OutputButton widgets/OutputButton.qml
+SysMenuItem widgets/SysMenuItem.qml
+SystemButton widgets/SystemButton.qml
+SystemPopupContent popups/SystemPopupContent.qml
+TrayWidget widgets/TrayWidget.qml
+VolumeButton widgets/VolumeButton.qml
+VolumePopupContent popups/VolumePopupContent.qml
+VolumeOsd osd/VolumeOsd.qml
+StreamVolumeOsd osd/StreamVolumeOsd.qml
+VolumeSlider widgets/VolumeSlider.qml
+WorkspacesWidget widgets/WorkspacesWidget.qml
