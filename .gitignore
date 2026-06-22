@@ -10,3 +10,4 @@ Thumbs.db
 # Generated runtime caches
 configs/quickshell/.config/quickshell/scripts/outputs.json
 configs/input/.config/fcitx/dbus/*
+configs/gtk/.config/gtk-3.0/bookmarks
