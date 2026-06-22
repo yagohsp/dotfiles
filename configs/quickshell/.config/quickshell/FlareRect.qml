@@ -33,16 +33,12 @@ Shape {
             return _plainPath(bw, h, r, br, m)
         }
 
-        if (r < 1 || j < 1) return _openPath(bw, h, br, m, close)
-
         const marginNeed = _marginNeeded(r, j)
         const marginScale = marginNeed > 0 ? Math.min(1, m / marginNeed) : 1
         const heightScale = Math.min(1, (h - br) / Math.max(r, j))
-        const s = Math.min(1, marginScale, heightScale)
+        const s = Math.max(0, Math.min(1, marginScale, heightScale))
         r *= s
         j *= s
-
-        if (r < 1 || j < 1) return _openPath(bw, h, br, m, close)
 
         const cxLeft = m + r - 2 * Math.sqrt(r * j)
         const cxRight = w - cxLeft
@@ -60,19 +56,6 @@ Shape {
             `A ${br},${br} 0 0,0 ${m + bw},${h - br}`,
             `L ${m + bw},${r}`,
             `C ${m + bw},${vy} ${cxRight - hx},0 ${cxRight},0`,
-        ]
-        if (close) segs.push("Z")
-        return segs.join(" ")
-    }
-
-    function _openPath(bw, h, br, ox, close) {
-        const segs = [
-            `M ${ox},0`,
-            `L ${ox},${h - br}`,
-            `A ${br},${br} 0 0,0 ${ox + br},${h}`,
-            `L ${ox + bw - br},${h}`,
-            `A ${br},${br} 0 0,0 ${ox + bw},${h - br}`,
-            `L ${ox + bw},0`,
         ]
         if (close) segs.push("Z")
         return segs.join(" ")
