@@ -7,6 +7,7 @@ script_dir=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 "$script_dir/install-packages.sh"
 "$script_dir/enable-package-sync.sh"
 "$script_dir/enable-monitor-watch.sh"
+"$script_dir/detect-monitors.sh"
 "$script_dir/enable-backlight.sh"
 "$script_dir/apply-stow.sh"
 "$script_dir/set-default-shell.sh"
