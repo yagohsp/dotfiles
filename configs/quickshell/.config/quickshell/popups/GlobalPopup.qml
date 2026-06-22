@@ -79,6 +79,26 @@ PopupWindow {
         hover: root._activeHover
     }
 
+    Loader {
+        id: _warmup
+        visible: false
+
+        readonly property var _queue: [wifiContent, volumeContent, backlightContent, bluetoothContent, systemContent, calendarContent]
+        property int _i: 0
+
+        function _loadNext() {
+            if (_i >= _queue.length) {
+                sourceComponent = null
+                return
+            }
+            sourceComponent = _queue[_i]
+            _i++
+        }
+
+        onLoaded: Qt.callLater(_loadNext)
+        Component.onCompleted: Qt.callLater(_loadNext)
+    }
+
     Component { id: wifiContent; WifiPopupContent {} }
     Component { id: volumeContent; VolumePopupContent {} }
     Component { id: backlightContent; BacklightPopupContent {} }
