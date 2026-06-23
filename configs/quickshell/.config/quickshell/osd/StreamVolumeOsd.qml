@@ -6,18 +6,18 @@ import ".."
 
 PopupWindow {
     id: root
-    // On X11, PopupWindow grabs input over its full mapped rect regardless of
-    // mask (mask doesn't suppress input on this backend), and anchor.rect
-    // position gets clamped back on-screen rather than truly hidden offscreen,
-    // and resizing the window on every show() was too slow. So fully unmap
-    // the window itself while idle - that's the only thing that reliably
-    // removes its input grab on X11.
-    visible: ShellGlobals.primaryBarWindow !== null && root._open
+    // Stays permanently mapped, same as GlobalPopup.qml, since unmapping
+    // (visible: false) tears down and recreates the GL context on every
+    // show() - costing 100-300ms. Shrunk to 1x1 while idle instead: on X11,
+    // PopupWindow grabs input over its full mapped rect regardless of mask
+    // (mask doesn't suppress input on this backend), so at 1x1 that grab
+    // covers a single pixel instead of stealing hover from other popups.
+    visible: ShellGlobals.primaryBarWindow !== null
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: ((ShellGlobals.primaryBarWindow?.width ?? 1920) - 220) / 2
     anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) + 8
-    implicitWidth:  220
-    implicitHeight: 60
+    implicitWidth:  root._open ? 220 : 1
+    implicitHeight: root._open ? 60  : 1
     color: "transparent"
     grabFocus: false
 
