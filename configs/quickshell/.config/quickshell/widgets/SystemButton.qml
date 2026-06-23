@@ -5,12 +5,8 @@ Rectangle {
     id: root
     implicitWidth: lbl.implicitWidth + 20
     implicitHeight: 36
-    color: ma.pressed ? Theme.highlightMed
-         : ma.containsMouse ? Theme.highlightLow
-         : "transparent"
+    color: "transparent"
     radius: 4
-    border.color: ma.containsMouse ? Theme.highlightMed : "transparent"
-    border.width: 1
 
     Text {
         id: lbl
@@ -25,6 +21,7 @@ Rectangle {
         id: ma
         anchors.fill: parent
         hoverEnabled: true
+        cursorShape: Qt.ArrowCursor
         onContainsMouseChanged: ShellGlobals.systemHover.buttonHovered = containsMouse
     }
 }

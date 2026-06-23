@@ -7,12 +7,8 @@ Rectangle {
     visible: WifiService.available
     implicitWidth: visible ? row.implicitWidth + 20 : 0
     implicitHeight: 36
-    color: ma.pressed ? Theme.highlightMed
-         : ma.containsMouse ? Theme.highlightLow
-         : "transparent"
+    color: "transparent"
     radius: 4
-    border.color: ma.containsMouse ? Theme.highlightMed : "transparent"
-    border.width: 1
 
     RowLayout {
         id: row
@@ -42,6 +38,7 @@ Rectangle {
         id: ma
         anchors.fill: parent
         hoverEnabled: true
+        cursorShape: Qt.ArrowCursor
         onContainsMouseChanged: ShellGlobals.wifiHover.buttonHovered = containsMouse
     }
 }

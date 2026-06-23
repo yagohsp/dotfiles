@@ -5,12 +5,18 @@ import ".."
 
 PopupWindow {
     id: root
-    visible: ShellGlobals.primaryBarWindow !== null && card.active
+    // Stays permanently mapped (rather than visible: ... && card.active) so its
+    // QSGRenderThread/GL context is never torn down and recreated, which was
+    // costing 100-300ms on every cold open. Shrunk to 1x1 while idle instead of
+    // unmapping, since a real PopupWindow implicitly grabs input over its full
+    // mapped rect on X11 the moment it's mapped (see PopupBackdrop.qml) - at 1x1
+    // that grab covers a single pixel instead of the whole bar-height strip.
+    visible: ShellGlobals.primaryBarWindow !== null
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: 0
     anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) - 2
-    implicitWidth: ShellGlobals.primaryBarWindow?.width ?? 1920
-    implicitHeight: 480 + 28
+    implicitWidth: card.active ? (ShellGlobals.primaryBarWindow?.width ?? 1920) : 1
+    implicitHeight: card.active ? (480 + 28) : 1
     color: "transparent"
     grabFocus: false
 
@@ -22,7 +28,9 @@ PopupWindow {
         : root._active === "backlight" ? ShellGlobals.backlightHover
         : root._active === "bluetooth" ? ShellGlobals.bluetoothHover
         : root._active === "system" ? ShellGlobals.systemHover
-        : root._active === "calendar" ? ShellGlobals.calendarHover : null
+        : root._active === "calendar" ? ShellGlobals.calendarHover
+        : root._active === "tray" ? ShellGlobals.trayHover
+        : root._active === "capture" ? ShellGlobals.captureHover : null
 
     readonly property var _contentComponents: ({
         wifi: wifiContent,
@@ -31,6 +39,8 @@ PopupWindow {
         bluetooth: bluetoothContent,
         system: systemContent,
         calendar: calendarContent,
+        tray: trayContent,
+        capture: captureContent,
     })
 
     function _bodyWidth(name) {
@@ -40,6 +50,8 @@ PopupWindow {
         if (name === "bluetooth") return 300
         if (name === "system") return 228
         if (name === "calendar") return 278
+        if (name === "tray") return 240
+        if (name === "capture") return 200
         return 280
     }
 
@@ -51,15 +63,41 @@ PopupWindow {
         const centerX = name === "wifi" ? ShellGlobals.wifiButtonCenterX
             : name === "volume" ? ShellGlobals.volumeButtonCenterX
             : name === "backlight" ? ShellGlobals.backlightButtonCenterX
+            : name === "tray" ? ShellGlobals.trayMenuX
+            : name === "capture" ? ShellGlobals.captureButtonCenterX
             : name === "bluetooth" ? ShellGlobals.bluetoothButtonCenterX
             : name === "system" ? ShellGlobals.systemButtonCenterX : barW / 2
-        return Math.max(8, Math.min(centerX - bw / 2 - fm, barW - (bw + fm * 2) - 8))
+        return Math.max(-fm - 2, Math.min(centerX - bw / 2 - fm, barW - bw - fm + 2))
     }
 
     Binding {
         target: ShellGlobals.wifiHover
         property: "suppressClose"
         value: WifiService.connecting
+    }
+
+    Connections {
+        target: ShellGlobals
+        function onTrayMenuItemChanged() {
+            if (root._active === "tray" && card.active) {
+                card.refreshContent()
+            } else {
+                ShellGlobals.trayMenuItemShown = ShellGlobals.trayMenuItem
+            }
+        }
+    }
+
+    Connections {
+        target: card
+        function onContentApplied() {
+            ShellGlobals.trayMenuItemShown = ShellGlobals.trayMenuItem
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        enabled: root._active === "tray"
+        onClicked: ShellGlobals.closeNow("tray")
     }
 
     PopupCard {
@@ -72,18 +110,14 @@ PopupWindow {
         targetBodyWidth: root._active !== "" ? root._bodyWidth(root._active) : card.targetBodyWidth
         targetX: root._active !== "" ? root._targetX(root._active) : card.targetX
         content: root._active !== "" ? root._contentComponents[root._active] : null
-    }
-
-    CloseOnExit {
-        anchors.fill: card
-        hover: root._activeHover
+        closeHover: root._activeHover
     }
 
     Loader {
         id: _warmup
         visible: false
 
-        readonly property var _queue: [wifiContent, volumeContent, backlightContent, bluetoothContent, systemContent, calendarContent]
+        readonly property var _queue: [wifiContent, volumeContent, backlightContent, bluetoothContent, systemContent, calendarContent, trayContent, captureContent]
         property int _i: 0
 
         function _loadNext() {
@@ -105,4 +139,6 @@ PopupWindow {
     Component { id: bluetoothContent; BluetoothPopupContent {} }
     Component { id: systemContent; SystemPopupContent {} }
     Component { id: calendarContent; CalendarPopupContent {} }
+    Component { id: trayContent; TrayMenuPopupContent {} }
+    Component { id: captureContent; CapturePopupContent {} }
 }

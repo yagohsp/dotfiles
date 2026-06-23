@@ -47,6 +47,7 @@ Item {
         id: ma
         anchors.fill: parent
         preventStealing: true
+        cursorShape: Qt.PointingHandCursor
 
         function _calc() {
             return Math.max(0, Math.min(100, mouseX / root.width * 100))

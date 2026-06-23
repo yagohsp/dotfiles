@@ -18,6 +18,7 @@ Item {
     property real bodyWidth: 0
     property real borderWidth: 0
     property color borderColor: "transparent"
+    property var closeHover: null
 
     default property alias data: contentCol.data
 
@@ -40,6 +41,10 @@ Item {
     clip: true
 
     enabled: _revealProgress >= 1
+
+    HoverHandler {
+        onHoveredChanged: if (root.closeHover) root.closeHover.popupHovered = hovered
+    }
 
     FlareRect {
         anchors.top: parent.top

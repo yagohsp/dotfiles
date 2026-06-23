@@ -22,18 +22,21 @@ Item {
     property real targetX: 0
     property Component content: null
     property int fadeDuration: 150
+    property var closeHover: null
 
     implicitHeight: Math.min((sizingLoader.item ? sizingLoader.item.implicitHeight : 0) + contentMargins * 2, maxHeight)
 
-    property real _bodyW: targetBodyWidth
+    property bool _freezeGeometry: false
+
+    property real _bodyW: _freezeGeometry ? _bodyW : targetBodyWidth
     Behavior on _bodyW {
-        enabled: root._revealProgress > 0
+        enabled: root._revealProgress > 0 && !root._freezeGeometry
         NumberAnimation { duration: root.moveDuration; easing.type: Easing.OutCubic }
     }
 
-    property real _x: targetX
+    property real _x: _freezeGeometry ? _x : targetX
     Behavior on _x {
-        enabled: root._revealProgress > 0
+        enabled: root._revealProgress > 0 && !root._freezeGeometry
         NumberAnimation { duration: root.moveDuration; easing.type: Easing.OutCubic }
     }
 
@@ -42,6 +45,8 @@ Item {
         enabled: root._revealProgress > 0
         NumberAnimation { duration: root.moveDuration; easing.type: Easing.OutCubic }
     }
+
+    signal contentApplied
 
     property Component _loadedContent: null
     onContentChanged: {
@@ -52,10 +57,23 @@ Item {
         }
     }
 
+    function refreshContent() {
+        if (root._revealProgress > 0) {
+            root._freezeGeometry = true
+            _fadeSwap.restart()
+        }
+    }
+
     SequentialAnimation {
         id: _fadeSwap
         NumberAnimation { target: contentLoader; property: "opacity"; to: 0; duration: root.fadeDuration; easing.type: Easing.OutCubic }
-        ScriptAction { script: root._loadedContent = root.content }
+        ScriptAction {
+            script: {
+                root._loadedContent = root.content
+                root._freezeGeometry = false
+                root.contentApplied()
+            }
+        }
         NumberAnimation { target: contentLoader; property: "opacity"; to: 1; duration: root.fadeDuration; easing.type: Easing.OutCubic }
     }
 
@@ -76,6 +94,10 @@ Item {
     clip: true
 
     enabled: _revealProgress >= 1
+
+    HoverHandler {
+        onHoveredChanged: if (root.closeHover) root.closeHover.popupHovered = hovered
+    }
 
     FlareRect {
         anchors.top: parent.top

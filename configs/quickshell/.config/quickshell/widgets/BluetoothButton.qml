@@ -8,12 +8,8 @@ Rectangle {
     visible: Bluetooth.defaultAdapter !== null
     implicitWidth: visible ? row.implicitWidth + 20 : 0
     implicitHeight: 36
-    color: ma.pressed ? Theme.highlightMed
-         : ma.containsMouse ? Theme.highlightLow
-         : "transparent"
+    color: "transparent"
     radius: 4
-    border.color: ma.containsMouse ? Theme.highlightMed : "transparent"
-    border.width: 1
 
     readonly property var connectedDevice: [...Bluetooth.devices.values].find(d => d.connected) ?? null
 
@@ -23,16 +19,17 @@ Rectangle {
         spacing: 6
 
         Text {
-            text: ""
+            text: !(Bluetooth.defaultAdapter?.enabled ?? false) ? "󰂲"
+                : root.connectedDevice ? "󰂱"
+                : "󰂯"
             font.family: Theme.font
             font.pixelSize: 16
-            color: Theme.iris
+            color: root.connectedDevice ? Theme.iris : Theme.subtle
         }
 
         Text {
-            text: !(Bluetooth.defaultAdapter?.enabled ?? false) ? "Off"
-                : root.connectedDevice ? root.connectedDevice.name
-                : "Disconnected"
+            visible: text !== ""
+            text: root.connectedDevice ? root.connectedDevice.name : ""
             font.family: Theme.font
             font.pixelSize: 13
             color: Theme.subtle
@@ -45,6 +42,7 @@ Rectangle {
         id: ma
         anchors.fill: parent
         hoverEnabled: true
+        cursorShape: Qt.ArrowCursor
         onContainsMouseChanged: ShellGlobals.bluetoothHover.buttonHovered = containsMouse
     }
 }

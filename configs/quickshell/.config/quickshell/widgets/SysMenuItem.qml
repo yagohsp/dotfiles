@@ -4,13 +4,19 @@ import ".."
 Rectangle {
     id: root
     property string label: ""
+    property bool danger: false
     signal clicked
 
     implicitWidth: 200
     implicitHeight: lbl.implicitHeight + 24
-    color: ma.pressed ? Theme.highlightMed : "transparent"
-    radius: 2
+    color: ma.pressed ? Theme.highlightHigh
+         : hover.hovered ? Theme.highlightMed
+         : "transparent"
+    radius: 4
 
+    HoverHandler {
+        id: hover
+    }
 
     Text {
         id: lbl
@@ -18,13 +24,13 @@ Rectangle {
         text: root.label
         font.family: Theme.font
         font.pixelSize: 14
-        color: Theme.text
+        color: root.danger ? Theme.love : Theme.text
     }
 
     MouseArea {
         id: ma
         anchors.fill: parent
-        onClicked: root.clicked()
         cursorShape: Qt.PointingHandCursor
+        onClicked: root.clicked()
     }
 }

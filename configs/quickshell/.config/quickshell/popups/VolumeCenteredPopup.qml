@@ -23,12 +23,8 @@ PopupWindow {
         bodyWidth: root._w
         borderWidth: 2
         borderColor: Theme.iris
+        closeHover: ShellGlobals.volumeHover
 
         VolumePopupContent {}
-    }
-
-    CloseOnExit {
-        anchors.fill: revealBox
-        hover: ShellGlobals.volumeHover
     }
 }

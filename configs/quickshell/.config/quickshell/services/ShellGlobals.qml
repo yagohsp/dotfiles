@@ -12,8 +12,11 @@ QtObject {
     readonly property bool anyPopupOpen: openPopup !== ""
 
     property bool volumeModalCentered: false
-    property bool captureExpanded: false
     property var primaryBarWindow: null
+    property var trayMenuItem: null
+    property var trayMenuItemShown: null
+    property real trayMenuX: 0
+    property real captureButtonCenterX: 0
     property bool anySliderDragging: false
     property string recordingMode: "none"
     property bool encoding: false
@@ -33,7 +36,9 @@ QtObject {
         backlightHover.hovering ? "backlight" :
         bluetoothHover.hovering ? "bluetooth" :
         systemHover.hovering ? "system" :
-        calendarHover.hovering ? "calendar" : ""
+        calendarHover.hovering ? "calendar" :
+        trayHover.hovering ? "tray" :
+        captureHover.hovering ? "capture" : ""
 
     onDesiredPopupChanged: {
         root._closeTimer.stop()
@@ -49,12 +54,29 @@ QtObject {
         root.openPopup = name
     }
 
+    function _hoverFor(name) {
+        return name === "wifi" ? root.wifiHover
+            : name === "volume" ? root.volumeHover
+            : name === "backlight" ? root.backlightHover
+            : name === "bluetooth" ? root.bluetoothHover
+            : name === "system" ? root.systemHover
+            : name === "calendar" ? root.calendarHover
+            : name === "tray" ? root.trayHover
+            : name === "capture" ? root.captureHover : null
+    }
+
     function closeNow(name) {
-        if (root.openPopup === name) root.openPopup = ""
+        if (root.openPopup !== name) return
+        root.openPopup = ""
+        const hover = root._hoverFor(name)
+        if (hover) {
+            hover.buttonHovered = false
+            hover.popupHovered = false
+        }
     }
 
     property var _closeTimer: Timer {
-        interval: 300
+        interval: 150
         onTriggered: {
             if (root.desiredPopup !== "") return
             if (root.openPopup === "wifi" && root.wifiHover.suppressClose) return
@@ -70,6 +92,8 @@ QtObject {
         onSuppressCloseChanged: if (!suppressClose && root.desiredPopup === "" && root.openPopup === "wifi") root._closeTimer.restart()
     }
     property var bluetoothHover: HoverPopupController {}
+    property var trayHover: HoverPopupController {}
+    property var captureHover: HoverPopupController {}
 
     property var _monitorsEnv: FileView {
         path: Quickshell.env("HOME") + "/dotfiles/monitors.env"
@@ -107,9 +131,9 @@ QtObject {
                 root.encoding      = d.encoding      ?? false
                 const isActive = root.recordingMode !== "none" || root.encoding
                 if (!isActive)
-                    root.captureExpanded = false
+                    root.closeNow("capture")
                 else if (!wasActive)
-                    root.captureExpanded = true
+                    root.openNow("capture")
             } catch(_) {}
         }
     }

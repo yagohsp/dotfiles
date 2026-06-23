@@ -21,8 +21,7 @@ FlareRect ui/FlareRect.qml
 GlobalPopup popups/GlobalPopup.qml
 VolumeCenteredPopup popups/VolumeCenteredPopup.qml
 CalendarPopupContent popups/CalendarPopupContent.qml
-CaptureBtn widgets/CaptureBtn.qml
-CloseOnExit popups/CloseOnExit.qml
+CapturePopupContent popups/CapturePopupContent.qml
 CaptureToggle widgets/CaptureToggle.qml
 ClockWidget widgets/ClockWidget.qml
 HoverPopupController popups/HoverPopupController.qml
@@ -32,6 +31,7 @@ SysMenuItem widgets/SysMenuItem.qml
 SystemButton widgets/SystemButton.qml
 SystemPopupContent popups/SystemPopupContent.qml
 TrayWidget widgets/TrayWidget.qml
+TrayMenuPopupContent popups/TrayMenuPopupContent.qml
 VolumeButton widgets/VolumeButton.qml
 VolumePopupContent popups/VolumePopupContent.qml
 VolumeOsd osd/VolumeOsd.qml

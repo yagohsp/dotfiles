@@ -47,17 +47,22 @@ PanelWindow {
             anchors.rightMargin:    16
             anchors.verticalCenter: parent.verticalCenter
             spacing: 12
-            CaptureToggle   {}
+            CaptureToggle   { id: captureBtn }
             VolumeButton    { id: volumeBtn }
             BacklightButton { id: backlightBtn }
             WifiButton      { id: wifiBtn }
             BluetoothButton { id: bluetoothBtn }
             BatteryWidget   {}
-            TrayWidget      {}
+            TrayWidget      { anchors.verticalCenter: parent.verticalCenter }
             SystemButton    { id: systemBtn }
         }
     }
 
+    Binding {
+        target: ShellGlobals; property: "captureButtonCenterX"
+        value: toolsRow.x + captureBtn.x + captureBtn.width / 2
+        when: root.screen?.name === ShellGlobals.primaryMonitor
+    }
     Binding {
         target: ShellGlobals; property: "volumeButtonCenterX"
         value: toolsRow.x + volumeBtn.x + volumeBtn.width / 2
