@@ -7,24 +7,20 @@ import ".."
 
 PopupWindow {
     id: root
-    visible: ShellGlobals.primaryBarWindow !== null
+    // On X11, PopupWindow grabs input over its full mapped rect regardless of
+    // mask (mask doesn't suppress input on this backend), and anchor.rect
+    // position gets clamped back on-screen rather than truly hidden offscreen,
+    // and resizing the window on every show() was too slow. So fully unmap
+    // the window itself while idle - that's the only thing that reliably
+    // removes its input grab on X11.
+    visible: ShellGlobals.primaryBarWindow !== null && root._open
     anchor.window: ShellGlobals.primaryBarWindow
-    // Moved off-screen while idle (rather than relying on the mask alone) so
-    // this window can't sit invisibly over other popups' content and steal
-    // their hover - the mask's 0x0 region wasn't actually suppressing input.
-    // Size is kept constant (vs. shrinking to 1x1) to avoid a native window
-    // resize - and the GPU surface realloc that comes with it - on every show().
-    anchor.rect.x: root._open ? ((ShellGlobals.primaryBarWindow?.width ?? 1920) - 220) / 2 : -10000
+    anchor.rect.x: ((ShellGlobals.primaryBarWindow?.width ?? 1920) - 220) / 2
     anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) + 8
     implicitWidth:  220
     implicitHeight: 44
     color: "transparent"
     grabFocus: false
-
-    mask: Region {
-        width:  root._open ? 220 : 0
-        height: root._open ? 44  : 0
-    }
 
     property bool _open: false
     property int  volumeValue: 0
