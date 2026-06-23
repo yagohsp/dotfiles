@@ -19,8 +19,22 @@ if [ -z "$geo" ]; then
   exit 0
 fi
 
-wh=$(echo "$geo" | cut -d'+' -f1)
-xy=$(echo "$geo" | cut -d'+' -f2-3 | tr '+' ',')
+if [[ ! "$geo" =~ ^(-?[0-9]+)x(-?[0-9]+)\+(-?[0-9]+)\+(-?[0-9]+)$ ]]; then
+  echo "[$(date)] unparsable geometry: $geo"
+  _qs_state "none" false
+  exit 1
+fi
+w="${BASH_REMATCH[1]}"; h="${BASH_REMATCH[2]}"; x="${BASH_REMATCH[3]}"; y="${BASH_REMATCH[4]}"
+
+# flameshot can report a negative width/height on multi-monitor setups
+# (the selection's anchor corner ends up on the "wrong" side); normalize
+# by sliding the origin and taking the absolute size.
+if [ "$w" -lt 0 ]; then x=$((x + w)); w=$((-w)); fi
+if [ "$h" -lt 0 ]; then y=$((y + h)); h=$((-h)); fi
+
+wh="${w}x${h}"
+xy="${x},${y}"
+echo "[$(date)] normalized geo: ${wh}+${xy}"
 
 ffmpeg -y -nostdin -f x11grab -s "$wh" -i "$DISPLAY+$xy" /tmp/capture-rec.mp4 &
 echo $! > /tmp/capture-rec.pid

@@ -14,12 +14,8 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: ma.pressed        ? Theme.highlightMed
-             : ma.containsMouse ? Theme.highlightLow
-             :                    "transparent"
+        color: "transparent"
         radius: 4
-        border.color: ma.containsMouse ? Theme.highlightMed : "transparent"
-        border.width: 1
 
         RowLayout {
             id: row
@@ -46,6 +42,7 @@ Item {
             id: ma
             anchors.fill: parent
             hoverEnabled: true
+            cursorShape: Qt.ArrowCursor
             onContainsMouseChanged: ShellGlobals.calendarHover.buttonHovered = containsMouse
         }
     }
