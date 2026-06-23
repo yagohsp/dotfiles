@@ -11,8 +11,11 @@ PopupWindow {
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: ((ShellGlobals.primaryBarWindow?.width ?? 1920) - 220) / 2
     anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) + 8
-    implicitWidth:  220
-    implicitHeight: 44
+    // Shrunk to 1x1 while idle (rather than relying on the mask alone) so
+    // this window can't sit invisibly over other popups' content and steal
+    // their hover - the mask's 0x0 region wasn't actually suppressing input.
+    implicitWidth:  root._open ? 220 : 1
+    implicitHeight: root._open ? 44  : 1
     color: "transparent"
     grabFocus: false
 
