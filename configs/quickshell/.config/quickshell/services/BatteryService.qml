@@ -11,6 +11,8 @@ QtObject {
     property bool available: false
     property int percent: 0
     property string status: "Unknown"
+    property bool plugged: false
+    readonly property bool charging: status === "Charging" || plugged
 
     property var _listener: Process {
         command: ["bash", root._scriptsDir + "/listen-battery.sh"]
@@ -24,6 +26,7 @@ QtObject {
                 if (Number.isNaN(n)) return
                 root.percent = n
                 root.status = parts[1]
+                root.plugged = parts[2] === "1"
                 root.available = true
             }
         }

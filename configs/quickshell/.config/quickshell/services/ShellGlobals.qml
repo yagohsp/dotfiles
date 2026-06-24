@@ -20,6 +20,13 @@ QtObject {
     property bool anySliderDragging: false
     property string recordingMode: "none"
     property bool encoding: false
+    property bool locked: false
+
+    onLockedChanged: {
+        const p = Qt.createQmlObject('import Quickshell.Io; Process { onExited: destroy() }', root)
+        p.command = ["i3-msg", root.locked ? 'mode "locked"' : 'mode "default"']
+        p.running = true
+    }
 
     property string primaryMonitor: ""
     property string secondaryMonitor: ""
@@ -118,6 +125,15 @@ QtObject {
                 if (root.openPopup === "volume") root.closeNow("volume")
                 else root.openNow("volume")
             }
+        }
+    }
+
+    property var _lockToggle: Process {
+        command: ["bash", "-c", "[ -p /tmp/qs-lock ] || mkfifo /tmp/qs-lock; while true; do cat /tmp/qs-lock; done"]
+        running: true
+        stdout: SplitParser {
+            splitMarker: "\n"
+            onRead: _ => root.locked = true
         }
     }
 

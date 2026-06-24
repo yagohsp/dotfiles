@@ -17,11 +17,18 @@ xrandr --query | awk '
   }
   /^[^ ]/ { cur = ""; next }
   cur != "" {
-    for (i = 1; i <= NF; i++) {
-      tok = $i
+    line = $0
+    gsub(/ +\*/, "*", line)
+    gsub(/ +\+/, "+", line)
+    n = split(line, toks, /[ \t]+/)
+    for (i = 1; i <= n; i++) {
+      tok = toks[i]
       if (tok ~ /\*/) {
         gsub(/[*+]/, "", tok)
         hz[cur] = tok
+      } else if (tok ~ /\+/) {
+        gsub(/[*+]/, "", tok)
+        if (!(cur in pref)) pref[cur] = tok
       }
     }
   }
@@ -35,6 +42,8 @@ xrandr --query | awk '
     for (i = 1; i <= order_n; i++) {
       if (order[i] != primary && secondary == "") secondary = order[i]
     }
+    if (primary != "" && !(primary in hz)) hz[primary] = pref[primary]
+    if (secondary != "" && !(secondary in hz)) hz[secondary] = pref[secondary]
     if (primary != "") {
       print "PRIMARY_MONITOR=\"" primary "\""
       print "PRIMARY_HZ=\"" hz[primary] "\""

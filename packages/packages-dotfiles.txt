@@ -24,6 +24,7 @@ maim
 neovim
 nwg-look
 obs-studio
+opencode
 picom
 qimgv
 qt6-shadertools
@@ -36,10 +37,12 @@ stabilitymatrix-bin
 stow
 syncthing
 thunar
+thunar-archive-plugin
 tmux
 torbrowser-launcher
 tree
 ttf-jetbrains-mono-nerd
+xarchiver
 xclip
 xcolor
 xorg-xev

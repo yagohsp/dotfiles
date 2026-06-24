@@ -7,6 +7,11 @@ ShellRoot {
         Bar {}
     }
 
+    Variants {
+        model: Quickshell.screens
+        LockScreen {}
+    }
+
     VolumeOsd {}
     StreamVolumeOsd {}
 

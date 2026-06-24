@@ -5,7 +5,7 @@ import ".."
 Rectangle {
     id: root
     visible: BrightnessService.available
-    implicitWidth: visible ? row.implicitWidth + 20 : 0
+    implicitWidth: visible ? row.implicitWidth + 40 : 0
     implicitHeight: 36
     color: "transparent"
     radius: 4

@@ -3,7 +3,7 @@ import ".."
 
 Rectangle {
     id: root
-    implicitWidth: lbl.implicitWidth + 20
+    implicitWidth: lbl.implicitWidth + 40
     implicitHeight: 36
     color: "transparent"
     radius: 4

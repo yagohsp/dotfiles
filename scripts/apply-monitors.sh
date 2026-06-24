@@ -29,4 +29,24 @@ fi
 # Reload i3
 i3-msg restart
 
+tries=0
+until i3-msg -t get_version >/dev/null 2>&1; do
+  tries=$((tries + 1))
+  [ "$tries" -ge 50 ] && break
+  sleep 0.1
+done
+
+focused_ws=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused) | .name')
+
+for n in 1 2 3 4; do
+  i3-msg "workspace number $n; move workspace to output $PRIMARY_MONITOR" >/dev/null
+done
+for n in 5 6 7 8; do
+  i3-msg "workspace number $n; move workspace to output ${SECONDARY_MONITOR:-$PRIMARY_MONITOR}" >/dev/null
+done
+
+if [ -n "$focused_ws" ]; then
+  i3-msg "workspace \"$focused_ws\"" >/dev/null
+fi
+
 printf 'Monitors applied: primary=%s secondary=%s\n' "$PRIMARY_MONITOR" "${SECONDARY_MONITOR:-none}"
