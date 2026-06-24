@@ -128,12 +128,11 @@ QtObject {
         }
     }
 
-    property var _lockToggle: Process {
-        command: ["bash", "-c", "[ -p /tmp/qs-lock ] || mkfifo /tmp/qs-lock; while true; do cat /tmp/qs-lock; done"]
-        running: true
-        stdout: SplitParser {
-            splitMarker: "\n"
-            onRead: _ => root.locked = true
+    property var _lockToggle: FileView {
+        path: "/tmp/qs-lock.signal"
+        watchChanges: true
+        onTextChanged: {
+            if (text() !== "") root.locked = true
         }
     }
 

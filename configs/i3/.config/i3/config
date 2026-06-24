@@ -4,11 +4,10 @@
 include general.conf
 include theme.conf
 include applications.conf
-include navigation.conf
 include workspaces.conf
+include keybinds.conf
 include monitors.conf
 include system.conf
 include appearance.conf
 include window-rules.conf
-include media-keys.conf
 include autostart.conf

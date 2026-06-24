@@ -8,6 +8,7 @@ FloatingWindow {
     id: root
     required property var modelData
     screen: modelData
+    readonly property bool isPrimary: modelData.name === ShellGlobals.primaryMonitor
 
     title: "QuickshellLock-" + modelData.name
     visible: ShellGlobals.locked
@@ -26,11 +27,19 @@ FloatingWindow {
         onTriggered: root._run(["i3-msg", `[title="^${root.title}$"] floating enable, move to output "${root.modelData.name}", fullscreen enable, border none`])
     }
 
-    onVisibleChanged: if (visible) {
+    function _activatePrompt() {
         passwordInput.text = ""
         pam.start()
         passwordInput.forceActiveFocus()
         _placeTimer.restart()
+    }
+
+    onVisibleChanged: if (visible && root.isPrimary) {
+        _activatePrompt()
+    }
+
+    onIsPrimaryChanged: if (visible && root.isPrimary) {
+        _activatePrompt()
     }
 
     PamContext {
@@ -48,6 +57,7 @@ FloatingWindow {
 
     Item {
         anchors.fill: parent
+        visible: root.isPrimary
 
         Column {
             anchors.centerIn: parent

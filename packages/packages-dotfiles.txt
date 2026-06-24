@@ -4,6 +4,8 @@ better-control-git
 claude-code
 clipmenu
 discord
+docker
+docker-compose
 dunst
 eh-vial-appimage
 fcitx5
@@ -13,9 +15,11 @@ fcitx5-mozc
 feh
 flameshot
 gnome-themes-extra
+google-chrome
 gromit-mpx
 gst-plugins-good
 gtk-engine-murrine
+gvfs
 i3-wm
 kitty
 lazygit
@@ -24,7 +28,6 @@ maim
 neovim
 nwg-look
 obs-studio
-opencode
 picom
 qimgv
 qt6-shadertools
@@ -47,5 +50,7 @@ xclip
 xcolor
 xorg-xev
 xorg-xinit
+xorg-xset
+zmk-studio
 zoxide
 zsh

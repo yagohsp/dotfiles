@@ -1,5 +1,2 @@
 #!/usr/bin/env bash
-fifo="/tmp/qs-lock"
-[ -p "$fifo" ] || mkfifo "$fifo"
-echo "lock" > "$fifo" &
-disown
+printf '%s\n' "$(date +%s%N)" > /tmp/qs-lock.signal
