@@ -12,6 +12,7 @@ fcitx5-gtk
 fcitx5-mozc
 feh
 flameshot
+gcalcli
 gnome-themes-extra
 gromit-mpx
 gst-plugins-good
@@ -24,6 +25,7 @@ maim
 neovim
 nwg-look
 obs-studio
+odin
 picom
 qimgv
 qt6-shadertools
@@ -34,6 +36,7 @@ slop
 sshpass
 stabilitymatrix-bin
 stow
+strace
 syncthing
 thunar
 tmux

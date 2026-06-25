@@ -4,6 +4,7 @@ singleton AudioService services/AudioService.qml
 singleton BrightnessService services/BrightnessService.qml
 singleton BatteryService services/BatteryService.qml
 singleton WifiService services/WifiService.qml
+singleton CalendarService services/CalendarService.qml
 singleton WorkspaceService services/WorkspaceService.qml
 
 Bar Bar.qml

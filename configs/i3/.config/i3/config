@@ -5,6 +5,7 @@ include general.conf
 include theme.conf
 include applications.conf
 include navigation.conf
+include monitors-outputs.conf
 include workspaces.conf
 include monitors.conf
 include system.conf

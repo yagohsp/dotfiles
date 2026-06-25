@@ -6,6 +6,9 @@ script_dir=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 repo_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 env_file="$repo_dir/monitors.env"
 
+before=""
+[ -f "$env_file" ] && before=$(cat "$env_file")
+
 xrandr --query | awk '
   / connected / {
     name = $1
@@ -48,3 +51,9 @@ xrandr --query | awk '
 
 printf 'monitors.env updated from current xrandr state:\n'
 cat "$env_file"
+
+after=$(cat "$env_file")
+if [ "$before" != "$after" ]; then
+  printf 'monitors.env changed, applying monitor config\n'
+  "$script_dir/apply-monitors.sh"
+fi

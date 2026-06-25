@@ -12,10 +12,11 @@ SECONDARY_HZ="${SECONDARY_HZ:-}"
 I3_DIR="$dotfiles/configs/i3/.config/i3"
 
 # i3 workspaces: ws1-4 → primary, ws5-8 → secondary (falls back to primary if no secondary monitor)
-sed -i \
-  -e "s|\(workspace \\\$ws[1-4] output \).*|\1$PRIMARY_MONITOR|" \
-  -e "s|\(workspace \\\$ws[5-8] output \).*|\1${SECONDARY_MONITOR:-$PRIMARY_MONITOR}|" \
-  "$I3_DIR/workspaces.conf"
+# Written to a gitignored file so machine-specific monitor names never dirty git.
+cat > "$I3_DIR/monitors-outputs.conf" <<EOF
+set \$primary_output $PRIMARY_MONITOR
+set \$secondary_output ${SECONDARY_MONITOR:-$PRIMARY_MONITOR}
+EOF
 
 # Apply xrandr
 if [ -n "$SECONDARY_MONITOR" ]; then
@@ -28,5 +29,17 @@ fi
 
 # Reload i3
 i3-msg restart
+sleep 1
+
+# i3 restart keeps existing workspaces on their current output; force them
+# to the right output so the move actually happens (ws1-4 → primary, ws5-8 → secondary).
+for ws in 1 2 3 4; do
+  name=$(awk -v n="$ws" -F'"' '$0 ~ "set \\$ws" n " " {print $2}' "$I3_DIR/workspaces.conf")
+  [ -n "$name" ] && i3-msg "workspace \"$name\"; move workspace to output $PRIMARY_MONITOR" >/dev/null
+done
+for ws in 5 6 7 8; do
+  name=$(awk -v n="$ws" -F'"' '$0 ~ "set \\$ws" n " " {print $2}' "$I3_DIR/workspaces.conf")
+  [ -n "$name" ] && i3-msg "workspace \"$name\"; move workspace to output ${SECONDARY_MONITOR:-$PRIMARY_MONITOR}" >/dev/null
+done
 
 printf 'Monitors applied: primary=%s secondary=%s\n' "$PRIMARY_MONITOR" "${SECONDARY_MONITOR:-none}"

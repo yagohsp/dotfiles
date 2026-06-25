@@ -1,8 +1,8 @@
 # DO NOT EDIT! This file will be overwritten by nwg-look.
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
-include "/home/yago-gow/.gtkrc-2.0.mine"
-gtk-theme-name="rose-pine-gtk"
+include "/home/yago/.gtkrc-2.0.mine"
+gtk-theme-name="Rosepine-Light"
 gtk-icon-theme-name="Adwaita"
 gtk-font-name="Adwaita Sans 11"
 gtk-cursor-theme-name="Adwaita"

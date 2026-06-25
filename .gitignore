@@ -10,3 +10,6 @@ configs/input/.config/fcitx/dbus/*
 configs/gtk/.config/gtk-3.0/bookmarks
 
 monitors.env
+configs/i3/.config/i3/monitors-outputs.conf
+configs/quickshell/.config/quickshell/client_secret_*.json
+configs/quickshell/.config/quickshell/gcalcli-client.conf
