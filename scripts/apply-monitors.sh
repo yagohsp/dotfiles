@@ -29,19 +29,9 @@ fi
 
 # Reload i3
 i3-msg restart
-sleep 1
 
 # i3 restart keeps existing workspaces on their current output; force them
 # to the right output so the move actually happens (ws1-4 → primary, ws5-8 → secondary).
-for ws in 1 2 3 4; do
-  name=$(awk -v n="$ws" -F'"' '$0 ~ "set \\$ws" n " " {print $2}' "$I3_DIR/workspaces.conf")
-  [ -n "$name" ] && i3-msg "workspace \"$name\"; move workspace to output $PRIMARY_MONITOR" >/dev/null
-done
-for ws in 5 6 7 8; do
-  name=$(awk -v n="$ws" -F'"' '$0 ~ "set \\$ws" n " " {print $2}' "$I3_DIR/workspaces.conf")
-  [ -n "$name" ] && i3-msg "workspace \"$name\"; move workspace to output ${SECONDARY_MONITOR:-$PRIMARY_MONITOR}" >/dev/null
-done
-
 tries=0
 until i3-msg -t get_version >/dev/null 2>&1; do
   tries=$((tries + 1))
