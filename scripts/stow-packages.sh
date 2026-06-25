@@ -32,6 +32,7 @@ TARGETS='
 .tool-versions
 .xinitrc
 .gtkrc-2.0
+.XCompose
 .config/nvim
 .config/i3
 .config/quickshell

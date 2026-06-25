@@ -26,6 +26,7 @@ CapturePopupContent popups/CapturePopupContent.qml
 CaptureToggle widgets/CaptureToggle.qml
 ClockWidget widgets/ClockWidget.qml
 HoverPopupController popups/HoverPopupController.qml
+LockScreen lockscreen/LockScreen.qml
 MuteButton widgets/MuteButton.qml
 OutputButton widgets/OutputButton.qml
 SysMenuItem widgets/SysMenuItem.qml

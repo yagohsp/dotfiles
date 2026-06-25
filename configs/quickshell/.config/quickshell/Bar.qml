@@ -46,7 +46,7 @@ PanelWindow {
             anchors.right:          parent.right
             anchors.rightMargin:    16
             anchors.verticalCenter: parent.verticalCenter
-            spacing: 12
+            spacing: 0
             CaptureToggle   { id: captureBtn }
             VolumeButton    { id: volumeBtn }
             BacklightButton { id: backlightBtn }

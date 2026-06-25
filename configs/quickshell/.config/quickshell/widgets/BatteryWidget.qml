@@ -4,7 +4,7 @@ import ".."
 
 Item {
     visible: BatteryService.available
-    implicitWidth: visible ? row.implicitWidth + 12 : 0
+    implicitWidth: visible ? row.implicitWidth + 32 : 0
     implicitHeight: 36
 
     RowLayout {
@@ -13,7 +13,7 @@ Item {
         spacing: 6
 
         Text {
-            text: BatteryService.status === "Charging" ? "" : ""
+            text: BatteryService.charging ? "" : ""
             font.family: Theme.font
             font.pixelSize: 16
             color: Theme.iris

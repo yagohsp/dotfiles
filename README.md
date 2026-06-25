@@ -15,7 +15,7 @@ Personal dotfiles managed with GNU Stow.
 - `shell`: `.profile`, `.bashrc`
 - `tmux`: `.tmux.conf`
 - `asdf`: `.tool-versions`
-- `x11`: `.xinitrc`, `.gtkrc-2.0`
+- `x11`: `.xinitrc`, `.gtkrc-2.0`, `.XCompose`
 - `nvim`: `~/.config/nvim`
 - `i3`: `~/.config/i3`
 - `quickshell`: `~/.config/quickshell`

@@ -3,7 +3,7 @@ import ".."
 
 Rectangle {
     id: root
-    implicitWidth: icon.implicitWidth + 20
+    implicitWidth: icon.implicitWidth + 40
     implicitHeight: 36
     color: "transparent"
     radius: 4

@@ -11,3 +11,4 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export PATH="$PATH:/home/yago/.lmstudio/bin"
 # End of LM Studio CLI section
 
+xset r rate 250 20

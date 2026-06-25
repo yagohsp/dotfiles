@@ -4,7 +4,7 @@ import ".."
 
 Rectangle {
     id: root
-    implicitWidth: row.implicitWidth + 20
+    implicitWidth: row.implicitWidth + 40
     implicitHeight: 36
     color: "transparent"
     radius: 4
