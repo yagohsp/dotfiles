@@ -14,7 +14,10 @@ ShellRoot {
 
     VolumeOsd {}
     StreamVolumeOsd {}
+    NotificationHost {}
+    NotificationPopups {}
 
     GlobalPopup {}
     VolumeCenteredPopup {}
+    ConfigPanel {}
 }

@@ -89,7 +89,7 @@ def emit() -> None:
 emit()
 
 proc = subprocess.Popen(
-    ["i3-msg", "-t", "subscribe", "-m", '["workspace"]'],
+    ["i3-msg", "-t", "subscribe", "-m", '["workspace", "window"]'],
     stdout=subprocess.PIPE, text=True
 )
 for _ in proc.stdout:

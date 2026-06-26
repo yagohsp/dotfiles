@@ -22,6 +22,8 @@ Item {
     property real targetX: 0
     property Component content: null
     property int fadeDuration: 150
+    property bool clipPanel: true
+    property bool contentClip: true
     property var closeHover: null
 
     implicitHeight: Math.min((sizingLoader.item ? sizingLoader.item.implicitHeight : 0) + contentMargins * 2, maxHeight)
@@ -91,7 +93,7 @@ Item {
     x: _x
     width: _bodyW + flareMargin * 2
     height: _revealProgress * _animHeight
-    clip: true
+    clip: root.clipPanel
 
     enabled: _revealProgress >= 1
 
@@ -141,7 +143,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         width: root._bodyW - root.contentMargins * 2
         contentHeight: contentLoader.item ? contentLoader.item.implicitHeight : 0
-        clip: true
+        clip: root.contentClip
 
         Loader {
             id: contentLoader
@@ -155,5 +157,6 @@ Item {
         visible: false
         width: flick.width
         sourceComponent: root.content
+        onItemChanged: if (item && item.sizing !== undefined) item.sizing = true
     }
 }

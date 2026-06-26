@@ -6,6 +6,7 @@ singleton BatteryService services/BatteryService.qml
 singleton WifiService services/WifiService.qml
 singleton CalendarService services/CalendarService.qml
 singleton WorkspaceService services/WorkspaceService.qml
+singleton NotificationService services/NotificationService.qml
 
 Bar Bar.qml
 BacklightButton widgets/BacklightButton.qml
@@ -16,9 +17,13 @@ WifiPopupContent popups/WifiPopupContent.qml
 BluetoothButton widgets/BluetoothButton.qml
 BluetoothPopupContent popups/BluetoothPopupContent.qml
 PopupBackdrop popups/PopupBackdrop.qml
+ConfigPanel popups/ConfigPanel.qml
+ConfigButton widgets/ConfigButton.qml
+MonitorsTab popups/MonitorsTab.qml
 RevealBox popups/RevealBox.qml
 PopupCard popups/PopupCard.qml
 FlareRect ui/FlareRect.qml
+ComboBox ui/ComboBox.qml
 GlobalPopup popups/GlobalPopup.qml
 VolumeCenteredPopup popups/VolumeCenteredPopup.qml
 CalendarPopupContent popups/CalendarPopupContent.qml
@@ -40,3 +45,7 @@ VolumeOsd osd/VolumeOsd.qml
 StreamVolumeOsd osd/StreamVolumeOsd.qml
 VolumeSlider widgets/VolumeSlider.qml
 WorkspacesWidget widgets/WorkspacesWidget.qml
+NotificationHost notifications/NotificationHost.qml
+NotificationPopupContent notifications/NotificationPopupContent.qml
+NotificationCard notifications/NotificationCard.qml
+NotificationPopups notifications/NotificationPopups.qml

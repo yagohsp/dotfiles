@@ -3,6 +3,7 @@ asdf-vm
 better-control-git
 claude-code
 clipmenu
+cursor-cli
 discord
 docker
 docker-compose

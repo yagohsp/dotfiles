@@ -54,6 +54,7 @@ PanelWindow {
             BluetoothButton { id: bluetoothBtn }
             BatteryWidget   {}
             TrayWidget      { anchors.verticalCenter: parent.verticalCenter }
+            ConfigButton    {}
             SystemButton    { id: systemBtn }
         }
     }

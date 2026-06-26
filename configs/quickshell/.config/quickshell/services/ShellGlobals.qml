@@ -21,6 +21,7 @@ QtObject {
     property string recordingMode: "none"
     property bool encoding: false
     property bool locked: false
+    property bool configPanelOpen: false
 
     onLockedChanged: {
         const p = Qt.createQmlObject('import Quickshell.Io; Process { onExited: destroy() }', root)

@@ -5,10 +5,14 @@ return {
     build = ":TSUpdate",
     branch = "main",
     config = function()
+      local parsers = require("nvim-treesitter.parsers")
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "*",
         callback = function(args)
           local lang = vim.treesitter.language.get_lang(args.match) or args.match
+          if not parsers[lang] then
+            return
+          end
           pcall(function()
             require("nvim-treesitter").install({ lang }):wait(30000)
           end)
