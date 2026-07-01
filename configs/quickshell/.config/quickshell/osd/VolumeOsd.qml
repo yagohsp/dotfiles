@@ -13,7 +13,7 @@ PopupWindow {
     // PopupWindow grabs input over its full mapped rect regardless of mask
     // (mask doesn't suppress input on this backend), so at 1x1 that grab
     // covers a single pixel instead of stealing hover from other popups.
-    visible: ShellGlobals.primaryBarWindow !== null
+    visible: ShellGlobals.primaryBarWindow !== null && !ShellGlobals.locked
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: ((ShellGlobals.primaryBarWindow?.width ?? 1920) - 220) / 2
     anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) + 8

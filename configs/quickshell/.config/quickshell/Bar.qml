@@ -7,6 +7,8 @@ PanelWindow {
     required property var modelData
     screen: modelData
 
+    visible: !ShellGlobals.locked
+
     anchors { top: true; left: true; right: true }
     implicitHeight: 44
     exclusionMode: ExclusionMode.Auto

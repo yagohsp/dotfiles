@@ -24,8 +24,22 @@ QtObject {
     property bool configPanelOpen: false
 
     onLockedChanged: {
+        if (root.locked) {
+            root.openPopup = ""
+            root.volumeModalCentered = false
+        }
+
         const p = Qt.createQmlObject('import Quickshell.Io; Process { onExited: destroy() }', root)
-        p.command = ["i3-msg", root.locked ? 'mode "locked"' : 'mode "default"']
+        if (root.locked) {
+            const lockTitle = "QuickshellLock-" + root.primaryMonitor
+            p.command = [
+                "i3-msg",
+                'mode "locked"',
+                `[title="^${lockTitle}$"] floating enable, sticky enable, move to output "${root.primaryMonitor}", fullscreen enable, border none, focus`,
+            ]
+        } else {
+            p.command = ["i3-msg", 'mode "default"']
+        }
         p.running = true
     }
 
@@ -122,6 +136,7 @@ QtObject {
         stdout: SplitParser {
             splitMarker: "\n"
             onRead: _ => {
+                if (root.locked) return
                 root.volumeModalCentered = true
                 if (root.openPopup === "volume") root.closeNow("volume")
                 else root.openNow("volume")
@@ -129,11 +144,24 @@ QtObject {
         }
     }
 
-    property var _lockToggle: FileView {
-        path: "/tmp/qs-lock.signal"
-        watchChanges: true
-        onTextChanged: {
-            if (text() !== "") root.locked = true
+    property var _lockToggle: Process {
+        command: ["bash", "-c", "[ -p /tmp/qs-lock ] || mkfifo /tmp/qs-lock; while true; do cat /tmp/qs-lock; done"]
+        running: true
+        stdout: SplitParser {
+            splitMarker: "\n"
+            onRead: _ => root.locked = true
+        }
+    }
+
+    property var _lockFocusTimer: Timer {
+        interval: 400
+        running: root.locked && root.primaryMonitor !== ""
+        repeat: true
+        onTriggered: {
+            const title = "QuickshellLock-" + root.primaryMonitor
+            const p = Qt.createQmlObject('import Quickshell.Io; Process { onExited: destroy() }', root)
+            p.command = ["i3-msg", `[title="^${title}$"] focus`]
+            p.running = true
         }
     }
 

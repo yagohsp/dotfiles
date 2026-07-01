@@ -11,7 +11,7 @@ PopupWindow {
     // unmapping, since a real PopupWindow implicitly grabs input over its full
     // mapped rect on X11 the moment it's mapped (see PopupBackdrop.qml) - at 1x1
     // that grab covers a single pixel instead of the whole bar-height strip.
-    visible: ShellGlobals.primaryBarWindow !== null
+    visible: ShellGlobals.primaryBarWindow !== null && !ShellGlobals.locked
     anchor.window: ShellGlobals.primaryBarWindow
     anchor.rect.x: 0
     anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) - 2

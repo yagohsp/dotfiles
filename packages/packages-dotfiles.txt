@@ -1,4 +1,5 @@
 android-studio
+anki
 asdf-vm
 better-control-git
 claude-code
@@ -16,6 +17,7 @@ fcitx5-mozc
 feh
 flameshot
 gcalcli
+github-cli
 gnome-themes-extra
 google-chrome
 gromit-mpx

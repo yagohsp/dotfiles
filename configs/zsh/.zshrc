@@ -9,6 +9,8 @@ unsetopt correctall
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 alias copy="xclip -selection clipboard"
+alias ca="cursor-agent"
+alias car="cursor-agent --resume"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/yago/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/yago/Downloads/google-cloud-sdk/path.zsh.inc'; fi
