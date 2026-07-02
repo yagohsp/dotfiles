@@ -17,6 +17,7 @@ fcitx5-mozc
 feh
 flameshot
 gcalcli
+gimp
 github-cli
 gnome-themes-extra
 google-chrome
@@ -33,6 +34,7 @@ neovim
 nwg-look
 obs-studio
 odin
+photogimp
 picom
 qimgv
 qt6-shadertools
