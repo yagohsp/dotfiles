@@ -12,6 +12,17 @@ QtObject {
     property var outputDevices: []
     property var defaultSinkOptions: []
     property var streamRoutes: []
+    property var streamPeaks: ({})
+    property int streamPeaksTick: 0
+
+    function streamPeak(index) {
+        const _ = root.streamPeaksTick
+        const peaks = root.streamPeaks
+        if (!peaks)
+            return 0
+        const key = String(index)
+        return peaks[key] !== undefined ? peaks[key] : 0
+    }
 
     // Buffered updates received while a slider is being dragged
     property var _pendingDevices: null
@@ -70,6 +81,23 @@ QtObject {
                     const d = JSON.parse(data)
                     if (ShellGlobals.anySliderDragging) root._pendingStreams = d
                     else root.streamRoutes = d
+                } catch(_) {}
+            }
+        }
+    }
+
+    property var _streamPeaksListener: Process {
+        command: ["bash", root._scriptsDir + "/listen-stream-peaks.sh"]
+        running: true
+        stdout: SplitParser {
+            splitMarker: "\n"
+            onRead: data => {
+                const line = data.trim()
+                if (!line.startsWith("{"))
+                    return
+                try {
+                    root.streamPeaks = JSON.parse(line)
+                    root.streamPeaksTick++
                 } catch(_) {}
             }
         }

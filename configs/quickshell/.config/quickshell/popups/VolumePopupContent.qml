@@ -129,6 +129,7 @@ ColumnLayout {
                         id: streamSlider
                         Layout.fillWidth: true
                         inputValue: modelData.volume
+                        peakLevel: AudioService.streamPeak(modelData.index)
                         onMoved: AudioService.setStreamVolume(modelData.index, value)
                     }
                 }
