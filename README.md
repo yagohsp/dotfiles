@@ -32,6 +32,7 @@ Personal dotfiles managed with GNU Stow.
 - `obs`: `~/.config/obs-studio`
 - `vlc`: `~/.config/vlc`
 - `flameshot`: `~/.config/flameshot`
+- `cursor`: `~/.cursor/skills` (Cursor Agent Skills)
 
 ## Requirements
 

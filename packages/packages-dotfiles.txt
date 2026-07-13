@@ -8,6 +8,7 @@ cursor-cli
 discord
 docker
 docker-compose
+dragon-drop
 dunst
 eh-vial-appimage
 fcitx5
@@ -25,7 +26,9 @@ gromit-mpx
 gst-plugins-good
 gtk-engine-murrine
 gvfs
+htop
 i3-wm
+innoextract
 kitty
 lazygit
 libappindicator

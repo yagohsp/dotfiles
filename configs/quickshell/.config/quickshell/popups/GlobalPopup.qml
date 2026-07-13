@@ -16,7 +16,7 @@ PopupWindow {
     anchor.rect.x: 0
     anchor.rect.y: (ShellGlobals.primaryBarWindow?.height ?? 44) - 2
     implicitWidth: card.active ? (ShellGlobals.primaryBarWindow?.width ?? 1920) : 1
-    implicitHeight: card.active ? (480 + 28) : 1
+    implicitHeight: card.active ? Math.max(card.implicitHeight + 28, 120) : 1
     color: "transparent"
     grabFocus: false
 
@@ -53,6 +53,11 @@ PopupWindow {
         if (name === "tray") return 240
         if (name === "capture") return 200
         return 280
+    }
+
+    function _maxHeight(name) {
+        if (name === "volume") return 720
+        return 480
     }
 
     function _targetX(name) {
@@ -107,6 +112,7 @@ PopupWindow {
         borderWidth: 2
         borderColor: Theme.iris
         flareMargin: 58
+        maxHeight: root._active !== "" ? root._maxHeight(root._active) : card.maxHeight
         targetBodyWidth: root._active !== "" ? root._bodyWidth(root._active) : card.targetBodyWidth
         targetX: root._active !== "" ? root._targetX(root._active) : card.targetX
         content: root._active !== "" ? root._contentComponents[root._active] : null

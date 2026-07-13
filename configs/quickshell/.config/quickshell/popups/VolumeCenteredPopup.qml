@@ -21,6 +21,7 @@ PopupWindow {
         open: ShellGlobals.openPopup === "volume" && ShellGlobals.volumeModalCentered
         color: Theme.overlay
         bodyWidth: root._w
+        maxHeight: 720
         borderWidth: 2
         borderColor: Theme.iris
         closeHover: ShellGlobals.volumeHover

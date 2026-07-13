@@ -20,6 +20,7 @@ desktop
 obs
 vlc
 flameshot
+cursor
 '
 
 TARGETS='
@@ -54,4 +55,5 @@ TARGETS='
 .config/obs-studio
 .config/vlc
 .config/flameshot
+.cursor/skills
 '

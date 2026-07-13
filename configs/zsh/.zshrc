@@ -26,3 +26,4 @@ export PATH="$PATH:/home/yago/.lmstudio/bin"
 
 export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 export ANDROID_HOME="$HOME/Android"
+

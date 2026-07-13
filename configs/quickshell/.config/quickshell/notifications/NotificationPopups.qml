@@ -10,22 +10,25 @@ PopupWindow {
     readonly property int barW: ShellGlobals.primaryBarWindow?.width ?? 1920
     readonly property int barH: ShellGlobals.primaryBarWindow?.height ?? 44
 
-    // Window is bodyW + one flare wide, anchored flush to the right edge.
-    // The card's right flare (also flareM wide) extends beyond the window boundary
-    // and gets clipped — same visual as the system popup right-side clip.
-    readonly property int windowW: root.bodyW + root.flareM
+    readonly property int windowW: root.bodyW + root.flareM * 2
+    readonly property int windowH: card.active ? Math.max(card.implicitHeight + 28, 120) : 1
 
-    visible: ShellGlobals.primaryBarWindow !== null
+    visible: ShellGlobals.primaryBarWindow !== null && card.active
     anchor.window: ShellGlobals.primaryBarWindow
-    anchor.rect.x: barW - root.windowW
+    anchor.rect.x: barW - root.windowW + 2
     anchor.rect.y: barH - 2
-    implicitWidth: card.active ? root.windowW : 1
-    implicitHeight: card.active ? Math.max(card.implicitHeight + 28, 120) : 1
+    anchor.rect.width: root.windowW
+    anchor.rect.height: root.windowH
+    width: root.windowW
+    height: root.windowH
+    implicitWidth: root.windowW
+    implicitHeight: root.windowH
     color: "transparent"
     grabFocus: false
 
     PopupCard {
         id: card
+        fillWidth: true
         open: NotificationService.popups.length > 0
         color: Theme.base
         borderWidth: 2
@@ -39,7 +42,7 @@ PopupWindow {
         clipPanel: true
         contentClip: true
         targetBodyWidth: root.bodyW
-        targetX: 2
+        targetX: 0
         content: notifContent
     }
 

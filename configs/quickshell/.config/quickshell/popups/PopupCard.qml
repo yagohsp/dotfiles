@@ -24,6 +24,7 @@ Item {
     property int fadeDuration: 150
     property bool clipPanel: true
     property bool contentClip: true
+    property bool fillWidth: false
     property var closeHover: null
 
     implicitHeight: Math.min((sizingLoader.item ? sizingLoader.item.implicitHeight : 0) + contentMargins * 2, maxHeight)
@@ -90,8 +91,8 @@ Item {
     readonly property bool active: open || _revealProgress > 0
 
     anchors.top: parent.top
-    x: _x
-    width: _bodyW + flareMargin * 2
+    x: root.fillWidth ? 0 : _x
+    width: root.fillWidth && parent ? parent.width : _bodyW + flareMargin * 2
     height: _revealProgress * _animHeight
     clip: root.clipPanel
 
