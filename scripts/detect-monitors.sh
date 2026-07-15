@@ -19,19 +19,13 @@ xrandr --query | awk '
     next
   }
   /^[^ ]/ { cur = ""; next }
-  cur != "" {
-    line = $0
-    gsub(/ +\*/, "*", line)
-    gsub(/ +\+/, "+", line)
-    n = split(line, toks, /[ \t]+/)
-    for (i = 1; i <= n; i++) {
-      tok = toks[i]
-      if (tok ~ /\*/) {
-        gsub(/[*+]/, "", tok)
-        hz[cur] = tok
-      } else if (tok ~ /\+/) {
-        gsub(/[*+]/, "", tok)
-        if (!(cur in pref)) pref[cur] = tok
+  cur != "" && $1 == "1920x1080" {
+    for (i = 2; i <= NF; i++) {
+      tok = $i
+      gsub(/[*+]/, "", tok)
+      if (tok ~ /^[0-9]+(\.[0-9]+)?$/) {
+        rate = tok + 0
+        if (!(cur in hz) || rate > (hz[cur] + 0)) hz[cur] = tok
       }
     }
   }
@@ -45,8 +39,6 @@ xrandr --query | awk '
     for (i = 1; i <= order_n; i++) {
       if (order[i] != primary && secondary == "") secondary = order[i]
     }
-    if (primary != "" && !(primary in hz)) hz[primary] = pref[primary]
-    if (secondary != "" && !(secondary in hz)) hz[secondary] = pref[secondary]
     if (primary != "") {
       print "PRIMARY_MONITOR=\"" primary "\""
       print "PRIMARY_HZ=\"" hz[primary] "\""

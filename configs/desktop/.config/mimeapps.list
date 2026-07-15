@@ -18,3 +18,4 @@ text/plain=org.xfce.mousepad.desktop;
 image/png=qimgv.desktop;nsxiv.desktop;feh.desktop;firefox.desktop;
 application/json=org.xfce.mousepad.desktop;
 image/gif=qimgv.desktop;
+text/html=org.xfce.mousepad.desktop;

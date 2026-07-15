@@ -1,10 +1,13 @@
 android-studio
 anki
 asdf-vm
+azure-cli
 better-control-git
+blender
 claude-code
 clipmenu
 cursor-cli
+dbeaver
 discord
 docker
 docker-compose
@@ -17,6 +20,8 @@ fcitx5-gtk
 fcitx5-mozc
 feh
 flameshot
+freecad
+galculator
 gcalcli
 gimp
 github-cli
@@ -33,12 +38,15 @@ kitty
 lazygit
 libappindicator
 maim
+mousepad
 neovim
 nwg-look
 obs-studio
 odin
 photogimp
+opencode
 picom
+postman-bin
 qimgv
 qt6-shadertools
 quickshell
@@ -47,6 +55,7 @@ sassc
 slop
 sshpass
 stabilitymatrix-bin
+steam
 stow
 strace
 syncthing
@@ -62,6 +71,7 @@ xcolor
 xorg-xev
 xorg-xinit
 xorg-xset
+zip
 zmk-studio
 zoxide
 zsh

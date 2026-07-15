@@ -1,4 +1,11 @@
 plugins=(git fzf extract vi-mode)
+
+# vi-mode cursor: block in normal, bar (|) in insert
+VI_MODE_SET_CURSOR=true
+VI_MODE_CURSOR_NORMAL=2
+VI_MODE_CURSOR_INSERT=6
+VI_MODE_CURSOR_VISUAL=2
+
 source /usr/share/cachyos-zsh-config/cachyos-config.zsh
 
 bindkey '^F' autosuggest-accept
