@@ -23,6 +23,10 @@ vim.cmd([[
 
 
 vim.opt.termguicolors = true
+
+-- Before plugins load (deprecation warnings can fire during lazy.setup).
+vim.deprecate = function() end
+
 require("lazy").setup(
   "plugins",
   {
@@ -32,4 +36,5 @@ require("lazy").setup(
   }
 )
 require("options")
+require("project_picker").setup()
 -- vim.cmd("colorscheme frost")

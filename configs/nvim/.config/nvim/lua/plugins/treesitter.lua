@@ -6,24 +6,37 @@ return {
     branch = "main",
     config = function()
       local parsers = require("nvim-treesitter.parsers")
+      local can_install = vim.fn.executable("tree-sitter") == 1
+
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "*",
         callback = function(args)
           local lang = vim.treesitter.language.get_lang(args.match) or args.match
-          if not parsers[lang] then
+          if not lang or not parsers[lang] then
             return
           end
-          pcall(function()
-            require("nvim-treesitter").install({ lang }):wait(30000)
+
+          if vim.treesitter.language.add(lang) then
+            pcall(vim.treesitter.start, args.buf, lang)
+            vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            return
+          end
+
+          if not can_install then
+            return
+          end
+
+          vim.schedule(function()
+            pcall(function()
+              require("nvim-treesitter").install({ lang })
+            end)
           end)
-          pcall(vim.treesitter.start)
-          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
       })
     end,
   },
   {
-    "norcalli/nvim-colorizer.lua",
+    "catgoose/nvim-colorizer.lua",
     config = function()
       require("colorizer").setup({
         "*",
@@ -45,8 +58,10 @@ return {
       }
     end
   },
-  "windwp/nvim-ts-autotag",
-  config = function()
-    require('nvim-ts-autotag').setup()
-  end
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
 }

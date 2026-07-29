@@ -1,5 +1,21 @@
 return {
-  "rcarriga/nvim-notify",
+  {
+    "rcarriga/nvim-notify",
+    priority = 100,
+    config = function()
+      local notify = require("notify")
+      notify.setup({
+        level = vim.log.levels.ERROR,
+      })
+      vim.notify = function(msg, level, opts)
+        level = level or vim.log.levels.INFO
+        if level < vim.log.levels.ERROR then
+          return
+        end
+        return notify(msg, level, opts)
+      end
+    end,
+  },
   "tpope/vim-surround",
   {
     "edluffy/hologram.nvim",

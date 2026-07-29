@@ -30,9 +30,13 @@ vim.opt.showmatch = true
 vim.opt.winborder = "rounded"
 
 vim.diagnostic.config({
-  virtual_text = true,
+  virtual_text = {
+    severity = { min = vim.diagnostic.severity.ERROR },
+  },
   signs = false,
-  underline = true,
+  underline = {
+    severity = { min = vim.diagnostic.severity.ERROR },
+  },
   update_in_insert = false,
 })
 
@@ -67,11 +71,6 @@ keymap("n", "<S-A-j>", '16j', opts())
 keymap("n", "<S-A-k>", '16k', opts())
 keymap("v", "<S-A-j>", '16j', opts())
 keymap("v", "<S-A-k>", '16k', opts())
-
-vim.diagnostic.config({
-  signs = false,
-  virtual_text = true
-})
 
 vim.keymap.set('n', '[e', function()
   vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
@@ -109,7 +108,9 @@ keymap('v', '<leader>l', 'yoconsole.debug("<esc>pa: ", <esc>pa)<esc>', opts())
 
 --lsp
 set("n", "K", vim.lsp.buf.hover)
-set("n", "L", vim.diagnostic.open_float, { desc = "Show errors" })
+set("n", "L", function()
+  vim.diagnostic.open_float({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Show errors" })
 set("n", "<leader>r", vim.lsp.buf.rename, opts("Replace variable"))
 set("n", "<leader>ld", vim.lsp.buf.definition, { desc = "Go to definition" })
 set("n", "<leader>lr", vim.lsp.buf.references, { desc = "Go to references" })
@@ -179,23 +180,21 @@ set("n", "<leader>F", "<cmd>:silent! lua lint.try_lint()<CR>", opts("Format file
 set("n", "<C-s>", "<cmd>:silent! lua lint.try_lint()<CR><cmd>w<CR>", opts("Save file and format"))
 set("n", "<S-s>", "<cmd>:silent! noa w<CR>", opts("Save file"))
 
-local get_listed_bufs = function()
-  return vim.tbl_filter(function(bufnr)
-    return vim.api.nvim_buf_get_option(bufnr, "buflisted")
-  end, vim.api.nvim_list_bufs())
-end
-
-local function close_empty_unnamed_buffers()
-  local buffers = get_listed_bufs()
-
-  if (#buffers == 2) then
-    local buffer_name = vim.api.nvim_buf_get_name(buffers[2])
-    if (buffer_name == "") then
-      vim.cmd('Dashboard')
+local function show_project_picker_if_no_files()
+  vim.schedule(function()
+    if vim.g.read_from_stdin ~= nil then
+      return
     end
-  end
+    if vim.g.project_picker_suppress_autopen then
+      return
+    end
+    if not require("project_picker").can_show_dashboard() then
+      return
+    end
+    require("project_picker").open(true)
+  end)
 end
 
 vim.api.nvim_create_autocmd("BufDelete", {
-  callback = close_empty_unnamed_buffers
+  callback = show_project_picker_if_no_files,
 })
