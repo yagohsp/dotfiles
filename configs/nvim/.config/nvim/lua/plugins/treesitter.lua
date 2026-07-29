@@ -1,8 +1,8 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    lazy = false,
-    build = ":TSUpdate",
+    lazy = true,
+    event = { "BufReadPost", "FileType" },
     branch = "main",
     config = function()
       local parsers = require("nvim-treesitter.parsers")
@@ -37,26 +37,31 @@ return {
   },
   {
     "catgoose/nvim-colorizer.lua",
+    lazy = true,
+    event = { "BufReadPost", "FileType" },
+    ft = { "css", "scss", "html", "javascript" },
     config = function()
       require("colorizer").setup({
-        "*",
         css = { rgb_fn = true },
+        scss = { rgb_fn = true },
+        html = { rgb_fn = true },
+        javascript = { rgb_fn = true },
       })
     end,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
-      require("ibl").setup {
+      require("ibl").setup({
         indent = {
           char = " ",
         },
         scope = {
           char = "▎",
-          highlight = "Whitespace"
-        }
-      }
-    end
+          highlight = "Whitespace",
+        },
+      })
+    end,
   },
   {
     "windwp/nvim-ts-autotag",

@@ -40,6 +40,17 @@ vim.diagnostic.config({
   update_in_insert = false,
 })
 
+do
+  local notify = vim.notify
+  vim.notify = function(msg, level, opts)
+    level = level or vim.log.levels.INFO
+    if level < vim.log.levels.ERROR then
+      return
+    end
+    return notify(msg, level, opts)
+  end
+end
+
 
 local keymap = vim.api.nvim_set_keymap
 local set = vim.keymap.set

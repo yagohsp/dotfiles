@@ -1,81 +1,44 @@
 return {
   {
-    "rcarriga/nvim-notify",
-    priority = 100,
-    config = function()
-      local notify = require("notify")
-      notify.setup({
-        level = vim.log.levels.ERROR,
-      })
-      vim.notify = function(msg, level, opts)
-        level = level or vim.log.levels.INFO
-        if level < vim.log.levels.ERROR then
-          return
-        end
-        return notify(msg, level, opts)
-      end
-    end,
-  },
-  "tpope/vim-surround",
-  {
-    "edluffy/hologram.nvim",
-    config = function()
-      require("hologram").setup({})
-    end
-  },
-  {
     "abecodes/tabout.nvim",
     config = function()
-      require('tabout').setup({
+      require("tabout").setup({
         tabouts = {
           { open = "'", close = "'" },
           { open = '"', close = '"' },
-          { open = '`', close = '`' },
-          { open = '(', close = ')' },
-          { open = '[', close = ']' },
-          { open = '{', close = '}' },
-          { open = '<', close = '>' }
+          { open = "`", close = "`" },
+          { open = "(", close = ")" },
+          { open = "[", close = "]" },
+          { open = "{", close = "}" },
+          { open = "<", close = ">" },
         },
       })
-    end
+    end,
   },
   {
     "ten3roberts/qf.nvim",
     config = function()
       require("qf").setup({})
-    end
+    end,
   },
-
   {
-    'nvim-telescope/telescope-ui-select.nvim',
+    "nvim-telescope/telescope-ui-select.nvim",
     config = function()
-      require("telescope").setup {
+      require("telescope").setup({
         extensions = {
           ["ui-select"] = {
-            require("telescope.themes").get_dropdown {
-            }
-          }
-        }
-      }
+            require("telescope.themes").get_dropdown({}),
+          },
+        },
+      })
       require("telescope").load_extension("ui-select")
-    end
+    end,
   },
   {
-    'j-morano/buffer_manager.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim'
-    },
-    config = function()
-      local buffer_manager = require("buffer_manager.ui")
-      vim.keymap.set("n", "<leader>B", function()
-        buffer_manager.toggle_quick_menu()
-      end, { noremap = true, silent = true, desc = "Open buffers manager" or "" })
-    end
-  },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' },
-    ---@module 'render-markdown'
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown", "md" },
+    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
+    ---@module "render-markdown"
     ---@type render.md.UserConfig
     opts = {},
   },
@@ -87,26 +50,6 @@ return {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
     },
-  },
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    keys = {
-      {
-        "<leader>?",
-        function()
-          require("which-key").show({ global = false })
-        end,
-        desc = "Buffer Local Keymaps (which-key)",
-      },
-    },
-  },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {},
   },
   {
     "atiladefreitas/lazyclip",
@@ -121,18 +64,17 @@ return {
       require("lazyclip").setup({
         disable_default_keymap = true,
         keymaps = {
-          close_window = "<ESC>"
-        }
+          close_window = "<ESC>",
+        },
       })
     end,
-    -- Optional: Load plugin when yanking text
-    -- event = { "TextYankPost" },
   },
   {
-    'nvim-java/nvim-java',
+    "nvim-java/nvim-java",
+    ft = { "java" },
     config = function()
-      require('java').setup()
-      vim.lsp.enable('jdtls')
+      require("java").setup()
+      vim.lsp.enable("jdtls")
     end,
-  }
+  },
 }

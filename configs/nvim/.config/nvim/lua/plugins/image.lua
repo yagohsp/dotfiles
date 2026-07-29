@@ -1,6 +1,8 @@
 return {
   {
     "3rd/image.nvim",
+    lazy = true,
+    ft = { "markdown", "md" },
     build = false,
     opts = {
       processor = "magick_cli",

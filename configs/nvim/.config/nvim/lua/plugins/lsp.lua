@@ -1,54 +1,57 @@
 return {
   {
-    'neovim/nvim-lspconfig',
-    config = function()
-      local mason_lspconfig = require("mason-lspconfig")
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-      mason_lspconfig.setup(
-        {
-          ensure_installed = {
-            "emmet_language_server",
-            "eslint",
-            "html",
-            "jsonls",
-            "lua_ls",
-            "omnisharp",
-            "rust_analyzer",
-            "tailwindcss",
-            "ts_ls",
-          },
-        })
-      -- require("roslyn").setup()
-    end,
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      -- "seblyng/roslyn.nvim",
       {
-        'williamboman/mason.nvim',
+        "williamboman/mason.nvim",
+        cmd = "Mason",
         config = function()
-          require('mason').setup({
+          require("mason").setup({
             registries = {
               "github:crashdummyy/mason-registry",
-              "github:mason-org/mason-registry"
+              "github:mason-org/mason-registry",
             },
           })
         end,
       },
       {
-        'williamboman/mason-lspconfig.nvim',
-        lazy = false,
+        "williamboman/mason-lspconfig.nvim",
         opts = {
-          auto_install = true
-        }
-      }
-    }
+          auto_install = true,
+        },
+      },
+    },
+    config = function()
+      local mason_lspconfig = require("mason-lspconfig")
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+      mason_lspconfig.setup({
+        ensure_installed = {
+          "html",
+          "eslint",
+          "lua_ls",
+          "omnisharp",
+          "ts_ls",
+        },
+      })
+    end,
   },
   {
     "GustavEikaas/easy-dotnet.nvim",
+    lazy = true,
+    module = "easy-dotnet",
+    cmd = "Dotnet",
+    ft = "cs",
     dependencies = { "nvim-lua/plenary.nvim" },
+    keys = {
+      {
+        "<leader>T",
+        "<cmd>Dotnet testrunner<CR>",
+        desc = "Dotnet Testrunner",
+      },
+    },
     config = function()
-      vim.keymap.set("n", "<leader>T", "<cmd>:Dotnet testrunner<CR>",
-        { noremap = true, silent = true, desc = "Dotnet Testrunner" })
       require("easy-dotnet").setup({
         lsp = {
           enabled = false,
@@ -69,11 +72,10 @@ return {
             expand_all = { lhs = "a", desc = "Expand all" },
             collapse_all = { lhs = "A", desc = "Collapse all" },
             close = { lhs = "q", desc = "Close testrunner" },
-            refresh_testrunner = { lhs = "<C-r>", desc = "Refresh testrunner" }
+            refresh_testrunner = { lhs = "<C-r>", desc = "Refresh testrunner" },
           },
-        }
+        },
       })
-      vim.keymap.set("n", "<leader>d", "<cmd>bdelete!<CR>", { noremap = true, silent = true, desc = "Delete buffer" })
-    end
+    end,
   },
 }

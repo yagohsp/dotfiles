@@ -1,6 +1,36 @@
 return {
   {
     "mfussenegger/nvim-dap",
+    lazy = true,
+    keys = {
+      { "<F1>", function() require("dap").step_over() end, desc = "Step over" },
+      { "<F2>", function() require("dap").step_into() end, desc = "Step into" },
+      { "<F3>", function() require("dap").step_out() end, desc = "Step out" },
+      { "<F4>", function() require("dap").continue() end, desc = "Continue" },
+      {
+        "<F5>",
+        function()
+          local dap = require("dap")
+          dap.terminate({
+            on_done = function()
+              vim.cmd("write")
+              dap.continue()
+            end,
+          })
+        end,
+        desc = "Restart",
+      },
+      { "<F6>", function() require("dap").terminate() end, desc = "Terminate" },
+      {
+        "<F7>",
+        function()
+          require("dapui").eval(nil, { enter = true })
+        end,
+        desc = "Dap - Eval",
+      },
+      { "<F8>", function() require("dap").toggle_breakpoint() end, desc = "Toggle breakpoint" },
+      { "<F9>", function() require("dapui").toggle() end, desc = "Toggle UI" },
+    },
     dependencies = {
       "rcarriga/nvim-dap-ui",
       "theHamsta/nvim-dap-virtual-text",
@@ -177,27 +207,6 @@ return {
         },
       })
       require("nvim-dap-virtual-text").setup({})
-
-
-      vim.keymap.set("n", "<F1>", dap.step_over, { desc = "Step over" })
-      vim.keymap.set("n", "<F2>", dap.step_into, { desc = "Step into" })
-      vim.keymap.set("n", "<F3>", dap.step_out, { desc = "Step out" })
-
-      vim.keymap.set("n", "<F4>", dap.continue, { desc = "Continue" })
-      vim.keymap.set("n", "<F5>", function()
-        dap.terminate({
-          on_done = function()
-            vim.cmd('write')
-            dap.continue()
-          end
-        });
-      end, { desc = "Restart" })
-      vim.keymap.set("n", "<F6>", dap.terminate, { desc = "Terminate" })
-      vim.keymap.set("n", "<F7>", function()
-        dapui.eval(nil, { enter = true })
-      end, { desc = "Dap - Eval" })
-      vim.keymap.set("n", "<F8>", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
-      vim.keymap.set("n", "<F9>", dapui.toggle, { desc = "Toggle UI" })
 
       dap.listeners.before.attach.dapui_config = function()
         dapui.open()
