@@ -1,1 +1,5 @@
 include "%L"
+
+# Portuguese cedilla via compose (Menu/'/c), overriding default acute on c (ć).
+<Multi_key> <apostrophe> <c> : "ç"
+<Multi_key> <apostrophe> <C> : "Ç"
