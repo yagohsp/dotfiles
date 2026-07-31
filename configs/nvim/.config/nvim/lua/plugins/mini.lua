@@ -65,8 +65,8 @@ return {
         mappings = {
           go_in_plus = "<Enter>",
           go_out_plus = "-",
-          close = "<F32>",
-          synchronize = "<C-y>"
+          close = "<Esc>",
+          synchronize = "<C-y>",
         },
       })
 
@@ -74,22 +74,6 @@ return {
         pattern = "MiniFilesBufferCreate",
         callback = function(args)
           local buf_id = args.data.buf_id
-          vim.keymap.set("n", "<Esc>", function()
-            local state = mini_files.get_explorer_state()
-            if state == nil then
-              return
-            end
-            if state.depth_focus == 1 then
-              mini_files.close()
-            else
-              mini_files.go_out()
-            end
-          end, {
-            buffer = buf_id,
-            desc = "Close at root / go out",
-            nowait = true,
-            silent = true,
-          })
           vim.keymap.set("n", "<leader>a", function()
             local entry = mini_files.get_fs_entry()
             if entry == nil then
