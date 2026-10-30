@@ -1,0 +1,23 @@
+[Default Applications]
+x-scheme-handler/postman=Postman.desktop
+x-scheme-handler/adskidmgr=adskidmgr-opener.desktop
+text/html=brave-browser.desktop
+x-scheme-handler/http=brave-browser.desktop
+x-scheme-handler/https=brave-browser.desktop
+x-scheme-handler/about=brave-browser.desktop
+x-scheme-handler/unknown=brave-browser.desktop
+video/mp4=vlc.desktop
+text/plain=org.xfce.mousepad.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/claude=claude.desktop
+x-scheme-handler/discord-831593107883032657=discord-831593107883032657.desktop
+
+[Added Associations]
+video/mp4=vlc.desktop;
+video/x-matroska=vlc.desktop;
+text/plain=org.xfce.mousepad.desktop;
+image/png=qimgv.desktop;nsxiv.desktop;feh.desktop;firefox.desktop;
+application/json=org.xfce.mousepad.desktop;
+image/gif=qimgv.desktop;
+text/html=org.xfce.mousepad.desktop;
+image/jpeg=feh.desktop;

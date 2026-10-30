@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+notify() {
+  notify-send "i3 window rule" "$1"
+}
+
+require() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    notify "Missing required command: $1"
+    exit 1
+  fi
+}
+
+regex_escape() {
+  printf '%s' "$1" | sed 's/[][(){}.^$*+?|\\-]/\\&/g'
+}
+
+remove_rule_from_file() {
+  local file="$1"
+  local comment_line="$2"
+  local tmpfile
+
+  if [[ ! -f "$file" ]]; then
+    return 1
+  fi
+
+  if ! grep -Fxq "$comment_line" "$file"; then
+    return 1
+  fi
+
+  tmpfile="$(mktemp)"
+
+  awk -v comment_line="$comment_line" '
+    BEGIN { skip_next = 0 }
+    {
+      if (skip_next == 1) {
+        skip_next = 0
+        next
+      }
+
+      if ($0 == comment_line) {
+        skip_next = 1
+        next
+      }
+
+      print
+    }
+  ' "$file" > "$tmpfile"
+
+  mv "$tmpfile" "$file"
+  return 0
+}
+
+require i3-msg
+require jq
+require notify-send
+
+live_rules_file="$HOME/.config/i3/window-rules.conf"
+dotfiles_rules_file="$HOME/dotfiles/stow/.config/i3/window-rules.conf"
+
+focused_json="$(i3-msg -t get_tree)"
+focused_info="$(jq -c '
+  first(
+    ..
+    | objects
+    | select(.focused? == true and (.window? != null or .app_id? != null))
+  )
+  | {
+      class: (.window_properties.class // ""),
+      instance: (.window_properties.instance // "")
+    }
+' <<< "$focused_json")"
+
+if [[ -z "$focused_info" || "$focused_info" == "null" ]]; then
+  notify "No focused window found"
+  exit 1
+fi
+
+window_class="$(jq -r '.class' <<< "$focused_info")"
+window_instance="$(jq -r '.instance' <<< "$focused_info")"
+
+if [[ -z "$window_class" ]]; then
+  notify "Focused window has no class"
+  exit 1
+fi
+
+comment_key="class=${window_class}"
+if [[ -n "$window_instance" ]]; then
+  comment_key+=" instance=${window_instance}"
+fi
+
+comment_line="# opencode-window-state ${comment_key}"
+
+removed_any=false
+
+if remove_rule_from_file "$live_rules_file" "$comment_line"; then
+  removed_any=true
+fi
+
+if [[ -f "$dotfiles_rules_file" ]]; then
+  if remove_rule_from_file "$dotfiles_rules_file" "$comment_line"; then
+    removed_any=true
+  fi
+fi
+
+if [[ "$removed_any" != true ]]; then
+  notify "No saved rule for ${window_class}${window_instance:+ / $window_instance}"
+  exit 0
+fi
+
+i3-msg reload >/dev/null
+notify "Removed rule for ${window_class}${window_instance:+ / $window_instance}"

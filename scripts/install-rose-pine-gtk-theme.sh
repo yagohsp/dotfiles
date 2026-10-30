@@ -31,10 +31,10 @@ cd "$src_dir/themes"
 ./install.sh -c light
 
 sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$theme_name/" \
-  "$repo_dir/configs/gtk/.config/gtk-3.0/settings.ini" \
-  "$repo_dir/configs/gtk/.config/gtk-4.0/settings.ini"
+  "$repo_dir/stow/.config/gtk-3.0/settings.ini" \
+  "$repo_dir/stow/.config/gtk-4.0/settings.ini"
 sed -i "s/^Net\/ThemeName .*/Net\/ThemeName \"$theme_name\"/" \
-  "$repo_dir/configs/qt/.config/xsettingsd/xsettingsd.conf"
+  "$repo_dir/stow/.config/xsettingsd/xsettingsd.conf"
 
 if command -v gsettings >/dev/null 2>&1; then
   gsettings set org.gnome.desktop.interface gtk-theme "$theme_name" || true

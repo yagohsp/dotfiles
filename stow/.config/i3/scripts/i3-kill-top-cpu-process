@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+read -r pid cpu <<< "$(ps aux --sort=-%cpu | awk 'NR==2 {print $2, $3; exit}')"
+if [[ -z "${pid:-}" ]]; then
+  notify-send "No process found" "Could not find a process to kill"
+  exit 1
+fi
+
+name=$(ps -p "$pid" -o comm= 2>/dev/null | xargs)
+name=${name:-unknown}
+
+if kill -9 "$pid" 2>/dev/null; then
+  notify-send "${name} killed" "was using ${cpu}% cpu"
+else
+  notify-send "${name} killed" "Failed to kill process using ${cpu}% cpu"
+  exit 1
+fi

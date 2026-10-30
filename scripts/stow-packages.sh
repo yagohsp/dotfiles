@@ -1,28 +1,5 @@
-PACKAGES='
-zsh
-shell
-tmux
-asdf
-x11
-nvim
-i3
-quickshell
-rofi
-picom
-dunst
-kitty
-lazygit
-gtk
-qt
-input
-thunar
-desktop
-obs
-vlc
-flameshot
-cursor
-'
-
+# Top-level paths relative to $HOME that apply-stow may back up or replace.
+# Keep in sync with the tree under the `stow/` package.
 TARGETS='
 .zshrc
 .zprofile
@@ -34,6 +11,8 @@ TARGETS='
 .xinitrc
 .gtkrc-2.0
 .XCompose
+.cursor
+.cursor/skills
 .config/nvim
 .config/i3
 .config/quickshell
@@ -55,5 +34,5 @@ TARGETS='
 .config/obs-studio
 .config/vlc
 .config/flameshot
-.cursor/skills
+.config/paru
 '

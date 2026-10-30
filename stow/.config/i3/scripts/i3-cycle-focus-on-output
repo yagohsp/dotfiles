@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+set -uo pipefail
+
+direction="${1:-}"
+
+if [[ "$direction" != "next" && "$direction" != "prev" ]]; then
+  echo "Usage: $(basename "$0") next|prev" >&2
+  exit 1
+fi
+
+if ! command -v i3-msg >/dev/null 2>&1 || ! command -v jq >/dev/null 2>&1; then
+  exit 1
+fi
+
+tree_json="$(i3-msg -t get_tree)"
+outputs_json="$(i3-msg -t get_outputs)"
+
+target_con_id=""
+if target_con_id="$(jq -r --arg dir "$direction" --argjson outputs "$outputs_json" '
+  def real_outputs:
+    [$outputs[] | select(.active == true and (.name | startswith("xroot") | not))];
+
+  def rect_contains($rect; $x; $y):
+    ($x >= $rect.x)
+    and ($y >= $rect.y)
+    and ($x < ($rect.x + $rect.width))
+    and ($y < ($rect.y + $rect.height));
+
+  def rect_center($r):
+    [
+      (($r.x + ($r.width / 2)) | floor),
+      (($r.y + ($r.height / 2)) | floor)
+    ];
+
+  def window_on_output($rect; $win_rect):
+    (rect_center($win_rect) as $c |
+      rect_contains($rect; $c[0]; $c[1]));
+
+  def workspace_windows($ws):
+    [
+      $ws
+      | ..
+      | objects
+      | select(.window? != null)
+      | {
+          con_id: .id,
+          rect: .rect,
+          focused: (.focused // false)
+        }
+    ];
+
+  real_outputs as $outputs
+  | [
+      .. | objects
+      | select(.type == "workspace" and (.name | startswith("__i3") | not))
+      | . as $ws
+      | workspace_windows($ws)[]
+      | . + {workspace: $ws.name}
+    ] as $windows
+  | ($windows | map(select(.focused)) | first) as $focused
+  | if $focused == null then empty else $focused end
+  | . as $focused_win
+  | (rect_center($focused_win.rect) as $c
+      | first($outputs[] | select(rect_contains(.rect; $c[0]; $c[1]))) // empty) as $output
+  | if $output == null then empty else $output end
+  | . as $output
+  | [
+      $windows[]
+      | select(.workspace == $focused_win.workspace)
+      | select(window_on_output($output.rect; .rect))
+      | .con_id
+    ] as $ids
+  | if ($ids | length) <= 1 then empty else $ids end
+  | ($ids | index($focused_win.con_id)) as $idx
+  | if $idx == null then
+      if $dir == "next" then $ids[0] else $ids[-1] end
+    elif $dir == "next" then
+      $ids[($idx + 1) % ($ids | length)]
+    else
+      $ids[((($idx - 1) + ($ids | length)) % ($ids | length))]
+    end
+' <<< "$tree_json")"; then
+  :
+else
+  target_con_id=""
+fi
+
+if [[ -z "$target_con_id" || "$target_con_id" == "null" ]]; then
+  exit 0
+fi
+
+i3-msg "[con_id=$target_con_id] focus" >/dev/null || true
+exit 0

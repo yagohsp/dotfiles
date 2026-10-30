@@ -1,0 +1,13 @@
+require("config.configs")
+require("config.keybinds")
+require("config.navigation")
+require("config.lsp")
+
+require("plugins.mason")
+require("plugins.mini")
+require("plugins.vim_lua_integration")
+require("plugins.tabs")
+require("plugins.termyago")
+require("plugins.tabout")
+require("plugins.treesitter")
+require("plugins.colorscheme")

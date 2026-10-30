@@ -4,35 +4,23 @@ Personal dotfiles managed with GNU Stow.
 
 ## Structure
 
-- `configs/`: Stow packages for home and `.config` files
+- `stow/`: single Stow package that mirrors `$HOME` (e.g. `stow/.zshrc`, `stow/.config/nvim`)
 - `scripts/`: helper scripts for package install, Stow apply, sync setup, and package tracking
 - `packages/`: curated package lists
 - `system/`: system-level files such as pacman hooks
+- `backups/`: local backups not managed by Stow
 
-## Packages
+## Layout
 
-- `zsh`: `.zshrc`, `.zprofile`, `.p10k.zsh`
-- `shell`: `.profile`, `.bashrc`
-- `tmux`: `.tmux.conf`
-- `asdf`: `.tool-versions`
-- `x11`: `.xinitrc`, `.gtkrc-2.0`, `.XCompose`
-- `nvim`: `~/.config/nvim`
-- `i3`: `~/.config/i3`
-- `quickshell`: `~/.config/quickshell`
-- `rofi`: `~/.config/rofi`
-- `picom`: `~/.config/picom`
-- `dunst`: `~/.config/dunst`
-- `kitty`: `~/.config/kitty`
-- `lazygit`: `~/.config/lazygit`
-- `gtk`: `~/.config/gtk-3.0`, `~/.config/gtk-4.0`
-- `qt`: `~/.config/Kvantum`, `~/.config/qt5ct`, `~/.config/xsettingsd`
-- `input`: `~/.config/fcitx`, `~/.config/fcitx5`
-- `thunar`: `~/.config/Thunar`
-- `desktop`: `~/.config/autostart`, `~/.config/mimeapps.list`
-- `obs`: `~/.config/obs-studio`
-- `vlc`: `~/.config/vlc`
-- `flameshot`: `~/.config/flameshot`
-- `cursor`: `~/.cursor/skills` (Cursor Agent Skills)
+The `stow/` tree is installed into `$HOME` as-is:
+
+- `stow/.zshrc` → `~/.zshrc`
+- `stow/.tmux.conf` → `~/.tmux.conf`
+- `stow/.cursor/skills` → `~/.cursor/skills`
+- `stow/.config/nvim` → `~/.config/nvim`
+- `stow/.config/i3` → `~/.config/i3`
+- `stow/.config/paru` → `~/.config/paru`
+- …and the rest of `.config/` the same way
 
 ## Requirements
 
@@ -101,23 +89,22 @@ Install the [Rosé Pine GTK theme](https://github.com/Fausto-Korpsvart/Rose-Pine
 
 Installs the default-accent light variant (`Rosepine-Light`, matching this setup's `gtk-application-prefer-dark-theme=0`) and sets it as the active GTK theme in `gtk-3.0`/`gtk-4.0` `settings.ini` and `xsettingsd.conf`, reloading `xsettingsd` if it's running.
 
-Apply selected packages manually:
+Apply manually:
 
 ```bash
-stow -d configs -t "$HOME" zsh shell tmux
-stow -d configs -t "$HOME" nvim i3 rofi picom dunst
+stow -d "$HOME/dotfiles" -t "$HOME" stow
 ```
 
-Remove a package manually:
+Remove:
 
 ```bash
-stow -d configs -D -t "$HOME" zsh
+stow -D -d "$HOME/dotfiles" -t "$HOME" stow
 ```
 
-Preview changes without writing symlinks:
+Preview without writing symlinks:
 
 ```bash
-stow -d configs -nv -t "$HOME" zsh nvim
+stow -nv -d "$HOME/dotfiles" -t "$HOME" stow
 ```
 
 ## Workflow

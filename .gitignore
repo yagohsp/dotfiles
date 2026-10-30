@@ -5,11 +5,18 @@
 .DS_Store
 Thumbs.db
 
-configs/quickshell/.config/quickshell/scripts/outputs.json
-configs/input/.config/fcitx/dbus/*
-configs/gtk/.config/gtk-3.0/bookmarks
-
 monitors.env
-configs/i3/.config/i3/monitors-outputs.conf
-configs/quickshell/.config/quickshell/client_secret_*.json
-configs/quickshell/.config/quickshell/gcalcli-client.conf
+
+stow/.config/quickshell/scripts/outputs.json
+stow/.config/fcitx5/dbus/*
+stow/.config/gtk-3.0/bookmarks
+stow/.config/i3/monitors-outputs.conf
+stow/.config/quickshell/ytmusic/
+
+stow/.config/obs-studio/logs/
+stow/.config/obs-studio/profiler_data/
+stow/.config/obs-studio/.sentinel/
+stow/.config/obs-studio/basic/scenes/*.bak
+stow/.config/obs-studio/plugin_config/obs-websocket/config.json
+stow/.config/obs-studio/plugin_config/rtmp-services/
+stow/.config/obs-studio/plugin_manager/

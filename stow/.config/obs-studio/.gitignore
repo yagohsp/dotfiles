@@ -1,0 +1,7 @@
+logs/
+profiler_data/
+.sentinel/
+basic/scenes/*.bak
+plugin_config/obs-websocket/config.json
+plugin_config/rtmp-services/
+plugin_manager/

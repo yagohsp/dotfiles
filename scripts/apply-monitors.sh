@@ -9,7 +9,7 @@ dotfiles=$(CDPATH= cd -- "$script_dir/.." && pwd)
 SECONDARY_MONITOR="${SECONDARY_MONITOR:-}"
 SECONDARY_HZ="${SECONDARY_HZ:-}"
 
-I3_DIR="$dotfiles/configs/i3/.config/i3"
+I3_DIR="$dotfiles/stow/.config/i3"
 
 # i3 workspaces: ws1-4 → primary, ws5-8 → secondary (falls back to primary if no secondary monitor)
 # Written to a gitignored file so machine-specific monitor names never dirty git.
@@ -41,12 +41,17 @@ done
 
 focused_ws=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused) | .name')
 
-for n in 1 2 3 4; do
-  i3-msg "workspace number $n; move workspace to output $PRIMARY_MONITOR" >/dev/null
-done
-for n in 5 6 7 8; do
-  i3-msg "workspace number $n; move workspace to output ${SECONDARY_MONITOR:-$PRIMARY_MONITOR}" >/dev/null
-done
+# Only move workspaces that already exist: "workspace number N" would create
+# a bare "N" workspace instead of the named "N:X" one from workspaces.conf.
+i3-msg -t get_workspaces | jq -r '.[] | "\(.num)\t\(.name)"' |
+  while IFS="$(printf '\t')" read -r num name; do
+    case "$num" in
+      1|2|3|4) target="$PRIMARY_MONITOR" ;;
+      5|6|7|8) target="${SECONDARY_MONITOR:-$PRIMARY_MONITOR}" ;;
+      *) continue ;;
+    esac
+    i3-msg "workspace \"$name\"; move workspace to output $target" >/dev/null
+  done
 
 if [ -n "$focused_ws" ]; then
   i3-msg "workspace \"$focused_ws\"" >/dev/null

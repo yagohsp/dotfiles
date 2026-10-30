@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Open flameshot's region selection on the i3-focused output instead of
+# showing the monitor picker. `flameshot screen` only skips the picker when
+# given --number, which indexes Qt's screen list (primary first, then xrandr
+# order), so map the focused output name to that index.
+
+set -euo pipefail
+
+output="$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused) | .output')"
+
+index="$(
+  xrandr --listmonitors |
+    awk 'NR > 1 { print ($2 ~ /\*/ ? 0 : 1), $NF }' |
+    sort -s -k1,1n |
+    awk -v out="$output" '$2 == out { print NR - 1; exit }'
+)"
+
+# Move the cursor onto that output so the selection can start right away.
+read -r x y w h < <(
+  i3-msg -t get_workspaces |
+    jq -r '.[] | select(.focused) | .rect | "\(.x) \(.y) \(.width) \(.height)"'
+)
+eval "$(xdotool getmouselocation --shell)"
+if (( X < x || X >= x + w || Y < y || Y >= y + h )); then
+  xdotool mousemove $(( x + w / 2 )) $(( y + h / 2 ))
+fi
+
+exec flameshot screen --edit --number "${index:-0}" "$@"
