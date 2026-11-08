@@ -19,7 +19,8 @@ Item {
     required property Item sessionPanel
     required property Item utilitiesPanel
     readonly property int padding: Tokens.padding.large
-    readonly property int clampedPadding: CUtils.clamp(padding - Config.border.thickness, 0, padding)
+    // Upstream shrinks this next to the screen border, which does not exist here
+    readonly property int clampedPadding: padding
 
     anchors.top: parent.top
     anchors.bottom: parent.bottom
@@ -35,12 +36,6 @@ Item {
         for (let i = 0; i < count; i++)
             height += (list.itemAtIndex(i) as NotifWrapper)?.nonAnimHeight ?? 0;
 
-        if (screenState.osd) {
-            const h = osdPanel.y - clampedPadding;
-            if (height > h)
-                height = h;
-        }
-
         if (screenState.session) {
             const h = sessionPanel.y - clampedPadding;
             if (height > h)
@@ -48,12 +43,12 @@ Item {
         }
 
         if (screenState.utilities) {
-            const h = ((QsWindow.window as QsWindow)?.screen.height ?? 0) - (utilitiesPanel as Utilities.Wrapper).nonAnimHeight - Config.border.thickness * 2 - padding * 2 - Tokens.spacing.extraLarge;
+            const h = (QsWindow.window?.screen.height ?? 0) - (utilitiesPanel as Utilities.Wrapper).nonAnimHeight - Config.border.thickness * 2 - padding * 2 - Tokens.spacing.extraLarge;
             if (height > h)
                 height = h;
         }
 
-        return Math.min(((QsWindow.window as QsWindow)?.screen?.height ?? 0) + padding - clampedPadding * 2 - Config.border.thickness, height + padding + clampedPadding);
+        return Math.min((QsWindow.window?.screen?.height ?? 0) + padding - clampedPadding * 2 - Config.border.thickness, height + padding + clampedPadding);
     }
 
     ClippingWrapperRectangle {
@@ -76,7 +71,7 @@ Item {
 
             orientation: Qt.Vertical
             spacing: 0
-            cacheBuffer: (QsWindow.window as QsWindow)?.screen.height ?? 0
+            cacheBuffer: QsWindow.window?.screen.height ?? 0
 
             delegate: NotifWrapper {}
 

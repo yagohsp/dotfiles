@@ -48,15 +48,17 @@ Item {
         popouts.hasCurrent = true;
     }
 
-    function within(item: Item, x: real): bool {
+    // Margin is half the row spacing, so the gaps between items belong to their neighbours
+    // and the popout moves between them instead of closing and reopening
+    function within(item: Item, x: real, margin = 0): bool {
         const left = item.mapToItem(root, 0, 0).x;
-        return x >= left && x <= left + item.width;
+        return x >= left - margin && x <= left + item.width + margin;
     }
 
     function checkPopout(x: real): void {
         for (let i = 0; i < trayRepeater.count; i++) {
             const item = trayRepeater.itemAt(i);
-            if (within(item, x) && item.modelData.hasMenu) {
+            if (within(item, x, trayRow.spacing / 2) && item.modelData.hasMenu) {
                 openPopout(`traymenu${i}`, item);
                 return;
             }
@@ -64,7 +66,7 @@ Item {
 
         for (let i = 0; i < pillRepeater.count; i++) {
             const item = pillRepeater.itemAt(i);
-            if (item.visible && within(item, x) && item.modelData.popout) {
+            if (item.visible && within(item, x, pillGroup.spacing / 2) && item.modelData.popout) {
                 openPopout(item.modelData.popout, item);
                 return;
             }

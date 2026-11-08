@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Window
 import Quickshell
 import Quickshell.Services.Notifications
 import Caelestia
@@ -53,15 +54,7 @@ QtObject {
     property bool hasActionIcons
     property list<var> actions
 
-    readonly property bool hasFullscreen: {
-        const monitor = Hypr.focusedMonitor;
-        const specialName = monitor?.lastIpcObject.specialWorkspace?.name;
-        if (specialName) {
-            const specialWs = Hypr.workspaces.values.find(ws => ws.name === specialName);
-            return specialWs?.toplevels.values.some(t => t.lastIpcObject.fullscreen > 1) ?? false;
-        }
-        return monitor?.activeWorkspace?.toplevels.values.some(t => t.lastIpcObject.fullscreen > 1) ?? false;
-    }
+    readonly property bool hasFullscreen: false // Not ported, see Notifs.hasFullscreen
 
     readonly property Timer timer: Timer {
         running: true
@@ -76,13 +69,16 @@ QtObject {
     readonly property LazyLoader dummyImageLoader: LazyLoader {
         active: false
 
-        // qmllint disable uncreatable-type
-        PanelWindow {
-            // qmllint enable uncreatable-type
-            implicitWidth: TokenConfig.sizes.notifs.image
-            implicitHeight: TokenConfig.sizes.notifs.image
+        // Renders the image so it can be saved. A PanelWindow would become an i3 dock and
+        // push tiled windows around, so this is an unmanaged window off the screen.
+        Window {
+            x: -TokenConfig.sizes.notifs.image * 2
+            y: -TokenConfig.sizes.notifs.image * 2
+            width: TokenConfig.sizes.notifs.image
+            height: TokenConfig.sizes.notifs.image
+            flags: Qt.ToolTip | Qt.WindowTransparentForInput
             color: "transparent"
-            mask: Region {}
+            visible: true
 
             Image {
                 function tryCache(): void {

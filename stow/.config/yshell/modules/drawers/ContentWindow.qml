@@ -71,7 +71,8 @@ Scope {
     PopupWindow {
         id: win
 
-        readonly property int thickness: contentItem.Config.border.thickness
+        // Only the top strip is drawn: there is no border along the sides or the bottom
+        readonly property int thickness: 0
 
         visible: !anchorSettled.running
         color: "transparent"
@@ -107,10 +108,10 @@ Scope {
         Region {
             id: frameRegion
 
-            x: win.thickness + root.shadowPadding
+            x: 0
             y: bar.stripHeight + root.shadowPadding
-            width: win.width - (win.thickness + root.shadowPadding) * 2
-            height: win.height - bar.stripHeight - win.thickness - root.shadowPadding * 2
+            width: win.width
+            height: win.height - bar.stripHeight - root.shadowPadding
             intersection: Intersection.Xor
 
             // The islands are drawn, so they stay out of the click-through hole
@@ -136,6 +137,26 @@ Scope {
                 y: 0
                 width: bar.rightIsland.width + root.shadowPadding * 2
                 height: bar.implicitHeight + root.shadowPadding
+            }
+
+            // Reserved at full size while open, so the mask does not change as it slides
+            Region {
+                intersection: Intersection.Subtract
+                x: (win.width - width) / 2
+                y: 0
+                width: panels.osd.visible ? panels.osd.implicitWidth + root.shadowPadding * 2 : 0
+                height: bar.implicitHeight + panels.osd.implicitHeight + root.shadowPadding
+            }
+
+            // Stepped so the mask only changes a few times while the stack resizes
+            Region {
+                readonly property int step: 120
+
+                intersection: Intersection.Subtract
+                x: win.width - width
+                y: 0
+                width: panels.notifications.visible ? panels.notifications.implicitWidth + root.shadowPadding : 0
+                height: Math.ceil((bar.implicitHeight + panels.notifications.height + root.shadowPadding) / step) * step
             }
 
             // Popouts move and resize while open, so reserve the whole strip under the bar
@@ -169,10 +190,10 @@ Scope {
                 anchors.margins: -50 // Make border thicker to smooth out bulge from closed drawers
                 group: blobGroup
                 radius: win.contentItem.Config.border.rounding
-                borderLeft: win.thickness - anchors.margins
-                borderRight: win.thickness - anchors.margins
+                borderLeft: 0
+                borderRight: 0
                 borderTop: bar.stripHeight - anchors.margins
-                borderBottom: win.thickness - anchors.margins
+                borderBottom: 0
             }
 
             IslandBlob {
@@ -194,9 +215,40 @@ Scope {
                 x: panels.launcher.x + win.thickness
                 y: panels.launcher.y + bar.implicitHeight
                 implicitWidth: panels.launcher.width
-                implicitHeight: panels.launcher.height
+                // Runs past the screen edge so only the top corners are rounded
+                implicitHeight: panels.launcher.height + radius
                 radius: win.contentItem.Tokens.rounding.extraLarge
                 deformScale: (0.1 * win.contentItem.Config.appearance.deformScale) / 10000
+            }
+
+            BlobRect {
+                id: osdBg
+
+                group: blobGroup
+                // Grows out of the strip like the popouts and collapses back into it
+                readonly property real reach: bar.implicitHeight - bar.stripHeight / 2
+
+                x: panels.osdWrapper.x
+                y: bar.stripHeight / 2
+                implicitWidth: panels.osdWrapper.width
+                implicitHeight: panels.osdWrapper.height + reach * (1 - panels.osd.offsetScale)
+                radius: win.contentItem.Tokens.rounding.extraLarge
+                deformScale: (0.1 * win.contentItem.Config.appearance.deformScale) / 10000
+            }
+
+            BlobRect {
+                id: notifsBg
+
+                // Grows out of the strip like the popouts and collapses back into it
+                readonly property real reach: bar.implicitHeight - bar.stripHeight / 2
+
+                group: blobGroup
+                x: panels.notifications.x
+                y: bar.stripHeight / 2
+                implicitWidth: panels.notifications.width + radius
+                implicitHeight: panels.notifications.height + reach * Math.min(1, panels.notifications.height / reach)
+                radius: win.contentItem.Tokens.rounding.extraLarge
+                deformScale: (0.15 * win.contentItem.Config.appearance.deformScale) / 10000
             }
 
             BlobRect {
@@ -232,6 +284,12 @@ Scope {
                 bar: bar
                 borderThickness: win.thickness
 
+                osd.transform: Matrix4x4 {
+                    matrix: osdBg.deformMatrix
+                }
+                notifications.transform: Matrix4x4 {
+                    matrix: notifsBg.deformMatrix
+                }
                 launcher.transform: Matrix4x4 {
                     matrix: launcherBg.deformMatrix
                 }

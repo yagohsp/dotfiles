@@ -23,10 +23,7 @@ Singleton {
     property bool loaded
 
     function hasFullscreen(): bool {
-        for (const monitor of Hypr.monitors.values) {
-            if (monitor?.activeWorkspace?.toplevels.values.some(t => t.lastIpcObject.fullscreen > 1))
-                return true;
-        }
+        // Not ported: Quickshell's i3 service does not report fullscreen windows
         return false;
     }
 
@@ -124,27 +121,6 @@ Singleton {
                 root.loaded = true;
                 Qt.callLater(() => setText("[]"));
             }
-        }
-    }
-
-    // qmllint disable unresolved-type
-    CustomShortcut {
-        // qmllint enable unresolved-type
-        name: "clearNotifs"
-        description: "Clear all notifications"
-        onPressed: {
-            for (const notif of root.list.slice())
-                notif.close();
-        }
-    }
-
-    // qmllint disable unresolved-type
-    CustomShortcut {
-        // qmllint enable unresolved-type
-        name: "toggleDnd"
-        description: "Toggle do not disturb"
-        onPressed: {
-            PersistentState.doNotDisturb = !PersistentState.doNotDisturb;
         }
     }
 

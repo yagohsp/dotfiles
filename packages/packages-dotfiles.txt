@@ -80,6 +80,7 @@ torbrowser-launcher
 traceroute
 tree
 ttf-jetbrains-mono-nerd
+ttf-material-symbols-variable
 watchexec
 xarchiver
 xclip
