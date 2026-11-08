@@ -37,6 +37,20 @@ vim.keymap.set("n", "<C-e>", function()
 	MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
 end)
 
+-- yp: copy the path of the entry under the cursor to the system clipboard
+vim.api.nvim_create_autocmd("User", {
+	pattern = "MiniFilesBufferCreate",
+	callback = function(args)
+		vim.keymap.set("n", "yp", function()
+			local entry = MiniFiles.get_fs_entry()
+			if entry then
+				vim.fn.setreg("+", entry.path)
+				vim.notify("Copied " .. entry.path)
+			end
+		end, { buffer = args.data.buf_id, desc = "Copy path" })
+	end,
+})
+
 require("mini.move").setup({
 	mappings = {
 		left = "<LEFT>",

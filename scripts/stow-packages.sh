@@ -16,6 +16,7 @@ TARGETS='
 .config/nvim
 .config/i3
 .config/quickshell
+.config/yshell
 .config/rofi
 .config/picom
 .config/dunst

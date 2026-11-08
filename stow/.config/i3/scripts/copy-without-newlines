@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Copy the currently selected text (X PRIMARY selection) to the clipboard,
+# joining all lines into one (each line break becomes a single space).
+set -euo pipefail
+
+text=$(xclip -o -selection primary 2>/dev/null) || exit 0
+[[ -n "$text" ]] || exit 0
+
+printf '%s' "$text" \
+    | tr -d '\r' \
+    | sed -E ':a;N;$!ba;s/[[:space:]]*\n[[:space:]]*/ /g;s/^[[:space:]]+|[[:space:]]+$//g' \
+    | xclip -selection clipboard -i

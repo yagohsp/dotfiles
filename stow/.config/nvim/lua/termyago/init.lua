@@ -80,7 +80,8 @@ function M.open()
 
 	local command = load_command() or ""
 
-	job_id = vim.fn.jobstart({ "bash", "-c", command .. "\nexec bash" }, {
+	-- Interactive zsh so the command sees .zshrc (aliases, PATH, env)
+	job_id = vim.fn.jobstart({ "zsh", "-ic", command .. "\nexec zsh" }, {
 		term = true,
 	})
 	vim.cmd("startinsert")

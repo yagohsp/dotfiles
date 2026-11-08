@@ -58,18 +58,28 @@ alias asm=""
 alias asmr=""
 
 basm() {
-	arg1=$1
-	filename=${arg1%.*}
-	nasm -g -F dwarf -f elf64 $filename.asm
-	ld $filename.o -o $filename
+    local arg1=$1
 
-	arg2=$2
-	if [[ -n $agr2 ]]; then
-		echo $filename
-	fi
+    if [[ -z $arg1 ]]; then
+        local asms=(*.asm(N))    
+        if (( ${#asms} == 0 )); then
+            print -u2 "basm: nenhum arquivo .asm encontrado"
+            return 1
+        fi
+        arg1=${asms[1]}         
+    fi
+
+    local filename=${arg1%.*}
+    nasm -g -F dwarf -f elf64 "$filename.asm" || return 1
+    ld "$filename.o" -o "$filename" || return 1
+    BASM_OUT=$filename
 }
 
 rasm() {
-	filename=$(basm $1 $1)
-	./$filename
+    basm "$1" || return 1
+    if [[ $BASM_OUT == /* ]]; then
+        "$BASM_OUT"
+    else
+        ./"$BASM_OUT"
+    fi
 }

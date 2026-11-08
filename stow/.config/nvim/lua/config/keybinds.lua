@@ -20,7 +20,8 @@ end)
 
 vim.keymap.set("n", "<leader>R", "<cmd>restart<CR>")
 vim.keymap.set("n", "<leader>q", "<cmd>qa!<CR>")
-vim.keymap.set({ "n", "v" }, "<C-y>", '"+y')
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y')
+vim.keymap.set({ "n", "v" }, "<A-d>", '"+d')
 vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>")
 
 vim.keymap.set("n", "<C-d>", "<cmd>bdelete!<CR>")
@@ -51,11 +52,9 @@ vim.keymap.set("x", "r", function()
 		return vim.fn.escape(l, [[\/]])
 	end, lines), [[\n]])
 	vim.api.nvim_feedkeys(vim.keycode("<Esc>"), "nx", false)
-	vim.ui.input({ prompt = "Replace with: ", default = #lines == 1 and lines[1] or "" }, function(replacement)
-		if replacement then
-			vim.cmd([['<,$s/\V\%(\%'<\|\%>'<\)]] .. text .. "/" .. vim.fn.escape(replacement, [[\/&~]]) .. "/gc")
-		end
-	end)
+	-- Open :s on the command line (live preview via 'inccommand'), cursor in the replacement
+	local cmd = [[:'<,$s/\V\%(\%'<\|\%>'<\)]] .. text .. "//gc"
+	vim.api.nvim_feedkeys(cmd .. vim.keycode("<Left><Left><Left>"), "n", false)
 end)
 
 vim.keymap.set("n", "(", function()
