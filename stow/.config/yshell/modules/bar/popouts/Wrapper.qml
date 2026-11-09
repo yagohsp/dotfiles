@@ -30,7 +30,9 @@ Item {
     // Anim configs are not per-monitor
     readonly property QtObject dummy: QtObject {}
     property int animLength: dummy.Tokens.anim.durations.expressiveDefaultSpatial
-    property var animCurve: dummy.Tokens.anim.expressiveDefaultSpatial // The easingCurve type is Qt 6.11+ so we gotta use var for now
+    // No overshoot: moving between popouts animates position and size together, and three
+    // overshoots at once read as a bounce. The easingCurve type is Qt 6.11+ so we gotta use var for now
+    property var animCurve: dummy.Tokens.anim.standard
 
     function setAnims(detach: bool): void {
         const type = `expressive${detach ? "Slow" : "Default"}Spatial`;

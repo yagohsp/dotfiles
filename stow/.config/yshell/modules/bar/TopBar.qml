@@ -3,11 +3,13 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Bluetooth
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
 import Caelestia.Config
 import qs.components
 import qs.services
+import qs.utils
 import qs.modules.bar.components
 import qs.modules.bar.popouts as BarPopouts
 
@@ -31,12 +33,14 @@ Item {
 
     readonly property int groupHeight: 32
     readonly property int groupRadius: 9
-    readonly property color groupColour: Colours.palette.m3surfaceContainer
-    readonly property color pillText: "#241c2a"
+    readonly property color groupColour: "transparent"
+    readonly property color workspaceColour: "#d6b4ab"
+    readonly property color pillText: Colours.palette.m3onSurface
 
     readonly property var monitor: Hypr.monitorFor(screen)
-    readonly property var workspaces: Hypr.workspaces.values.filter(w => w.monitor === monitor)
-    readonly property int activeIndex: workspaces.findIndex(w => w.number === (monitor?.activeWorkspace?.number ?? -1))
+    readonly property var workspaces: WorkspaceWindows.workspaces.filter(w => w.monitor === screen.name)
+    readonly property int activeIndex: workspaces.findIndex(w => w.id === (monitor?.activeWorkspace?.number ?? -1))
+    readonly property bool fullscreen: workspaces[activeIndex]?.fullscreen ?? false
     readonly property var trayItems: SystemTray.items.values.filter(i => i.status !== Status.Passive && !GlobalConfig.bar.tray.hiddenIcons.some(h => i.id === h))
 
     function closeTray(): void {
@@ -133,6 +137,25 @@ Item {
 
             implicitWidth: workspaceRow.implicitWidth + 8
 
+            // Below the indicator, so it slides over them and none has to change when it arrives
+            Repeater {
+                model: workspaceRepeater.count
+
+                Rectangle {
+                    required property int index
+                    readonly property Item target: workspaceRepeater.itemAt(index)
+
+                    x: (target?.x ?? 0) + workspaceRow.x
+                    y: 4
+                    width: target?.width ?? 0
+                    height: parent.height - 8
+                    radius: 6
+                    color: "transparent"
+                    border.width: 2
+                    border.color: Qt.darker(root.workspaceColour, root.workspaces[index]?.occupied ? 1.14 : 1.06)
+                }
+            }
+
             Rectangle {
                 readonly property Item target: workspaceRepeater.count, workspaceRepeater.itemAt(root.activeIndex)
 
@@ -142,7 +165,7 @@ Item {
                 width: target?.width ?? 0
                 height: parent.height - 8
                 radius: 6
-                color: Colours.palette.m3primary
+                color: Qt.darker(root.workspaceColour, 1.14)
 
                 Behavior on x {
                     Anim {}
@@ -157,31 +180,45 @@ Item {
                 id: workspaceRow
 
                 anchors.centerIn: parent
+                spacing: 4
 
                 Repeater {
                     id: workspaceRepeater
 
-                    model: root.workspaces
+                    // Counted, not the list itself: every i3 event brings a new list, and
+                    // rebuilding the items would reset the indicator and reload the icons
+                    model: root.workspaces.length
 
                     MouseArea {
                         id: workspace
 
-                        required property var modelData
                         required property int index
-                        readonly property bool active: index === root.activeIndex
+                        readonly property var ws: root.workspaces[index] ?? ({})
+                        readonly property string iconList: (ws.icons ?? []).join("\n")
+                        readonly property int iconCount: ws.icons?.length ?? 0
 
-                        implicitWidth: Math.max(30, label.implicitWidth + 16)
+                        implicitWidth: iconCount > 0 ? Math.max(46, iconCount * 24 + 10) : 32
                         implicitHeight: root.groupHeight - 8
                         cursorShape: Qt.PointingHandCursor
-                        onClicked: Hypr.focusWorkspace(modelData.number)
+                        onClicked: Hypr.dispatch(`workspace "${ws.name}"`)
 
-                        StyledText {
-                            id: label
-
+                        Row {
                             anchors.centerIn: parent
-                            text: Hypr.trimWsName(workspace.modelData.name)
-                            color: workspace.active ? Colours.palette.m3onPrimary : Colours.palette.m3onSurface
-                            font.bold: workspace.active
+                            spacing: 2
+
+                            Repeater {
+                                model: workspace.iconList.length > 0 ? workspace.iconList.split("\n") : []
+
+                                Image {
+                                    required property string modelData
+
+                                    source: modelData
+                                    sourceSize: Qt.size(20, 20)
+                                    width: 20
+                                    height: 20
+                                    smooth: true
+                                }
+                            }
                         }
                     }
                 }
@@ -196,14 +233,17 @@ Item {
                 id: trayRow
 
                 anchors.centerIn: parent
-                spacing: 8
+                spacing: 6
 
                 Repeater {
                     id: trayRepeater
 
                     model: root.trayItems
 
-                    TrayItem {}
+                    TrayItem {
+                        implicitWidth: 24
+                        implicitHeight: 20
+                    }
                 }
             }
         }
@@ -239,70 +279,80 @@ Item {
             model: [
                 {
                     id: "battery",
-                    popout: "battery",
-                    colour: "#d9a9e8"
+                    popout: "battery"
                 },
                 {
                     id: "network",
-                    popout: "network",
-                    colour: "#f5a38f"
+                    popout: "network"
                 },
                 {
                     id: "bluetooth",
-                    popout: "bluetooth",
-                    colour: "#9cc7f0"
+                    popout: "bluetooth"
                 },
                 {
                     id: "audio",
-                    popout: "audio",
-                    colour: "#f7e08c"
-                },
-                {
-                    id: "date",
-                    popout: "",
-                    colour: "#aedc9b"
-                },
-                {
-                    id: "time",
-                    popout: "",
-                    colour: "#f7b96c"
+                    popout: "audio"
                 }
             ]
 
-            Rectangle {
+            Item {
                 id: pill
 
                 required property var modelData
 
-                visible: modelData.id !== "battery" || UPower.displayDevice.isLaptopBattery
-                implicitWidth: pillText.implicitWidth + 20
-                implicitHeight: root.groupHeight
-                radius: root.groupRadius
-                color: modelData.colour
+                visible: {
+                    switch (modelData.id) {
+                    case "battery":
+                        return UPower.displayDevice.isLaptopBattery;
+                    case "bluetooth":
+                        return Bluetooth.defaultAdapter !== null;
+                    default:
+                        return true;
+                    }
+                }
+                readonly property string icon: {
+                    switch (modelData.id) {
+                    case "battery":
+                        return Icons.getBatteryIcon(UPower.displayDevice.percentage, UPower.displayDevice.state === UPowerDeviceState.Charging);
+                    case "network":
+                        return Nmcli.activeEthernet ? "cable" : Nmcli.active ? Icons.getNetworkIcon(Nmcli.active.strength) : "wifi_off";
+                    case "bluetooth":
+                        return Bluetooth.defaultAdapter?.enabled ? "bluetooth" : "bluetooth_disabled";
+                    default:
+                        return Icons.getVolumeIcon(Audio.volume, Audio.muted);
+                    }
+                }
 
-                StyledText {
-                    id: pillText
+                implicitWidth: pillContent.implicitWidth + 12
+                implicitHeight: root.groupHeight
+
+                Row {
+                    id: pillContent
 
                     anchors.centerIn: parent
-                    color: root.pillText
-                    font.bold: true
-                    font.features: ({
-                            tnum: 1
-                        }) // Keeps the island edge still as the seconds tick
-                    text: {
-                        switch (pill.modelData.id) {
-                        case "battery":
-                            return `BAT ${Math.round(UPower.displayDevice.percentage * 100)}%`;
-                        case "network":
-                            return Nmcli.activeEthernet ? "ETH" : Nmcli.active ? `NET ${Nmcli.active.strength}%` : "OFF";
-                        case "bluetooth":
-                            return "BT";
-                        case "audio":
-                            return Audio.muted ? "MUTE" : `VOL ${Math.round(Audio.volume * 100)}%`;
-                        case "date":
-                            return Qt.formatDateTime(clock.date, "dd/MM");
-                        default:
-                            return Qt.formatDateTime(clock.date, "hh:mm:ss");
+                    spacing: 4
+
+                    MaterialIcon {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: pill.icon
+                        color: root.pillText
+                        font: Tokens.font.icon.small
+                    }
+
+                    StyledText {
+                        anchors.verticalCenter: parent.verticalCenter
+                        visible: text.length > 0
+                        color: root.pillText
+                        font.bold: true
+                        text: {
+                            switch (pill.modelData.id) {
+                            case "battery":
+                                return `${Math.round(UPower.displayDevice.percentage * 100)}%`;
+                            case "audio":
+                                return Audio.muted ? "" : `${Math.round(Audio.volume * 100)}%`;
+                            default:
+                                return "";
+                            }
                         }
                     }
                 }

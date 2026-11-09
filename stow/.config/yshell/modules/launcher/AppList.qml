@@ -27,16 +27,9 @@ StyledListView {
     }
 
     function stateForText(text: string): string {
-        const prefix = GlobalConfig.launcher.actionPrefix;
-        if (text.startsWith(prefix)) {
-            for (const action of ["calc", "scheme", "variant"])
-                if (text.startsWith(`${prefix}${action} `))
-                    return action;
-
-            return "actions";
-        }
-
-        return "apps";
+        if (screenState.launcherMode === "clipboard")
+            return "clipboard";
+        return text.startsWith(":") ? "calc" : "apps";
     }
 
     function resultsForText(text: string): var {
@@ -45,6 +38,8 @@ StyledListView {
             return Actions.query(text);
         case "calc":
             return [0];
+        case "clipboard":
+            return ClipboardHistory.query(text);
         case "scheme":
             return Schemes.query(text);
         case "variant":
@@ -78,7 +73,9 @@ StyledListView {
         implicitHeight: root.currentItem?.implicitHeight ?? 0
 
         Behavior on y {
-            Anim {}
+            Anim {
+                type: Anim.StandardLarge
+            }
         }
     }
 
@@ -104,6 +101,13 @@ StyledListView {
 
             PropertyChanges {
                 root.delegate: actionItem
+            }
+        },
+        State {
+            name: "clipboard"
+
+            PropertyChanges {
+                root.delegate: clipItem
             }
         },
         State {
@@ -215,6 +219,7 @@ StyledListView {
 
     move: Transition {
         Anim {
+            type: Anim.StandardLarge
             property: "y"
         }
         Anim {
@@ -238,6 +243,7 @@ StyledListView {
 
     displaced: Transition {
         Anim {
+            type: Anim.StandardLarge
             property: "y"
         }
         Anim {
@@ -259,6 +265,14 @@ StyledListView {
         id: actionItem
 
         ActionItem {
+            list: root
+        }
+    }
+
+    Component {
+        id: clipItem
+
+        ClipItem {
             list: root
         }
     }

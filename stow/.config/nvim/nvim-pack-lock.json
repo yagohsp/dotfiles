@@ -28,6 +28,10 @@
       "rev": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "mini.base16": {
+      "rev": "071c80506da10f8afca4490a77d228b194295541",
+      "src": "https://github.com/nvim-mini/mini.base16"
+    },
     "mini.cmdline": {
       "rev": "3dcca5e11c819718d250f9a3a61605698ea1f756",
       "src": "https://github.com/nvim-mini/mini.cmdline"

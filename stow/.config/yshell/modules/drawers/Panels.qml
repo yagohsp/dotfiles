@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Caelestia.Config
 import qs.components
+import qs.modules.dashboard as Dashboard
 import qs.modules.launcher as Launcher
 import qs.modules.notifications as Notifications
 import qs.modules.osd as Osd
@@ -16,6 +17,8 @@ Item {
     required property real borderThickness
 
     readonly property alias launcher: launcher
+    readonly property alias dashboard: dashboard
+    readonly property alias dashboardWrapper: dashboardWrapper
     readonly property alias osd: osd
     readonly property alias osdWrapper: osdWrapper
     readonly property alias notifications: notifications
@@ -61,6 +64,26 @@ Item {
 
         anchors.top: parent.top
         anchors.right: parent.right
+    }
+
+    Item {
+        id: dashboardWrapper
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        clip: true
+
+        implicitWidth: dashboard.implicitWidth
+        implicitHeight: dashboard.implicitHeight * (1 - dashboard.offsetScale)
+
+        Dashboard.Wrapper {
+            id: dashboard
+
+            screenState: root.screenState
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+        }
     }
 
     Launcher.Wrapper {

@@ -211,6 +211,21 @@ QtObject {
             close();
     }
 
+    // What clicking the notification does: its default action, or its only one
+    function activate(): void {
+        const action = actions.find(a => a.identifier === "default") ?? (actions.length === 1 ? actions[0] : null);
+        if (!action)
+            return;
+
+        const app = appName.split(/\s+/)[0].replace(/[^\w-]/g, "");
+        action.invoke();
+        popup = false;
+
+        // i3 only marks windows urgent on other workspaces, so go to the app explicitly
+        if (app.length > 0)
+            Quickshell.execDetached(["i3-msg", `[class="(?i)^${app}"] focus`]);
+    }
+
     function close(): void {
         closed = true;
         if (locks.size === 0 && Notifs.list.includes(this)) {

@@ -9,6 +9,7 @@ import Quickshell.Io
 import Caelestia.Config
 import qs.services
 import qs.modules.drawers
+import qs.modules.launcher.services
 
 ShellRoot {
     id: root
@@ -35,8 +36,24 @@ ShellRoot {
 
         function toggle(drawer: string): void {
             const state = drawers.activeState();
-            if (state && drawer in state)
-                state[drawer] = !state[drawer];
+            if (!state || !(drawer in state))
+                return;
+            if (drawer === "launcher")
+                state.launcherMode = "";
+            state[drawer] = !state[drawer];
+        }
+
+        function clipboard(): void {
+            const state = drawers.activeState();
+            if (!state)
+                return;
+            if (state.launcher && state.launcherMode === "clipboard") {
+                state.launcher = false;
+                return;
+            }
+            ClipboardHistory.reload();
+            state.launcherMode = "clipboard";
+            state.launcher = true;
         }
     }
 }

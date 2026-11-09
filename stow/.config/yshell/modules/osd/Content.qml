@@ -16,7 +16,7 @@ CustomMouseArea {
     required property bool muted
 
     readonly property real maxVolume: GlobalConfig.services.maxVolume
-    readonly property color accent: muted ? Colours.palette.m3outline : Colours.palette.m3secondary
+    readonly property color accent: muted ? Colours.palette.m3outline : "#9692ab"
 
     function onWheel(event: WheelEvent) {
         if (event.angleDelta.y > 0)

@@ -55,8 +55,9 @@ Scope {
         anchors.top: true
         anchors.left: true
         anchors.right: true
-        // i3 reserves the height of dock windows, which keeps tiled windows clear of the bar
-        implicitHeight: bar.implicitHeight
+        // i3 reserves the height of dock windows, which keeps tiled windows clear of the bar.
+        // The extra is the gap under it: i3's own gaps vanish with one window (smart_gaps).
+        implicitHeight: bar.implicitHeight + 8
     }
 
     // The popup takes its position from the anchor when shown, and i3 only moves the anchor to
@@ -84,13 +85,23 @@ Scope {
         contentItem.Config.screen: root.screen.name
         contentItem.Tokens.screen: root.screen.name
 
+        // How far the side pieces sit past the screen: the further, the less the curve shows
+        readonly property int edgeInset: 7
+
+        component EdgeBlob: BlobRect {
+            group: blobGroup
+            y: bar.fullscreen ? -implicitHeight * 2 : 0
+            implicitWidth: 50
+            implicitHeight: bar.implicitHeight + 80
+        }
+
         component IslandBlob: BlobRect {
             required property Item island
 
             group: blobGroup
             x: island.x
             // Starts above the screen so only the bottom corners are rounded
-            y: -radius
+            y: bar.fullscreen ? -island.height - radius * 3 : -radius
             implicitWidth: island.width
             implicitHeight: island.height + radius
             radius: win.contentItem.Tokens.rounding.large
@@ -109,17 +120,27 @@ Scope {
             id: frameRegion
 
             x: 0
-            y: bar.stripHeight + root.shadowPadding
+            y: bar.fullscreen ? 0 : bar.stripHeight + root.shadowPadding
             width: win.width
-            height: win.height - bar.stripHeight - root.shadowPadding
+            height: win.height - y
             intersection: Intersection.Xor
+
+            // Over fullscreen windows the hole covers everything, and Qt reads an empty mask
+            // as no mask at all, so one corner pixel always stays in it
+            Region {
+                intersection: Intersection.Subtract
+                x: 0
+                y: 0
+                width: bar.fullscreen ? 1 : 0
+                height: 1
+            }
 
             // The islands are drawn, so they stay out of the click-through hole
             Region {
                 intersection: Intersection.Subtract
                 x: bar.leftIsland.x - root.shadowPadding
                 y: 0
-                width: bar.leftIsland.width + root.shadowPadding * 2
+                width: bar.fullscreen ? 0 : bar.leftIsland.width + root.shadowPadding * 2
                 height: bar.implicitHeight + root.shadowPadding
             }
 
@@ -127,7 +148,7 @@ Scope {
                 intersection: Intersection.Subtract
                 x: bar.centreIsland.x - root.shadowPadding
                 y: 0
-                width: bar.centreIsland.width + root.shadowPadding * 2
+                width: bar.fullscreen ? 0 : bar.centreIsland.width + root.shadowPadding * 2
                 height: bar.implicitHeight + root.shadowPadding
             }
 
@@ -135,7 +156,7 @@ Scope {
                 intersection: Intersection.Subtract
                 x: bar.rightIsland.x - root.shadowPadding
                 y: 0
-                width: bar.rightIsland.width + root.shadowPadding * 2
+                width: bar.fullscreen ? 0 : bar.rightIsland.width + root.shadowPadding * 2
                 height: bar.implicitHeight + root.shadowPadding
             }
 
@@ -146,6 +167,14 @@ Scope {
                 y: 0
                 width: panels.osd.visible ? panels.osd.implicitWidth + root.shadowPadding * 2 : 0
                 height: bar.implicitHeight + panels.osd.implicitHeight + root.shadowPadding
+            }
+
+            Region {
+                intersection: Intersection.Subtract
+                x: (win.width - width) / 2
+                y: 0
+                width: panels.dashboard.visible ? panels.dashboard.implicitWidth + root.shadowPadding * 2 : 0
+                height: bar.implicitHeight + panels.dashboard.implicitHeight + root.shadowPadding
             }
 
             // Stepped so the mask only changes a few times while the stack resizes
@@ -192,7 +221,8 @@ Scope {
                 radius: win.contentItem.Config.border.rounding
                 borderLeft: 0
                 borderRight: 0
-                borderTop: bar.stripHeight - anchors.margins
+                // The strip goes off the screen over fullscreen windows
+                borderTop: bar.fullscreen ? 0 : bar.stripHeight - anchors.margins
                 borderBottom: 0
             }
 
@@ -208,6 +238,25 @@ Scope {
                 island: bar.rightIsland
             }
 
+            // Off the sides of the screen, so the outer islands curve into its edges
+            EdgeBlob {
+                x: -width - win.edgeInset
+            }
+
+            EdgeBlob {
+                x: win.width + win.edgeInset
+            }
+
+            // Sits just below the screen so the launcher flares out where it meets the edge,
+            // like the islands do under the strip
+            BlobRect {
+                group: blobGroup
+                x: launcherBg.x - 80
+                y: win.height
+                implicitWidth: launcherBg.width + 160
+                implicitHeight: 50
+            }
+
             BlobRect {
                 id: launcherBg
 
@@ -218,7 +267,7 @@ Scope {
                 // Runs past the screen edge so only the top corners are rounded
                 implicitHeight: panels.launcher.height + radius
                 radius: win.contentItem.Tokens.rounding.extraLarge
-                deformScale: (0.1 * win.contentItem.Config.appearance.deformScale) / 10000
+                deformScale: (0.04 * win.contentItem.Config.appearance.deformScale) / 10000
             }
 
             BlobRect {
@@ -234,6 +283,21 @@ Scope {
                 implicitHeight: panels.osdWrapper.height + reach * (1 - panels.osd.offsetScale)
                 radius: win.contentItem.Tokens.rounding.extraLarge
                 deformScale: (0.1 * win.contentItem.Config.appearance.deformScale) / 10000
+            }
+
+            BlobRect {
+                id: dashboardBg
+
+                // Grows out of the strip like the popouts and collapses back into it
+                readonly property real reach: bar.implicitHeight - bar.stripHeight / 2
+
+                group: blobGroup
+                x: panels.dashboardWrapper.x
+                y: bar.stripHeight / 2
+                implicitWidth: panels.dashboardWrapper.width
+                implicitHeight: panels.dashboardWrapper.height + reach * (1 - panels.dashboard.offsetScale)
+                radius: win.contentItem.Tokens.rounding.extraLarge
+                deformScale: (0.04 * win.contentItem.Config.appearance.deformScale) / 10000
             }
 
             BlobRect {
@@ -264,7 +328,7 @@ Scope {
                 implicitWidth: panels.popoutsWrapper.width
                 implicitHeight: panels.popoutsWrapper.height + reach * (1 - panels.popoutsWrapper.offsetScale)
                 radius: win.contentItem.Tokens.rounding.extraLarge
-                deformScale: ((panels.popouts.hasCurrent ? 0.15 : 0.1) * win.contentItem.Config.appearance.deformScale) / 10000
+                deformScale: (0.04 * win.contentItem.Config.appearance.deformScale) / 10000
             }
         }
 
@@ -284,6 +348,9 @@ Scope {
                 bar: bar
                 borderThickness: win.thickness
 
+                dashboard.transform: Matrix4x4 {
+                    matrix: dashboardBg.deformMatrix
+                }
                 osd.transform: Matrix4x4 {
                     matrix: osdBg.deformMatrix
                 }
@@ -305,6 +372,7 @@ Scope {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
+                visible: !fullscreen
                 screen: root.screen
                 screenState: root.screenState
                 popouts: panels.popouts

@@ -81,12 +81,9 @@ StyledRect {
             }
         }
         onClicked: event => {
-            if (!GlobalConfig.notifs.actionOnClick || event.button !== Qt.LeftButton)
-                return;
-
-            const actions = root.modelData.actions;
-            if (actions.length === 1)
-                actions[0].invoke();
+            // A drag to dismiss also ends in a click
+            if (GlobalConfig.notifs.actionOnClick && event.button === Qt.LeftButton && Math.abs(root.x) < 5)
+                root.modelData.activate();
         }
 
         Item {

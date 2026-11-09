@@ -26,7 +26,10 @@ MouseArea {
     ColouredIcon {
         id: icon
 
-        anchors.fill: parent
+        // Square, so a wider click area does not stretch the icon
+        anchors.centerIn: parent
+        width: Math.min(parent.width, parent.height)
+        height: width
         source: Icons.getTrayIcon(root.modelData.id, root.modelData.icon)
         colour: Colours.palette.m3secondary
         layer.enabled: Config.bar.tray.recolour

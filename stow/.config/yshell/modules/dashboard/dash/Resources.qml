@@ -26,6 +26,10 @@ Item {
         service: Storage
     }
 
+    ServiceRef {
+        service: Gpu
+    }
+
     ColumnLayout {
         id: layout
 
@@ -44,6 +48,12 @@ Item {
             icon: "memory_alt"
             value: Memory.percentage
             fgColour: Colours.palette.m3tertiary
+        }
+
+        Resource {
+            icon: "developer_board"
+            value: Gpu.percentage
+            fgColour: Colours.palette.m3primary
         }
 
         Resource {

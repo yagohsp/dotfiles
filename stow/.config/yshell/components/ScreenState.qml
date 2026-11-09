@@ -8,6 +8,7 @@ PersistentProperties {
     property bool osd
     property bool session
     property bool launcher
+    property string launcherMode // "" for apps, "clipboard" for the clipboard history
     property bool dashboard
     property bool utilities
     property bool sidebar

@@ -14,7 +14,11 @@ Scope {
     function activeState(): var {
         if (allowed.length > 0)
             return ShellState.forScreen(screens[0]);
-        return ShellState.forActive();
+        // i3's focused output is unknown until its first focus event, so right after startup
+        // the workspace listener is the reliable source
+        const output = WorkspaceWindows.workspaces.find(w => w.active)?.monitor;
+        const screen = screens.find(s => s.name === output);
+        return screen ? ShellState.forScreen(screen) : ShellState.forActive();
     }
 
     Variants {

@@ -59,7 +59,7 @@ Item {
         topPadding: Math.round((Tokens.padding.medium + Tokens.padding.large) / 2)
         bottomPadding: Math.round((Tokens.padding.medium + Tokens.padding.large) / 2)
 
-        placeholderText: Tr.tr("Type \"%1\" for commands").arg(GlobalConfig.launcher.actionPrefix)
+        placeholderText: root.screenState.launcherMode === "clipboard" ? "Buscar no clipboard" : "Buscar apps"
 
         onAccepted: {
             const currentItem = list.currentList?.currentItem;
@@ -69,11 +69,8 @@ Item {
                         Wallpapers.previewColourLock = true;
                     Wallpapers.setWallpaper(currentItem.modelData.path);
                     root.screenState.launcher = false;
-                } else if (text.startsWith(GlobalConfig.launcher.actionPrefix)) {
-                    if (text.startsWith(`${GlobalConfig.launcher.actionPrefix}calc `))
-                        currentItem.onClicked();
-                    else
-                        currentItem.modelData.onClicked(list.currentList);
+                } else if (root.screenState.launcherMode === "clipboard" || text.startsWith(":")) {
+                    currentItem.onClicked();
                 } else {
                     Apps.launch(currentItem.modelData);
                     root.screenState.launcher = false;

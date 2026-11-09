@@ -1,0 +1,29 @@
+{
+    "bar": {
+        "tray": {
+            "iconSubs": [
+                {
+                    "id": "steam",
+                    "image": "/usr/share/icons/rose-pine-dawn-icons/22x22/panel/steam_tray_mono.svg"
+                },
+                {
+                    "id": "Fcitx",
+                    "image": "/usr/share/icons/Adwaita/symbolic/devices/input-keyboard-symbolic.svg"
+                }
+            ]
+        }
+    },
+    "general": {
+        "apps": {
+            "terminal": [
+                "kitty"
+            ]
+        }
+    },
+    "launcher": {
+        "actions": []
+    },
+    "notifs": {
+        "actionOnClick": true
+    }
+}

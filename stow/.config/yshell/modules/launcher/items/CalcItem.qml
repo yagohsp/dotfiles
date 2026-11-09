@@ -11,10 +11,10 @@ Item {
     id: root
 
     required property var list
-    readonly property string math: list.search.text.slice(`${GlobalConfig.launcher.actionPrefix}calc `.length)
+    readonly property string math: list.search.text.slice(1)
 
     function onClicked(): void {
-        Quickshell.execDetached(["wl-copy", Qalculator.rawResult]);
+        Quickshell.execDetached(["sh", "-c", 'printf %s "$1" | xclip -selection clipboard', "sh", Qalculator.rawResult]);
         root.list.screenState.launcher = false;
     }
 

@@ -4,6 +4,7 @@ import Quickshell
 import Caelestia.Config
 import qs.components
 import qs.components.controls
+import qs.services
 import qs.modules.bar.popouts as BarPopouts
 
 // Trimmed to the ported modules: the bar, its popouts, the launcher, the OSD and notifications.
@@ -29,16 +30,25 @@ CustomMouseArea {
         return x >= left && x <= left + panel.width && y >= top && y <= top + panel.height;
     }
 
-    property bool osdShortcutActive
+    // The OSD never opens on hover, but stays open while the pointer is using it
+    function setOsdHovered(hovered: bool): void {
+        if (panels.osd.hovered && !hovered)
+            screenState.osd = false;
+        panels.osd.hovered = hovered;
+    }
 
     function inOsd(x: real, y: real): bool {
-        // Opens from the centre island, then stays open over the panel hanging from it
-        const island = bar.centreIsland;
-        if (y < bar.implicitHeight)
-            return x >= island.x && x <= island.x + island.width;
-
         const panel = panels.osdWrapper;
-        return panels.osd.visible && x >= panel.x - Config.border.rounding && x <= panel.x + panel.width + Config.border.rounding && y <= bar.implicitHeight + panel.height + Config.border.rounding;
+        return panels.osd.visible && y >= bar.implicitHeight && x >= panel.x && x <= panel.x + panel.width && y <= bar.implicitHeight + panel.height;
+    }
+
+    function inDashboard(x: real, y: real): bool {
+        const island = bar.centreIsland;
+        if (y < bar.implicitHeight && x >= island.x && x <= island.x + island.width)
+            return true;
+
+        const panel = panels.dashboardWrapper;
+        return panels.dashboard.visible && x >= panel.x - Config.border.rounding && x <= panel.x + panel.width + Config.border.rounding && y <= bar.implicitHeight + panel.height + Config.border.rounding;
     }
 
     function trayMenuIsOpen(): bool {
@@ -46,7 +56,7 @@ CustomMouseArea {
     }
 
     function closePopouts(): void {
-        if (!trayMenuIsOpen()) {
+        if (!trayMenuIsOpen() && !AudioRoutes.dragging) {
             popouts.hasCurrent = false;
             bar.closeTray();
         }
@@ -71,36 +81,18 @@ CustomMouseArea {
         if (!containsMouse) {
             closePopouts();
 
-            // Only hide if not activated by a shortcut or a volume change
-            if (!osdShortcutActive) {
-                screenState.osd = false;
-                panels.osd.hovered = false;
-            }
+            setOsdHovered(false);
+            screenState.dashboard = false;
         }
     }
 
     onPositionChanged: event => {
-        const showOsd = inOsd(event.x, event.y);
-        if (!osdShortcutActive) {
-            screenState.osd = showOsd;
-            panels.osd.hovered = showOsd;
-        } else if (showOsd) {
-            // Hovering takes over from the shortcut
-            osdShortcutActive = false;
-            panels.osd.hovered = true;
-        }
+        setOsdHovered(inOsd(event.x, event.y));
+        screenState.dashboard = inDashboard(event.x, event.y);
 
         if (event.y < bar.implicitHeight)
             bar.checkPopout(event.x);
         else if (!inTopPanel(panels.popoutsWrapper, event.x, event.y))
             closePopouts();
-    }
-
-    Connections {
-        function onOsdChanged(): void {
-            root.osdShortcutActive = root.screenState.osd && !root.inOsd(root.mouseX, root.mouseY);
-        }
-
-        target: root.screenState
     }
 }

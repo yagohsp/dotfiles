@@ -34,6 +34,17 @@ Rectangle {
     property var animationEasing
     property int animationDuration
 
+    // Morphing is not drawn, but LoadingIndicator drives these
+    property int fromShape
+    property int toShape
+    property real morphProgress
+
+    function beginBatchUpdate(): void {
+    }
+
+    function endBatchUpdate(): void {
+    }
+
     implicitWidth: implicitSize
     implicitHeight: implicitSize
     radius: Math.min(width, height) / 2

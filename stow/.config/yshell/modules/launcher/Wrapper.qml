@@ -40,7 +40,9 @@ Item {
     Component.onCompleted: Qt.callLater(() => Apps) // Load apps on init
 
     Behavior on offsetScale {
-        Anim {}
+        Anim {
+            type: Anim.Standard
+        }
     }
 
     Loader {
