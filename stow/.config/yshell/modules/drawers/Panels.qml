@@ -1,6 +1,6 @@
 import QtQuick
 import Quickshell
-import Caelestia.Config
+import YshellLight.Config
 import qs.components
 import qs.modules.dashboard as Dashboard
 import qs.modules.launcher as Launcher

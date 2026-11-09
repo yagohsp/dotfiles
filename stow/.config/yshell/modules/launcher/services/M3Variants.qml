@@ -3,8 +3,8 @@ pragma Singleton
 import ".."
 import QtQuick
 import Quickshell
-import Caelestia.Config
-import Caelestia.I18n
+import YshellLight.Config
+import YshellLight.I18n
 import qs.utils
 
 Searcher {
@@ -80,7 +80,7 @@ Searcher {
 
         function onClicked(list: AppList): void {
             list.screenState.launcher = false;
-            Quickshell.execDetached(["caelestia", "scheme", "set", "-v", variant]);
+            Quickshell.execDetached(["yshell-light", "scheme", "set", "-v", variant]);
         }
     }
 }

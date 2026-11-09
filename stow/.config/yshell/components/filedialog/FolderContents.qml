@@ -3,10 +3,10 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Caelestia.Config
-import Caelestia.I18n
-import Caelestia.Models
-import Caelestia.Multimedia
+import YshellLight.Config
+import YshellLight.I18n
+import YshellLight.Models
+import YshellLight.Multimedia
 import qs.components
 import qs.components.controls
 import qs.components.effects

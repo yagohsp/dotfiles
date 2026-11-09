@@ -6,7 +6,7 @@ import Quickshell
 import Quickshell.Bluetooth
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
-import Caelestia.Config
+import YshellLight.Config
 import qs.components
 import qs.services
 import qs.utils
@@ -292,6 +292,10 @@ Item {
                 {
                     id: "audio",
                     popout: "audio"
+                },
+                {
+                    id: "system",
+                    popout: "system"
                 }
             ]
 
@@ -314,6 +318,8 @@ Item {
                     switch (modelData.id) {
                     case "battery":
                         return Icons.getBatteryIcon(UPower.displayDevice.percentage, UPower.displayDevice.state === UPowerDeviceState.Charging);
+                    case "system":
+                        return "power_settings_new";
                     case "network":
                         return Nmcli.activeEthernet ? "cable" : Nmcli.active ? Icons.getNetworkIcon(Nmcli.active.strength) : "wifi_off";
                     case "bluetooth":

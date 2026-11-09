@@ -1,10 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
-import Caelestia
-import Caelestia.Blobs
-import Caelestia.Config
-import Caelestia.I18n
-import Caelestia.Services
+import YshellLight
+import YshellLight.Blobs
+import YshellLight.Config
+import YshellLight.I18n
+import YshellLight.Services
 import qs.components
 import qs.services
 

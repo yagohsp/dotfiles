@@ -4,8 +4,8 @@ import QtQuick
 import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
-import Caelestia.Blobs
-import Caelestia.Config
+import YshellLight.Blobs
+import YshellLight.Config
 import qs.components
 import qs.services
 import qs.modules.bar

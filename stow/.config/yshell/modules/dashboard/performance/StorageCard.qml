@@ -1,9 +1,9 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Caelestia.Config
-import Caelestia.I18n
-import Caelestia.Services
+import YshellLight.Config
+import YshellLight.I18n
+import YshellLight.Services
 import qs.components
 import qs.components.controls
 import qs.services

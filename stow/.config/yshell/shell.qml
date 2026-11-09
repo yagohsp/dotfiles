@@ -6,7 +6,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import Caelestia.Config
+import YshellLight.Config
 import qs.services
 import qs.modules.drawers
 import qs.modules.launcher.services

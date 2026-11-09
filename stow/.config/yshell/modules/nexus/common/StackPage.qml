@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import Caelestia.Config
+import YshellLight.Config
 import qs.components
 import qs.modules.nexus
 
@@ -100,7 +100,7 @@ StackView {
     LoggingCategory {
         id: logCat
 
-        name: "caelestia.nexus"
+        name: "yshell-light.nexus"
         defaultLogLevel: LoggingCategory.Info
     }
 

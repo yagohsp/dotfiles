@@ -1,6 +1,6 @@
 import QtQuick.Layouts
-import Caelestia.Config
-import Caelestia.I18n
+import YshellLight.Config
+import YshellLight.I18n
 import qs.components
 import qs.services
 

@@ -1,8 +1,8 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import Caelestia
-import Caelestia.Config
+import YshellLight
+import YshellLight.Config
 import qs.components
 
 Item {

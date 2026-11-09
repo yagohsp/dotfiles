@@ -1,5 +1,5 @@
 import QtQuick
-import Caelestia.Config
+import YshellLight.Config
 
 NumberAnimation {
     enum Type {

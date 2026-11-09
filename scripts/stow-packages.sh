@@ -17,7 +17,7 @@ TARGETS='
 .config/i3
 .config/quickshell
 .config/yshell
-.config/caelestia
+.config/yshell-light
 .config/kcminputrc
 .config/rofi
 .config/picom

@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import Caelestia.Config
+import YshellLight.Config
 import qs.components
 
 // Drops from the strip under the centre island. Open while the pointer is over either.

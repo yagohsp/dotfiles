@@ -1,9 +1,9 @@
 import QtQuick
-import Caelestia
-import Caelestia.Config
-import Caelestia.Multimedia
-import Caelestia.Shaders
-import Caelestia.State
+import YshellLight
+import YshellLight.Config
+import YshellLight.Multimedia
+import YshellLight.Shaders
+import YshellLight.State
 import qs.services
 
 Item {

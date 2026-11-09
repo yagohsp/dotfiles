@@ -1,9 +1,9 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Io
-import Caelestia
-import Caelestia.Config
-import Caelestia.I18n
+import YshellLight
+import YshellLight.Config
+import YshellLight.I18n
 import qs.components
 import qs.services
 import qs.utils
@@ -35,14 +35,14 @@ PageBase {
             }
         }
 
-        // Parsed from the caelestia CLI's package listing; the sh wrapper avoids a
+        // Parsed from the yshell-light CLI's package listing; the sh wrapper avoids a
         // warning when the (optional) CLI isn't installed
         Process {
             running: true
-            command: ["sh", "-c", "caelestia --version 2>/dev/null"]
+            command: ["sh", "-c", "yshell-light --version 2>/dev/null"]
             stdout: StdioCollector {
                 onStreamFinished: {
-                    const m = text.match(/caelestia-cli\S*\s+(\d+(?:\.\d+)*)/);
+                    const m = text.match(/yshell-light-cli\S*\s+(\d+(?:\.\d+)*)/);
                     root.cliVersion = m ? m[1] : "";
                 }
             }
@@ -71,7 +71,7 @@ PageBase {
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.topMargin: Tokens.spacing.small
-                    text: "Caelestia"
+                    text: "YshellLight"
                     font: Tokens.font.headline.builders.large.width(110).build()
                 }
 
@@ -124,12 +124,12 @@ PageBase {
 
         InfoRow {
             first: true
-            label: Tr.trCtx("Shell", "the caelestia shell itself, not a unix shell")
+            label: Tr.trCtx("Shell", "the yshell-light shell itself, not a unix shell")
             value: CUtils.version || "…"
         }
 
         InfoRow {
-            label: Tr.trCtx("CLI", "the caelestia command line tool")
+            label: Tr.trCtx("CLI", "the yshell-light command line tool")
             value: root.cliVersion || "…"
         }
 

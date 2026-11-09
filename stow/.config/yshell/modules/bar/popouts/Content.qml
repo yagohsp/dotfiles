@@ -4,7 +4,7 @@ import "./kblayout"
 import QtQuick
 import Quickshell
 import Quickshell.Services.SystemTray
-import Caelestia.Config
+import YshellLight.Config
 import qs.components
 import qs.services
 
@@ -91,6 +91,13 @@ Item {
         Popout {
             name: "bluetooth"
             sourceComponent: Bluetooth {
+                popouts: root.popouts
+            }
+        }
+
+        Popout {
+            name: "system"
+            sourceComponent: SystemMenu {
                 popouts: root.popouts
             }
         }

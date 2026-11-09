@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import Quickshell
-import Caelestia.Config
+import YshellLight.Config
 import qs.components
 import qs.components.controls
 import qs.services

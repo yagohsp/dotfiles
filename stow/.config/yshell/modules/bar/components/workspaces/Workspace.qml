@@ -4,8 +4,8 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import M3Shapes
-import Caelestia.Components
-import Caelestia.Config
+import YshellLight.Components
+import YshellLight.Config
 import qs.components
 import qs.services
 import qs.utils

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Starts yshell. The compiled plugin is not tracked in dotfiles and has its build path baked in.
+# Starts yshell. The compiled plugin is built by dotfiles/scripts/install-yshell.sh.
 shell="$HOME/.config/yshell"
-export QML2_IMPORT_PATH="${YSHELL_PLUGIN:-$HOME/caelestia-x11/build/qml}:$shell/qml-shims"
+data="${XDG_DATA_HOME:-$HOME/.local/share}/yshell-light"
+export QML2_IMPORT_PATH="${YSHELL_PLUGIN:-$data/build/qml}:$shell/qml-shims"
 exec quickshell -p "$shell" "$@"

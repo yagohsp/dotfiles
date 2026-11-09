@@ -1,10 +1,10 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import Caelestia
-import Caelestia.Config
-import Caelestia.I18n
-import Caelestia.State
+import YshellLight
+import YshellLight.Config
+import YshellLight.I18n
+import YshellLight.State
 import qs.services
 
 Scope {

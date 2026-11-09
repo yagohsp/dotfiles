@@ -1,5 +1,5 @@
 import QtQuick
-import Caelestia.Components
+import YshellLight.Components
 
 Item {
     id: root
