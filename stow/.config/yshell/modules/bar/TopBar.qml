@@ -34,7 +34,7 @@ Item {
     readonly property int groupHeight: 32
     readonly property int groupRadius: 9
     readonly property color groupColour: "transparent"
-    readonly property color workspaceColour: "#d6b4ab"
+    readonly property color workspaceColour: ThemeInfo.workspace
     readonly property color pillText: Colours.palette.m3onSurface
 
     readonly property var monitor: Hypr.monitorFor(screen)

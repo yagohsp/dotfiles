@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
-# Builds what yshell needs outside the repo: the compiled QML plugin, its colour scheme
-# and the cursor theme. Safe to run again.
+# Builds what yshell needs outside the repo: the compiled QML plugin and the theme files.
+# Safe to run again.
 
 set -eu
 
@@ -34,28 +34,17 @@ PKG_CONFIG_PATH="$third_party/prefix/lib/pkgconfig" cmake -S "$src" -B "$data/bu
   -DENABLE_MODULES=plugin
 ninja -C "$data/build"
 
-# Kept if it already exists, so a later scheme change is not overwritten.
-mkdir -p "$state"
-[ -e "$state/scheme.json" ] || cp "$src/assets/schemes/sakura-tren.json" "$state/scheme.json"
-
-theme="$HOME/.icons/Bibata-Sakura"
-if [ ! -d "$theme" ]; then
-  tmp=$(mktemp -d)
-  curl -fsSL https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Classic.tar.xz \
-    | tar -xJ --no-same-owner -C "$tmp"
-  mkdir -p "$HOME/.icons"
-  python3 -I "$script_dir/build-bibata-sakura" "$tmp/Bibata-Modern-Classic" "$theme"
-  rm -rf "$tmp"
-fi
+# Scheme files, cursors and the rest of the current theme
+"$script_dir/theme-apply" --install
 
 mkdir -p "$HOME/.icons/default"
-printf '[Icon Theme]\nName=Default\nInherits=Bibata-Sakura\n' > "$HOME/.icons/default/index.theme"
+printf '[Icon Theme]\nName=Default\nInherits=Bibata-Yshell\n' > "$HOME/.icons/default/index.theme"
 
 if command -v gsettings >/dev/null 2>&1; then
-  gsettings set org.gnome.desktop.interface cursor-theme Bibata-Sakura || true
+  gsettings set org.gnome.desktop.interface cursor-theme Bibata-Yshell || true
 fi
 if command -v flatpak >/dev/null 2>&1; then
   flatpak override --user --filesystem=~/.icons:ro \
     --env=XCURSOR_PATH="$HOME/.icons:/run/host/user-share/icons:/run/host/share/icons" \
-    --env=XCURSOR_THEME=Bibata-Sakura --env=XCURSOR_SIZE=24
+    --env=XCURSOR_THEME=Bibata-Yshell --env=XCURSOR_SIZE=24
 fi

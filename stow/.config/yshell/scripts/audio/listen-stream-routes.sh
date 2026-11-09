@@ -15,7 +15,7 @@ done
 
 emit
 
-pactl subscribe 2>/dev/null | while IFS= read -r event; do
+setpriv --pdeathsig TERM pactl subscribe 2>/dev/null | while IFS= read -r event; do
   case "$event" in
     *"on sink-input "*|*"on sink "*|*"on server "*|*"on card "*)
       emit

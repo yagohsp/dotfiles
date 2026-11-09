@@ -1,3 +1,4 @@
+adw-gtk-theme
 android-studio
 anki
 asdf-vm
@@ -64,6 +65,7 @@ obsidian
 obs-studio
 odin
 opencode
+papirus-icon-theme
 photogimp
 picom
 pkgconf
@@ -74,6 +76,7 @@ python-numpy
 python-ytmusicapi
 qimgv
 qt6-base
+qt6ct
 qt6-declarative
 qt6-multimedia
 qt6-shadertools
@@ -99,6 +102,7 @@ traceroute
 tree
 ttf-jetbrains-mono-nerd
 ttf-material-symbols-variable
+vesktop-bin
 watchexec
 xarchiver
 xclip

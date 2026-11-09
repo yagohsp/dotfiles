@@ -4,6 +4,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.Notifications
 import YshellLight.Config
+import qs.services
 
 Singleton {
     id: root
@@ -210,7 +211,7 @@ Singleton {
     function getTrayIcon(id: string, icon: string): string {
         for (const sub of GlobalConfig.bar.tray.iconSubs.values)
             if (sub.id === id)
-                return sub.image ? Qt.resolvedUrl(sub.image) : Quickshell.iconPath(sub.icon);
+                return sub.image ? Qt.resolvedUrl(Colours.currentLight ? sub.image : sub.image.replace("rose-pine-dawn-icons", "rose-pine-icons")) : Quickshell.iconPath(sub.icon);
 
         if (icon.includes("?path=")) {
             const [name, path] = icon.split("?path=");

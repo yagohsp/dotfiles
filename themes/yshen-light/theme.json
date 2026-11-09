@@ -1,0 +1,19 @@
+{
+  "label": "Light",
+  "mode": "light",
+  "palette": {
+    "base00": "ddcab7", "base01": "d7c3b1", "base02": "cebba9", "base03": "6b5d52",
+    "base04": "564d46", "base05": "3d352d", "base06": "352a22", "base07": "30261e",
+    "base08": "951b3c", "base09": "803d00", "base0A": "5e4c00", "base0B": "395900",
+    "base0C": "00595d", "base0D": "184b95", "base0E": "7a2c6b", "base0F": "694525"
+  },
+  "accent": "951b3c",
+  "focus": "cb9e98",
+  "workspace": "d6b4ab",
+  "osd": "9692ab",
+  "ansi": { "yellow": "5e4c00", "blue": "184b95" },
+  "cursor": { "fill": "3d352d", "outline": "ddcab7" },
+  "gtk": { "theme": "adw-gtk3", "preferDark": 0 },
+  "folders": "palebrown",
+  "wallpapers": ["train.jpg", "train2.png"]
+}

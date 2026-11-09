@@ -1,0 +1,330 @@
+#!/usr/bin/env python3
+"""Applies a theme from dotfiles/themes to the shell and every themed app.
+
+usage: theme-apply <name>     switch theme
+       theme-apply --restore  reapply what needs a new session (wallpaper)
+       theme-apply --list     print the themes as JSON, for the dashboard
+       theme-apply --install  build the cursor of every theme and apply the current one
+"""
+import glob
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tarfile
+import tempfile
+import urllib.request
+from pathlib import Path
+
+HOME = Path.home()
+REPO = Path(__file__).resolve().parent.parent
+THEMES = REPO / "themes"
+STATE = Path(os.environ.get("XDG_STATE_HOME", HOME / ".local/state")) / "yshell-light"
+ICONS = HOME / ".icons"
+CURSOR_LINK = ICONS / "Bibata-Yshell"
+BIBATA = "https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Classic.tar.xz"
+DEFAULT = "yshen-light"
+
+
+def load(name):
+    theme = json.loads((THEMES / name / "theme.json").read_text())
+    theme["name"] = name
+    return theme
+
+
+def names():
+    return sorted(p.parent.name for p in THEMES.glob("*/theme.json"))
+
+
+def current():
+    path = STATE / "theme-name"
+    return path.read_text().strip() if path.exists() else DEFAULT
+
+
+def mix(a, b, amount):
+    channels = [round(int(a[i:i + 2], 16) * (1 - amount) + int(b[i:i + 2], 16) * amount) for i in (0, 2, 4)]
+    return "".join(f"{c:02x}" for c in channels)
+
+
+def scheme(theme):
+    p = theme["palette"]
+    dark = theme["mode"] == "dark"
+    bg, fg = p["base00"], p["base05"]
+    edge = "000000"
+    # Containers lean towards the page, text on them away from it
+    on = "ffffff" if dark else "000000"
+    bright = mix(bg, "ffffff", 0.08 if dark else 0.25)
+    highest = mix(p["base02"], fg, 0.08)
+    primary, secondary, tertiary = p["base08"], p["base0D"], p["base09"]
+    pc, sc, tc = mix(bg, primary, 0.28), mix(bg, secondary, 0.25), mix(bg, tertiary, 0.25)
+    colours = {
+        "background": bg, "onBackground": fg, "surface": bg, "surfaceDim": p["base02"], "surfaceBright": bright,
+        "surfaceContainerLowest": bright, "surfaceContainerLow": bg, "surfaceContainer": p["base01"],
+        "surfaceContainerHigh": p["base02"], "surfaceContainerHighest": highest, "onSurface": fg,
+        "surfaceVariant": p["base02"], "onSurfaceVariant": p["base04"], "inverseSurface": p["base07"],
+        "inverseOnSurface": bg, "outline": p["base03"], "outlineVariant": p["base02"], "shadow": edge, "scrim": edge,
+        "surfaceTint": primary, "primary": primary, "onPrimary": bg, "primaryContainer": pc,
+        "onPrimaryContainer": mix(primary, on, 0.35), "inversePrimary": mix(primary, "ffffff", 0.45),
+        "secondary": secondary, "onSecondary": bg, "secondaryContainer": sc,
+        "onSecondaryContainer": mix(secondary, on, 0.3), "tertiary": tertiary, "onTertiary": bg,
+        "tertiaryContainer": tc, "onTertiaryContainer": mix(tertiary, on, 0.35), "error": primary, "onError": bg,
+        "errorContainer": pc, "onErrorContainer": mix(primary, on, 0.35),
+    }
+    return {"name": theme["name"], "flavour": "default", "mode": theme["mode"], "variant": "tonalspot", "colours": colours}
+
+
+def i3_conf(theme):
+    p = theme["palette"]
+    colours = {
+        "base": p["base00"], "surface": p["base01"], "overlay": p["base02"], "muted": p["base03"], "subtle": p["base04"],
+        "text": p["base05"], "love": p["base08"], "gold": p["base0A"], "rose": theme["focus"], "pine": p["base0D"],
+        "foam": p["base0C"], "iris": p["base0E"],
+    }
+    lines = [f"set ${k:<14}#{v}" for k, v in colours.items()]
+    lines += [
+        "",
+        "# target                 title     bg    text   indicator  border",
+        "client.focused           $rose     $base $text  $rose      $rose",
+        "client.focused_inactive  $text     $base $text  $subtle    $surface",
+        "client.unfocused         $text     $base $text  $overlay   $overlay",
+        "client.urgent            $text     $base $text  $love      $love",
+        "client.placeholder       $base     $base $text  $overlay   $overlay",
+        "client.background        $base",
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def kitty_conf(theme):
+    p = theme["palette"]
+    a = theme["accent"]
+    rows = {
+        "foreground": p["base05"], "background": p["base00"], "selection_foreground": p["base05"],
+        "selection_background": p["base02"], "cursor": a, "cursor_text_color": p["base00"], "url_color": theme["ansi"]["blue"],
+        "active_tab_foreground": p["base05"], "active_tab_background": p["base02"], "inactive_tab_foreground": p["base03"],
+        "inactive_tab_background": p["base01"], "active_border_color": a, "inactive_border_color": p["base02"],
+        "color0": p["base00"], "color8": p["base03"], "color1": p["base08"], "color9": p["base08"], "color2": p["base0B"],
+        "color10": p["base0B"], "color3": theme["ansi"]["yellow"], "color11": theme["ansi"]["yellow"],
+        "color4": theme["ansi"]["blue"], "color12": theme["ansi"]["blue"], "color5": p["base0E"], "color13": p["base0E"],
+        "color6": p["base0C"], "color14": p["base0C"], "color7": p["base05"], "color15": p["base07"],
+    }
+    return "".join(f"{k:<24} #{v}\n" for k, v in rows.items())
+
+
+def browser_theme(theme):
+    p = theme["palette"]
+    rgb = lambda value: [int(value[i:i + 2], 16) for i in (0, 2, 4)]
+    bg, bg1, sel, fg, dim = (rgb(p[k]) for k in ("base00", "base01", "base02", "base05", "base03"))
+    # base03 is meant for comments and is too faint for tab titles
+    inactive_tab = rgb(p["base04"])
+    return {
+        "manifest_version": 3,
+        "name": "yshell",
+        "version": "1.0",
+        "theme": {"colors": {
+            "frame": bg, "frame_inactive": bg, "frame_incognito": bg, "frame_incognito_inactive": bg,
+            "toolbar": bg1, "toolbar_text": fg, "toolbar_button_icon": fg, "button_background": bg1,
+            "tab_text": fg, "tab_background_text": inactive_tab, "tab_background_text_inactive": inactive_tab,
+            "bookmark_text": fg, "omnibox_background": bg, "omnibox_text": fg,
+            "ntp_background": bg, "ntp_text": fg, "ntp_link": rgb(theme["accent"]), "ntp_header": sel,
+        }},
+    }
+
+
+def write_state(theme):
+    STATE.mkdir(parents=True, exist_ok=True)
+    (STATE / "scheme.json").write_text(json.dumps(scheme(theme), indent=2))
+    (STATE / "i3-theme.conf").write_text(i3_conf(theme))
+    (STATE / "kitty-theme.conf").write_text(kitty_conf(theme))
+    (STATE / "browser-theme").mkdir(exist_ok=True)
+    (STATE / "browser-theme/manifest.json").write_text(json.dumps(browser_theme(theme), indent=2))
+    (STATE / "theme-name").write_text(theme["name"] + "\n")
+    (STATE / "theme.json").write_text(json.dumps(theme))
+
+
+def edit(path, pattern, value):
+    path = Path(path)
+    if path.exists():
+        path.write_text(re.sub(pattern, value, path.read_text(), flags=re.M))
+
+
+def run(*cmd):
+    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+
+
+def wallpaper(theme):
+    run("feh", "--no-fehbg", "--bg-fill", *[str(THEMES / theme["name"] / "wallpapers" / w) for w in theme["wallpapers"]])
+
+
+def gtk_css(theme):
+    p = theme["palette"]
+    bg, bg1, sel, fg = p["base00"], p["base01"], p["base02"], p["base05"]
+    a = theme["accent"]
+    colours = {
+        "window_bg_color": bg, "window_fg_color": fg, "view_bg_color": bg, "view_fg_color": fg,
+        "headerbar_bg_color": bg1, "headerbar_fg_color": fg, "headerbar_border_color": sel, "headerbar_backdrop_color": bg,
+        "sidebar_bg_color": bg1, "sidebar_fg_color": fg, "sidebar_backdrop_color": bg1, "sidebar_border_color": sel,
+        "secondary_sidebar_bg_color": bg1, "secondary_sidebar_fg_color": fg,
+        "card_bg_color": bg1, "card_fg_color": fg, "dialog_bg_color": bg1, "dialog_fg_color": fg,
+        "popover_bg_color": bg1, "popover_fg_color": fg, "thumbnail_bg_color": bg1, "thumbnail_fg_color": fg,
+        "accent_color": a, "accent_bg_color": a, "accent_fg_color": bg,
+        "destructive_color": p["base08"], "destructive_bg_color": p["base08"], "destructive_fg_color": bg,
+        "success_color": p["base0B"], "success_bg_color": p["base0B"], "success_fg_color": bg,
+        "warning_color": p["base09"], "warning_bg_color": p["base09"], "warning_fg_color": bg,
+        "error_color": p["base08"], "error_bg_color": p["base08"], "error_fg_color": bg,
+    }
+    defines = "".join(f"@define-color {k} #{v};\n" for k, v in colours.items())
+    # Selected rows: the accent is too loud behind text, so they use the selection colour
+    return defines + (
+        f"treeview.view:selected, .view:selected, iconview:selected, .rich-list row:selected, "
+        f"list row:selected, listview > row:selected, gridview > child:selected "
+        f"{{ background-color: #{sel}; color: #{fg}; }}\n"
+    )
+
+
+def qt(theme, icons):
+    p = theme["palette"]
+    bg, bg1, sel, fg, dim = p["base00"], p["base01"], p["base02"], p["base05"], p["base03"]
+    a = theme["accent"]
+    # QPalette order: WindowText Button Light Midlight Dark Mid Text BrightText ButtonText Base Window
+    # Shadow Highlight HighlightedText Link LinkVisited AlternateBase NoRole ToolTipBase ToolTipText PlaceholderText
+    def roles(text, highlight):
+        values = [text, bg1, sel, sel, bg, sel, text, p["base07"], text, bg, bg, "000000", highlight, bg,
+                  theme["ansi"]["blue"], p["base0E"], bg1, bg, bg1, fg, dim]
+        return ", ".join(f"#ff{v}" for v in values)
+    directory = HOME / ".config/qt6ct"
+    (directory / "colors").mkdir(parents=True, exist_ok=True)
+    scheme_path = directory / "colors/yshell.conf"
+    scheme_path.write_text(f"[ColorScheme]\nactive_colors={roles(fg, a)}\ndisabled_colors={roles(dim, sel)}\ninactive_colors={roles(fg, a)}\n")
+    (directory / "qt6ct.conf").write_text(f"[Appearance]\ncolor_scheme_path={scheme_path}\ncustom_palette=true\nicon_theme={icons}\nstandard_dialogs=default\nstyle=Fusion\n")
+
+
+def gtk(theme, icons):
+    conf = HOME / ".config"
+    for version in ("gtk-3.0", "gtk-4.0"):
+        (conf / version / "gtk.css").write_text(gtk_css(theme))
+        edit(conf / version / "settings.ini", r"^gtk-theme-name=.*$", f"gtk-theme-name={theme['gtk']['theme']}")
+        edit(conf / version / "settings.ini", r"^gtk-icon-theme-name=.*$", f"gtk-icon-theme-name={icons}")
+        edit(conf / version / "settings.ini", r"^gtk-application-prefer-dark-theme=.*$", f"gtk-application-prefer-dark-theme={theme['gtk']['preferDark']}")
+    edit(HOME / ".gtkrc-2.0", r'^gtk-theme-name=.*$', f'gtk-theme-name="{theme["gtk"]["theme"]}"')
+    edit(HOME / ".gtkrc-2.0", r'^gtk-icon-theme-name=.*$', f'gtk-icon-theme-name="{icons}"')
+    edit(conf / "xsettingsd/xsettingsd.conf", r'^Net/ThemeName .*$', f'Net/ThemeName "{theme["gtk"]["theme"]}"')
+    edit(conf / "xsettingsd/xsettingsd.conf", r'^Net/IconThemeName .*$', f'Net/IconThemeName "{icons}"')
+    run("gsettings", "set", "org.gnome.desktop.interface", "icon-theme", icons)
+    run("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", theme["gtk"]["theme"])
+    run("gsettings", "set", "org.gnome.desktop.interface", "color-scheme", f"prefer-{theme['mode']}" if theme["mode"] == "dark" else "default")
+    run("pkill", "-HUP", "-x", "xsettingsd")
+
+
+def cursor_dir(name):
+    return ICONS / f"Bibata-{name}"
+
+
+def icon_theme(theme):
+    """Builds a theme inheriting Papirus with the folders in the theme's colour. Needs no root."""
+    name = f"Yshell-{theme['name']}"
+    target = ICONS / name
+    if target.exists():
+        shutil.rmtree(target)
+    source = Path("/usr/share/icons/Papirus")
+    colour = theme["folders"]
+    pattern = re.compile(rf"^(folder|user)-{colour}(.*\.svg)$")
+    sections = {}
+    index = (source / "index.theme").read_text()
+    for block in re.split(r"\n(?=\[)", index):
+        header = block.split("\n", 1)[0].strip("[]")
+        sections[header] = block.strip()
+    directories = []
+    for places in sorted(source.glob("*/places")):
+        links = [(f.name, pattern.match(f.name)) for f in places.iterdir()]
+        links = [(n, m) for n, m in links if m]
+        if not links:
+            continue
+        relative = f"{places.parent.name}/places"
+        if relative not in sections:
+            continue
+        directories.append(relative)
+        (target / relative).mkdir(parents=True)
+        for file_name, match in links:
+            (target / relative / f"{match[1]}{match[2]}").symlink_to(places / file_name)
+    base = "Papirus-Dark" if theme["mode"] == "dark" else "Papirus-Light"
+    body = f"[Icon Theme]\nName={name}\nInherits={base},hicolor\nDirectories={','.join(directories)}\n\n"
+    body += "\n\n".join(sections[d] for d in directories) + "\n"
+    (target / "index.theme").write_text(body)
+    run("gtk-update-icon-cache", "-f", "-t", str(target))
+    return name
+
+
+def restart_thunar():
+    """Thunar stays alive as a daemon and keeps its theme, so it has to end for the next window to change.
+
+    Waits for its windows to close instead of taking them away, and any copy running in them.
+    """
+    if subprocess.run(["pgrep", "-x", "Thunar"], stdout=subprocess.DEVNULL, check=False).returncode == 0:
+        subprocess.Popen(
+            ["sh", "-c", """while i3-msg -t get_tree | grep -q '"class":"Thunar"'; do sleep 3; done; Thunar --quit"""],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+
+
+def link_cursor(theme):
+    target = cursor_dir(theme["name"])
+    if not target.is_dir():
+        return
+    if CURSOR_LINK.is_symlink() or CURSOR_LINK.exists():
+        CURSOR_LINK.unlink()
+    CURSOR_LINK.symlink_to(target.name)
+
+
+def nvim(theme):
+    runtime = os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")
+    for socket in glob.glob(f"{runtime}/nvim.*"):
+        run("nvim", "--server", socket, "--remote-expr", f'execute("colorscheme {theme["name"]}")')
+
+
+def apply(name):
+    theme = load(name)
+    write_state(theme)
+    link_cursor(theme)
+    icons = icon_theme(theme)
+    gtk(theme, icons)
+    qt(theme, icons)
+    restart_thunar()
+    wallpaper(theme)
+    run("i3-msg", "reload")
+    run("pkill", "-USR1", "-x", "kitty")
+    nvim(theme)
+
+
+def install():
+    missing = [n for n in names() if not cursor_dir(n).is_dir()]
+    if missing:
+        ICONS.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = Path(tmp) / "bibata.tar.xz"
+            with urllib.request.urlopen(BIBATA) as response, archive.open("wb") as out:
+                shutil.copyfileobj(response, out)
+            with tarfile.open(archive) as tar:
+                tar.extractall(tmp, filter="data")
+            for name in missing:
+                c = load(name)["cursor"]
+                subprocess.run([sys.executable, "-I", str(Path(__file__).parent / "build-bibata-theme"),
+                                f"{tmp}/Bibata-Modern-Classic", str(cursor_dir(name)), c["fill"], c["outline"]], check=True)
+    apply(current())
+
+
+def main():
+    arg = sys.argv[1] if len(sys.argv) > 1 else "--help"
+    if arg == "--list":
+        print(json.dumps([{"name": n, "label": (t := load(n))["label"], "colours": [t["palette"][k] for k in ("base00", "base08", "base0B", "base0D")]} for n in names()]))
+    elif arg == "--restore":
+        wallpaper(load(current()))
+    elif arg == "--install":
+        install()
+    elif arg in names():
+        apply(arg)
+    else:
+        sys.exit(__doc__)
+
+
+main()

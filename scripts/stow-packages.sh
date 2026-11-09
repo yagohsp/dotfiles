@@ -26,8 +26,6 @@ TARGETS='
 .config/lazygit
 .config/gtk-3.0
 .config/gtk-4.0
-.config/Kvantum
-.config/qt5ct
 .config/xsettingsd
 .config/fcitx
 .config/fcitx5

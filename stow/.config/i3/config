@@ -2,7 +2,7 @@
 # Edit individual files in ~/.config/i3/ for specific settings
 
 include general.conf
-include theme.conf
+include ~/.local/state/yshell-light/i3-theme.conf
 include applications.conf
 include monitors-outputs.conf
 include workspaces.conf

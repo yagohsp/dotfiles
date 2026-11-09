@@ -1,0 +1,19 @@
+{
+  "label": "Dark",
+  "mode": "dark",
+  "palette": {
+    "base00": "27211c", "base01": "302a24", "base02": "4a4036", "base03": "8b7d6c",
+    "base04": "a8967f", "base05": "ecdcc4", "base06": "f3e6d2", "base07": "faf1e2",
+    "base08": "e8879a", "base09": "e87b52", "base0A": "86a8ba", "base0B": "a9b665",
+    "base0C": "86a8ba", "base0D": "f4b266", "base0E": "c4a1d6", "base0F": "e87b52"
+  },
+  "accent": "f4b266",
+  "focus": "a8967f",
+  "workspace": "8a7560",
+  "osd": "86a8ba",
+  "ansi": { "yellow": "f4b266", "blue": "86a8ba" },
+  "cursor": { "fill": "27211c", "outline": "ecdcc4" },
+  "gtk": { "theme": "adw-gtk3-dark", "preferDark": 1 },
+  "folders": "palebrown",
+  "wallpapers": ["1.png", "2.png"]
+}

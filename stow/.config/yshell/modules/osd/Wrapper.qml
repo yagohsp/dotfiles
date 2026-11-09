@@ -22,6 +22,8 @@ Item {
     property bool muted
 
     function show(): void {
+        if (startupSettle.running)
+            return;
         screenState.osd = true;
         timer.restart();
     }
@@ -52,6 +54,14 @@ Item {
         }
 
         target: Audio
+    }
+
+    // Pipewire reports the real volume a moment after the shell starts, which is not a change
+    Timer {
+        id: startupSettle
+
+        interval: 5000
+        running: true
     }
 
     Timer {

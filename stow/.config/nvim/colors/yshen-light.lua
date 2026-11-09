@@ -1,4 +1,4 @@
--- sakura-tren: light theme built on mini.base16 (base00 = lightest, base07 = darkest)
+-- yshen-light: light theme built on mini.base16 (base00 = lightest, base07 = darkest)
 
 -- Must come before setup: changing 'background' reloads the active colorscheme
 vim.o.background = "light"
@@ -25,7 +25,7 @@ require("mini.base16").setup({
 	use_cterm = true,
 })
 
-vim.g.colors_name = "sakura-tren"
+vim.g.colors_name = "yshen-light"
 
 -- mini.base16 paints these two the same teal, which flattens languages like asm
 vim.api.nvim_set_hl(0, "@function.builtin", { fg = "#184b95" })

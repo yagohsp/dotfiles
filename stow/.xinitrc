@@ -5,9 +5,10 @@ export GLFW_IM_MODULE=ibus
 export XDG_SESSION_TYPE=x11
 export XDG_CURRENT_DESKTOP=i3
 export XCOMPOSEFILE="${HOME}/.XCompose"
+export QT_QPA_PLATFORMTHEME=qt6ct
 
 # Qt, Electron and plain X11 apps read these; GTK and KDE have their own settings files.
-export XCURSOR_THEME=Bibata-Sakura
+export XCURSOR_THEME=Bibata-Yshell
 export XCURSOR_SIZE=24
 printf 'Xcursor.theme: %s\nXcursor.size: %s\n' "$XCURSOR_THEME" "$XCURSOR_SIZE" | xrdb -merge
 

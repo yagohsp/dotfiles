@@ -25,6 +25,11 @@ StyledRect {
     color: root.modelData.urgency === NotificationUrgency.Critical ? Colours.palette.m3secondaryContainer : Colours.tPalette.m3surfaceContainer
     radius: Tokens.rounding.large
 
+    // The default action is what clicking the notification already does
+    readonly property var buttonActions: (modelData?.actions ?? []).filter(a => a.identifier !== "default")
+    property int actionPage
+    readonly property var shownActions: buttonActions.slice(actionPage * 2, actionPage * 2 + 2)
+
     implicitHeight: inner.implicitHeight
 
     x: implicitWidth
@@ -464,7 +469,7 @@ StyledRect {
                 IconButton {
                     isRound: true
                     shapeMorph: true
-                    fillWidth: root.modelData.actions.length === 0
+                    fillWidth: root.buttonActions.length === 0
                     inactiveColour: root.modelData.urgency === NotificationUrgency.Critical ? Colours.palette.m3secondary : Colours.layer(Colours.palette.m3surfaceContainerHighest, 2)
                     inactiveOnColour: root.modelData.urgency === NotificationUrgency.Critical ? Colours.palette.m3onSecondary : Colours.palette.m3onSurfaceVariant
                     icon: "close"
@@ -473,7 +478,7 @@ StyledRect {
                 }
 
                 Repeater {
-                    model: root.modelData.actions
+                    model: root.shownActions
 
                     TextButton {
                         required property var modelData
@@ -496,25 +501,16 @@ StyledRect {
                     }
                 }
 
+                // Two actions fit with readable labels, so the rest come in pages
                 IconButton {
+                    visible: root.buttonActions.length > 2
                     isRound: true
                     shapeMorph: true
-                    fillWidth: root.modelData.actions.length === 0
                     inactiveColour: root.modelData.urgency === NotificationUrgency.Critical ? Colours.palette.m3secondary : Colours.layer(Colours.palette.m3surfaceContainerHighest, 2)
                     inactiveOnColour: root.modelData.urgency === NotificationUrgency.Critical ? Colours.palette.m3onSecondary : Colours.palette.m3onSurfaceVariant
-                    icon: copyTimer.running ? "inventory" : "content_copy"
+                    icon: "more_horiz"
                     padding: Tokens.padding.extraSmall
-                    onClicked: {
-                        Quickshell.clipboardText = root.modelData.body;
-                        copyTimer.restart();
-                    }
-                    label.animate: true
-
-                    Timer {
-                        id: copyTimer
-
-                        interval: 3000
-                    }
+                    onClicked: root.actionPage = (root.actionPage + 1) % Math.ceil(root.buttonActions.length / 2)
                 }
             }
         }

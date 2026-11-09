@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Layouts
 import YshellLight.Config
 import qs.components
 
@@ -31,17 +32,27 @@ Item {
         active: root.shouldBeActive || root.visible
 
         sourceComponent: Item {
-            implicitWidth: dash.implicitWidth + padding * 2
-            implicitHeight: dash.implicitHeight + padding * 2
+            implicitWidth: column.implicitWidth + padding * 2
+            implicitHeight: column.implicitHeight + padding * 2
 
             readonly property int padding: Tokens.padding.large
 
-            Dash {
-                id: dash
+            ColumnLayout {
+                id: column
 
                 anchors.fill: parent
                 anchors.margins: parent.padding
-                screenState: root.screenState
+                spacing: Tokens.spacing.medium
+
+                Dash {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    screenState: root.screenState
+                }
+
+                ThemePicker {
+                    Layout.fillWidth: true
+                }
             }
         }
     }
